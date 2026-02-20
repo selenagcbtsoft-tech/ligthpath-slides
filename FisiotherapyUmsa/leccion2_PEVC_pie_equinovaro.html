@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lección 2 – PEVC: Pie Equinovaro Congénito</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f5f0;
+    --surface: #ffffff;
+    --surface2: #f0ebe3;
+    --accent: #7c3aed;
+    --accent2: #ea580c;
+    --accent3: #0891b2;
+    --accent-green: #16a34a;
+    --accent-red: #dc2626;
+    --text: #1c1917;
+    --text-muted: #57534e;
+    --border: #e7e0d8;
+    --shadow: 0 2px 18px rgba(0,0,0,0.07);
+    --slide-w: 980px;
+    --radius: 14px;
+    --font-display: 'Lora', Georgia, serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow: hidden; }
+
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s cubic-bezier(.4,0,.2,1); z-index: 100;
+  }
+  #slide-counter {
+    position: fixed; top: 16px; right: 22px;
+    font-size: 13px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; z-index: 100;
+  }
+  #lesson-tag {
+    position: fixed; top: 10px; left: 22px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--accent); z-index: 100;
+    background: rgba(124,58,237,0.09); padding: 5px 13px; border-radius: 20px;
+  }
+
+  #slides-wrapper {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; padding: 60px 24px 80px; overflow: hidden;
+  }
+
+  .slide {
+    position: absolute; width: 100%; max-width: var(--slide-w);
+    display: flex; flex-direction: column; gap: 20px;
+    opacity: 0; pointer-events: none; transform: translateX(70px);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(.4,0,.2,1);
+    max-height: calc(100vh - 140px); overflow-y: auto; padding-right: 4px;
+  }
+  .slide::-webkit-scrollbar { width: 4px; }
+  .slide::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .slide.active { opacity: 1; pointer-events: all; transform: translateX(0); }
+  .slide.exit-left { opacity: 0; transform: translateX(-70px); }
+
+  /* ── TYPOGRAPHY ── */
+  .slide-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--accent); display: flex; align-items: center; gap: 10px;
+  }
+  .slide-label::before { content:''; display:inline-block; width:28px; height:3px; background:var(--accent); border-radius:2px; }
+
+  h1.slide-title { font-family: var(--font-display); font-size: clamp(2.2rem,5vw,3.5rem); line-height:1.1; font-weight:700; }
+  h1.slide-title em { font-style:italic; color:var(--accent); font-weight:400; }
+  h2.section-title { font-family: var(--font-display); font-size: clamp(1.6rem,3.5vw,2.2rem); font-weight:700; line-height:1.2; }
+
+  .subtitle { font-size:1.1rem; color:var(--text-muted); line-height:1.75; max-width:720px; }
+  .divider { width:70px; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; margin:-4px 0; }
+
+  /* ── CARDS ── */
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+  .card {
+    background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius);
+    padding:20px 22px; display:flex; flex-direction:column; gap:10px;
+    opacity:0; transform:translateY(22px); box-shadow:var(--shadow);
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { border-color:var(--accent); box-shadow:0 4px 22px rgba(124,58,237,0.12); }
+  .card.animate { opacity:1; transform:translateY(0); }
+  .card-icon { font-size:1.8rem; width:46px; height:46px; background:var(--surface2); border-radius:10px; display:flex; align-items:center; justify-content:center; }
+  .card-title { font-size:0.85rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); }
+  .card-body { font-size:0.97rem; color:var(--text-muted); line-height:1.65; }
+
+  /* ── ITEMS ── */
+  .item-list { display:flex; flex-direction:column; gap:12px; }
+  .item {
+    display:flex; gap:14px; align-items:flex-start;
+    background:var(--surface); border:1.5px solid var(--border); border-radius:12px;
+    padding:16px 18px; box-shadow:var(--shadow);
+    opacity:0; transform:translateX(-22px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .item.animate { opacity:1; transform:translateX(0); }
+  .item-dot { width:10px; height:10px; border-radius:50%; background:var(--accent); margin-top:6px; flex-shrink:0; }
+  .item-content strong { display:block; font-size:1rem; font-weight:700; color:var(--text); margin-bottom:4px; }
+  .item-content span { font-size:0.96rem; color:var(--text-muted); line-height:1.65; }
+
+  /* ── TWO COL ── */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:640px) { .two-col { grid-template-columns:1fr; } }
+
+  /* ── HIGHLIGHT ── */
+  .highlight-box {
+    background:linear-gradient(135deg,rgba(124,58,237,0.05),rgba(234,88,12,0.05));
+    border:1.5px solid rgba(124,58,237,0.2); border-radius:var(--radius);
+    padding:18px 22px; display:flex; gap:14px; align-items:flex-start;
+  }
+  .highlight-icon { font-size:1.6rem; flex-shrink:0; margin-top:1px; }
+  .highlight-text { font-size:0.97rem; line-height:1.7; color:var(--text-muted); }
+  .highlight-text strong { color:var(--accent); }
+
+  .warning-box {
+    background:linear-gradient(135deg,rgba(220,38,38,0.05),rgba(234,88,12,0.05));
+    border:1.5px solid rgba(220,38,38,0.25); border-radius:var(--radius);
+    padding:16px 20px; display:flex; gap:14px; align-items:flex-start;
+  }
+  .warning-text { font-size:0.95rem; line-height:1.7; color:var(--text-muted); }
+  .warning-text strong { color:var(--accent-red); }
+
+  /* ── TAGS ── */
+  .tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:700; letter-spacing:0.5px; }
+  .tag-purple { background:rgba(124,58,237,0.1); color:var(--accent); }
+  .tag-orange { background:rgba(234,88,12,0.1); color:var(--accent2); }
+  .tag-blue { background:rgba(8,145,178,0.1); color:var(--accent3); }
+  .tag-green { background:rgba(22,163,74,0.1); color:var(--accent-green); }
+  .tag-red { background:rgba(220,38,38,0.1); color:var(--accent-red); }
+
+  /* ── CAVE BOXES ── */
+  .cave-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  @media(max-width:680px) { .cave-grid { grid-template-columns:repeat(2,1fr); } }
+  .cave-card {
+    border-radius:var(--radius); padding:18px 14px; text-align:center;
+    display:flex; flex-direction:column; gap:10px; align-items:center;
+    opacity:0; transform:scale(0.88);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    box-shadow:var(--shadow);
+  }
+  .cave-card.animate { opacity:1; transform:scale(1); }
+  .cave-letter { font-family:var(--font-display); font-size:2.8rem; font-weight:700; line-height:1; }
+  .cave-name { font-size:0.78rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }
+  .cave-desc { font-size:0.88rem; line-height:1.55; }
+  .cave-C { background:rgba(124,58,237,0.08); border:1.5px solid rgba(124,58,237,0.25); }
+  .cave-C .cave-letter { color:var(--accent); }
+  .cave-A { background:rgba(234,88,12,0.07); border:1.5px solid rgba(234,88,12,0.22); }
+  .cave-A .cave-letter { color:var(--accent2); }
+  .cave-V { background:rgba(8,145,178,0.07); border:1.5px solid rgba(8,145,178,0.22); }
+  .cave-V .cave-letter { color:var(--accent3); }
+  .cave-E { background:rgba(220,38,38,0.06); border:1.5px solid rgba(220,38,38,0.2); }
+  .cave-E .cave-letter { color:var(--accent-red); }
+
+  /* ── SEQUENCE STEPS ── */
+  .seq-steps { display:flex; flex-direction:column; gap:8px; }
+  .seq-step {
+    display:flex; gap:14px; align-items:flex-start;
+    background:var(--surface); border:1.5px solid var(--border); border-radius:12px;
+    padding:14px 18px; box-shadow:var(--shadow);
+    opacity:0; transform:translateX(-20px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .seq-step.animate { opacity:1; transform:translateX(0); }
+  .seq-num {
+    width:32px; height:32px; border-radius:50%; background:var(--accent);
+    color:white; font-size:0.9rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .seq-step.s2 .seq-num { background:var(--accent2); }
+  .seq-step.s3 .seq-num { background:var(--accent3); }
+  .seq-step.s4 .seq-num { background:var(--accent-green); }
+  .seq-content strong { display:block; font-size:1rem; font-weight:700; color:var(--text); margin-bottom:3px; }
+  .seq-content span { font-size:0.93rem; color:var(--text-muted); line-height:1.6; }
+
+  /* ── DIAGRAM BOX ── */
+  .diagram-row { display:flex; gap:18px; align-items:stretch; }
+  .diagram-box {
+    flex:1; background:var(--surface); border:1.5px solid var(--border);
+    border-radius:var(--radius); padding:18px; display:flex; flex-direction:column; gap:10px;
+    box-shadow:var(--shadow);
+    opacity:0; transform:translateY(16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .diagram-box.animate { opacity:1; transform:translateY(0); }
+  .diagram-box h4 { font-size:0.88rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); }
+  .diagram-box .diagram-caption { font-size:0.85rem; color:var(--text-muted); line-height:1.55; text-align:center; }
+
+  /* ── COMPARISON TABLE ── */
+  .comp-table { width:100%; border-collapse:separate; border-spacing:0; font-size:0.92rem; }
+  .comp-table thead th {
+    padding:11px 16px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase;
+    font-size:0.78rem; color:var(--text-muted); background:var(--surface2); text-align:left;
+  }
+  .comp-table thead th:first-child { border-radius:10px 0 0 0; }
+  .comp-table thead th:last-child { border-radius:0 10px 0 0; }
+  .comp-table tbody td { padding:11px 16px; border-top:1px solid var(--border); color:var(--text-muted); line-height:1.5; }
+  .comp-table tbody tr td:first-child { color:var(--text); font-weight:700; }
+  .comp-table tbody tr:hover td { background:var(--surface2); }
+
+  /* ── SUMMARY ── */
+  .summary-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media(max-width:600px) { .summary-grid { grid-template-columns:1fr; } }
+  .summary-item {
+    text-align:center; background:var(--surface); border:1.5px solid var(--border);
+    border-radius:var(--radius); padding:20px 14px; box-shadow:var(--shadow);
+    opacity:0; transform:scale(0.92);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .summary-item.animate { opacity:1; transform:scale(1); }
+  .summary-item .big-icon { font-size:2rem; margin-bottom:8px; }
+  .summary-item h4 { font-size:0.82rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); margin-bottom:7px; }
+  .summary-item p { font-size:0.9rem; color:var(--text-muted); line-height:1.55; }
+
+  /* ── COVER ── */
+  .cover-module { font-size:0.78rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent2); display:flex; align-items:center; gap:10px; margin-bottom:-4px; }
+  .cover-module::before { content:''; display:inline-block; width:22px; height:3px; background:var(--accent2); border-radius:2px; }
+  .cover-meta { display:flex; gap:12px; flex-wrap:wrap; }
+  .cover-pill { display:flex; align-items:center; gap:7px; background:var(--surface); border:1.5px solid var(--border); border-radius:50px; padding:8px 16px; font-size:0.9rem; color:var(--text-muted); box-shadow:var(--shadow); font-weight:600; }
+
+  /* ── ORTESIS TIMELINE ── */
+  .timeline { display:flex; flex-direction:column; gap:0; }
+  .tl-item {
+    display:flex; gap:16px; align-items:flex-start; padding:14px 0;
+    opacity:0; transform:translateX(-20px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .tl-item.animate { opacity:1; transform:translateX(0); }
+  .tl-left { display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0; }
+  .tl-dot { width:14px; height:14px; border-radius:50%; background:var(--accent); border:3px solid var(--bg); box-shadow:0 0 0 2px var(--accent); flex-shrink:0; }
+  .tl-line { width:2px; flex:1; background:var(--border); margin-top:4px; min-height:30px; }
+  .tl-item:last-child .tl-line { display:none; }
+  .tl-content { flex:1; padding-bottom:8px; }
+  .tl-content strong { display:block; font-size:0.98rem; font-weight:700; color:var(--text); margin-bottom:3px; }
+  .tl-content span { font-size:0.9rem; color:var(--text-muted); line-height:1.6; }
+  .tl-badge { display:inline-block; background:var(--accent); color:white; padding:2px 10px; border-radius:20px; font-size:0.75rem; font-weight:700; margin-bottom:5px; }
+  .tl-badge.orange { background:var(--accent2); }
+  .tl-badge.green { background:var(--accent-green); }
+
+  /* ── OBJECTIVE LIST ── */
+  .obj-list { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:640px) { .obj-list { grid-template-columns:1fr; } }
+  .obj-item {
+    background:var(--surface); border:1.5px solid var(--border); border-radius:12px;
+    padding:16px 18px; display:flex; gap:12px; align-items:flex-start;
+    box-shadow:var(--shadow);
+    opacity:0; transform:translateY(16px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .obj-item.animate { opacity:1; transform:translateY(0); }
+  .obj-icon { font-size:1.5rem; flex-shrink:0; }
+  .obj-text strong { display:block; font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:3px; }
+  .obj-text span { font-size:0.88rem; color:var(--text-muted); line-height:1.6; }
+
+  /* ── NAV ── */
+  #nav {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:10px; z-index:100;
+    background:white; border:1.5px solid var(--border); border-radius:50px;
+    padding:8px 12px; box-shadow:0 4px 24px rgba(0,0,0,0.1);
+  }
+  .nav-btn { background:var(--surface2); border:1.5px solid var(--border); color:var(--text); border-radius:50px; padding:9px 24px; font-family:var(--font-body); font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+  .nav-btn:hover { background:var(--accent); color:white; border-color:var(--accent); }
+  .nav-btn:disabled { opacity:0.3; cursor:not-allowed; }
+  .nav-btn:disabled:hover { background:var(--surface2); color:var(--text); border-color:var(--border); }
+  #slide-dots { display:flex; gap:6px; align-items:center; padding:0 6px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:#d1d5db; transition:all 0.3s; cursor:pointer; border:none; }
+  .dot.active { background:var(--accent); width:20px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="lesson-tag">PRÁCTICA 2</div>
+<div id="slide-counter">1 / 13</div>
+
+<div id="slides-wrapper">
+
+  <!-- ─── SLIDE 1: PORTADA ─── -->
+  <section class="slide active" id="s1">
+    <div class="cover-module">Fisioterapia y Kinesiología</div>
+    <h1 class="slide-title">PEVC: <em>Pie Equinovaro<br>Congénito</em></h1>
+    <p class="subtitle">Conocido como "pie zambo". El tratamiento ha evolucionado de cirugías agresivas hacia métodos conservadores altamente eficaces que aprovechan la plasticidad del colágeno en el recién nacido.</p>
+    <div class="divider"></div>
+    <div class="cover-meta">
+      <div class="cover-pill"><span>🦴</span> Deformidad CAVE</div>
+      <div class="cover-pill"><span>🩹</span> Método Ponseti</div>
+      <div class="cover-pill"><span>🤲</span> Método Francés</div>
+      <div class="cover-pill"><span>📊</span> Evaluación</div>
+      <div class="cover-pill"><span>🎯</span> Rehabilitación</div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 2: CONTENIDO ─── -->
+  <section class="slide" id="s2">
+    <div class="slide-label">Contenido de la Lección</div>
+    <h2 class="section-title">Estructura de la Práctica</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🧩</div>
+        <div class="card-title">01 · Deformidad CAVE</div>
+        <div class="card-body">Los 4 componentes anatómicos del pie zambo idiopático: Cavo, Adductus, Varo y Equino.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🥇</div>
+        <div class="card-title">02 · Método Ponseti</div>
+        <div class="card-body">Estándar de oro. Secuencia de corrección, fulcro, tenotomía de Aquiles y ortesis.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤲</div>
+        <div class="card-title">03 · Método Francés</div>
+        <div class="card-body">Cinesiterapia diaria, movilidad pasiva continua y estimulación de peroneos.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-title">04 · Evaluación</div>
+        <div class="card-body">Clasificación de Diméglio, complicaciones (mecedora, recidivas) y anatomía patológica.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">05 · Rehabilitación</div>
+        <div class="card-body">Objetivos kinésicos, potenciación muscular e instrucción familiar en manejo de ortesis.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 3: DEFINICIÓN + CAVE ─── -->
+  <section class="slide" id="s3">
+    <div class="slide-label">Componentes de la Deformidad</div>
+    <h2 class="section-title">El Acrónimo <em style="font-style:italic;color:var(--accent)">CAVE</em></h2>
+    <p class="subtitle" style="font-size:1rem;">Cuatro componentes anatómicos interrelacionados definen el pie equinovaro congénito idiopático:</p>
+    <div class="cave-grid">
+      <div class="cave-card cave-C">
+        <div class="cave-letter">C</div>
+        <div class="cave-name" style="color:var(--accent)">Cavo</div>
+        <div class="cave-desc" style="color:var(--text-muted)">Antepié en pronación respecto al retropié. Aumenta el arco interno del pie.</div>
+      </div>
+      <div class="cave-card cave-A">
+        <div class="cave-letter">A</div>
+        <div class="cave-name" style="color:var(--accent2)">Adductus</div>
+        <div class="cave-desc" style="color:var(--text-muted)">Antepié desviado hacia la línea media. Aducción del bloque calcaneopedal.</div>
+      </div>
+      <div class="cave-card cave-V">
+        <div class="cave-letter">V</div>
+        <div class="cave-name" style="color:var(--accent3)">Varo</div>
+        <div class="cave-desc" style="color:var(--text-muted)">El talón (retropié) se inclina hacia adentro. Inversión del calcáneo.</div>
+      </div>
+      <div class="cave-card cave-E">
+        <div class="cave-letter">E</div>
+        <div class="cave-name" style="color:var(--accent-red)">Equino</div>
+        <div class="cave-desc" style="color:var(--text-muted)">Pie en flexión plantar permanente por contractura del tendón de Aquiles.</div>
+      </div>
+    </div>
+    <!-- SVG CAVE diagram -->
+    <div class="diagram-box animate" style="opacity:1;transform:none;">
+      <h4>Representación del Pie Zambo (Vista Posterior y Lateral)</h4>
+      <svg viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+        <!-- VISTA LATERAL - Equino -->
+        <rect x="8" y="5" width="168" height="110" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="92" y="20" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="700">EQUINO (Vista Lateral)</text>
+        <!-- Tibia -->
+        <line x1="92" y1="25" x2="92" y2="65" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+        <!-- Foot in plantarflexion -->
+        <path d="M68,65 Q92,72 115,75 Q140,80 155,95" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+        <path d="M115,75 Q130,78 145,80" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Normal foot reference -->
+        <path d="M68,65 Q92,65 115,65 Q140,65 158,65" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="85" y="58" font-size="8.5" fill="#6b7280">Posición normal</text>
+        <!-- Angle arc -->
+        <path d="M92,65 A22,22 0 0,1 113,76" fill="none" stroke="#ef4444" stroke-width="2"/>
+        <text x="115" y="66" font-size="9" fill="#dc2626" font-weight="700">Equino</text>
+        <!-- Aquiles arrow -->
+        <path d="M92,28 L92,50" fill="none" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arr-p)"/>
+        <text x="96" y="38" font-size="8" fill="#7c3aed" font-weight="700">T. Aquiles</text>
+        <text x="96" y="47" font-size="8" fill="#7c3aed">contracturado</text>
+
+        <!-- VISTA POSTERIOR - Varo -->
+        <rect x="190" y="5" width="158" height="110" rx="10" fill="#eff9ff" stroke="#7dd3fc" stroke-width="1.5"/>
+        <text x="269" y="20" font-size="10" fill="#0891b2" text-anchor="middle" font-weight="700">VARO (Vista Posterior)</text>
+        <!-- Tibia vertical -->
+        <line x1="269" y1="28" x2="269" y2="72" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+        <!-- Heel varus -->
+        <ellipse cx="255" cy="96" rx="20" ry="11" fill="#bae6fd" stroke="#0891b2" stroke-width="2" transform="rotate(-18,255,96)"/>
+        <!-- Varus angle arrow -->
+        <line x1="269" y1="72" x2="255" y2="92" stroke="#0891b2" stroke-width="3" stroke-linecap="round"/>
+        <path d="M269,78 A14,14 0 0,1 260,88" fill="none" stroke="#0891b2" stroke-width="2"/>
+        <text x="278" y="88" font-size="9" fill="#0891b2" font-weight="700">Varo</text>
+        <text x="278" y="98" font-size="8.5" fill="#0891b2">del talón</text>
+        <!-- Normal ref -->
+        <line x1="269" y1="72" x2="269" y2="95" stroke="#94a3b8" stroke-width="2" stroke-dasharray="3,2"/>
+        <text x="222" y="105" font-size="8" fill="#6b7280">Ref. normal</text>
+
+        <!-- ADDUCTUS -->
+        <rect x="362" y="5" width="166" height="110" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
+        <text x="445" y="20" font-size="10" fill="#ea580c" text-anchor="middle" font-weight="700">ADDUCTUS (Vista Superior)</text>
+        <!-- Foot top view - normal -->
+        <path d="M380,85 Q400,60 430,50 Q458,42 495,48 Q515,52 520,65 Q520,80 510,88 Q490,95 455,95 Q420,96 395,90 Z" fill="#fef3c7" stroke="#fed7aa" stroke-width="1.5" opacity="0.6"/>
+        <text x="448" y="74" font-size="8" fill="#d97706" text-anchor="middle">Normal</text>
+        <!-- Foot adducted -->
+        <path d="M380,90 Q398,72 420,66 Q445,58 468,62 Q488,67 492,80 Q490,92 470,97 Q445,100 415,98 Q392,95 380,90 Z" fill="#fbbf24" stroke="#ea580c" stroke-width="2" opacity="0.8"/>
+        <!-- Adduction arrow -->
+        <path d="M510,58 Q502,50 490,48" fill="none" stroke="#ea580c" stroke-width="2.5" marker-end="url(#arr-o)"/>
+        <text x="510" y="46" font-size="8.5" fill="#ea580c" font-weight="700">Aducción</text>
+
+        <!-- CAVO -->
+        <rect x="542" y="5" width="170" height="110" rx="10" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+        <text x="627" y="20" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="700">CAVO (Vista Lateral)</text>
+        <!-- Foot arch -->
+        <ellipse cx="627" cy="98" rx="72" ry="14" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.5"/>
+        <!-- High arch -->
+        <path d="M558,96 Q590,42 627,35 Q665,30 700,96" fill="none" stroke="#7c3aed" stroke-width="3.5"/>
+        <!-- Normal arch ref -->
+        <path d="M558,96 Q590,68 627,62 Q665,58 700,96" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,3"/>
+        <text x="500" y="62" font-size="8.5" fill="#6b7280">Normal</text>
+        <text x="627" y="28" font-size="9" fill="#7c3aed" text-anchor="middle" font-weight="700">Arco elevado</text>
+
+        <defs>
+          <marker id="arr-p" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#7c3aed"/></marker>
+          <marker id="arr-o" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ea580c"/></marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">Cada componente del CAVE afecta una región diferente del pie. La corrección debe seguir un orden específico para ser eficaz.</div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 4: MÉTODO PONSETI - INTRODUCCIÓN ─── -->
+  <section class="slide" id="s4">
+    <div class="slide-label">Método Ponseti · Introducción</div>
+    <h2 class="section-title">El Estándar de Oro del Tratamiento</h2>
+    <div class="two-col">
+      <div class="item-list">
+        <div class="item">
+          <div class="item-dot" style="background:var(--accent)"></div>
+          <div class="item-content">
+            <strong>Principio Biológico</strong>
+            <span>Se basa en la <strong>plasticidad del colágeno</strong> en el recién nacido. Las manipulaciones graduales remodelan ligamentos, cápsulas y tendones sin necesidad de cirugía abierta.</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-dot" style="background:var(--accent2)"></div>
+          <div class="item-content">
+            <strong>Efectividad</strong>
+            <span>Corrige el <strong>90-95%</strong> de los casos de PEVC cuando se aplica correctamente. Evita las secuelas funcionales de las cirugías extensas de partes blandas.</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-dot" style="background:var(--accent3)"></div>
+          <div class="item-content">
+            <strong>Inicio</strong>
+            <span>Debe iniciarse en la <strong>primera semana de vida</strong>, aunque puede comenzarse hasta los 2 años con buenos resultados. Cuanto más temprano, mayor plasticidad tisular.</span>
+          </div>
+        </div>
+      </div>
+      <!-- SVG Ponseti method overview -->
+      <div class="diagram-box animate" style="opacity:1;transform:none;">
+        <h4>Fases del Método Ponseti</h4>
+        <svg viewBox="0 0 280 230" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+          <!-- Phase circles connected -->
+          <!-- Phase 1 -->
+          <circle cx="140" cy="35" r="28" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.5"/>
+          <text x="140" y="30" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="700">FASE 1</text>
+          <text x="140" y="43" font-size="9" fill="#5b21b6" text-anchor="middle">Manipulación</text>
+          <!-- Arrow -->
+          <line x1="140" y1="63" x2="140" y2="78" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arr-d)"/>
+          <!-- Phase 2 -->
+          <circle cx="140" cy="100" r="28" fill="#fff7ed" stroke="#ea580c" stroke-width="2.5"/>
+          <text x="140" y="95" font-size="10" fill="#ea580c" text-anchor="middle" font-weight="700">FASE 2</text>
+          <text x="140" y="108" font-size="9" fill="#c2410c" text-anchor="middle">Enyesado</text>
+          <!-- Arrow -->
+          <line x1="140" y1="128" x2="140" y2="143" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arr-d)"/>
+          <!-- Phase 3 -->
+          <circle cx="140" cy="165" r="28" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.5"/>
+          <text x="140" y="160" font-size="10" fill="#16a34a" text-anchor="middle" font-weight="700">FASE 3</text>
+          <text x="140" y="173" font-size="9" fill="#15803d" text-anchor="middle">Tenotomía</text>
+          <!-- Arrow -->
+          <line x1="140" y1="193" x2="140" y2="208" stroke="#cbd5e1" stroke-width="2" marker-end="url(#arr-d)"/>
+          <!-- Phase 4 -->
+          <circle cx="140" cy="222" r="0"/>
+          <rect x="80" y="210" width="120" height="25" rx="12" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+          <text x="140" y="227" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="700">FASE 4 · Ortesis DBB</text>
+          <!-- Side notes -->
+          <text x="8" y="38" font-size="8" fill="#7c3aed" font-weight="600">5-7 sesiones</text>
+          <text x="8" y="103" font-size="8" fill="#ea580c" font-weight="600">Semanal</text>
+          <text x="8" y="168" font-size="8" fill="#16a34a" font-weight="600">70-85%</text>
+          <text x="8" y="220" font-size="8" fill="#dc2626" font-weight="600">3-4 años</text>
+          <defs>
+            <marker id="arr-d" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 5: SECUENCIA DE CORRECCIÓN ─── -->
+  <section class="slide" id="s5">
+    <div class="slide-label">Método Ponseti · Secuencia de Corrección</div>
+    <h2 class="section-title">Orden Preciso de Corrección</h2>
+    <div class="seq-steps">
+      <div class="seq-step">
+        <div class="seq-num">1</div>
+        <div class="seq-content">
+          <strong>Corrección del Cavo</strong>
+          <span>Se supina el antepié (elevando el primer metatarsiano) para alinearlo con el retropié. Es el <em>primer paso obligatorio</em>; intentar abducir sin corregir el cavo genera una deformidad en "S".</span>
+        </div>
+      </div>
+      <div class="seq-step s2">
+        <div class="seq-num">2</div>
+        <div class="seq-content">
+          <strong>Corrección Simultánea del Adductus y el Varo</strong>
+          <span>Se abduce gradualmente el pie usando como fulcro la <strong>cabeza del astrágalo</strong>. Ambas deformidades se corrigen a la vez en esta fase mediante la abducción progresiva.</span>
+        </div>
+      </div>
+      <div class="seq-step s3">
+        <div class="seq-num">3</div>
+        <div class="seq-content">
+          <strong>Corrección del Equino (al final)</strong>
+          <span>El equino es <strong>lo último</strong> en corregirse. Si se intenta antes de haber corregido el varo, se produce la temida <em>deformidad en mecedora</em> o pie en balancín.</span>
+        </div>
+      </div>
+      <div class="seq-step s4">
+        <div class="seq-num">4</div>
+        <div class="seq-content">
+          <strong>Yeso de Mantenimiento</strong>
+          <span>Tras cada sesión de manipulación, se aplica un yeso que mantiene la corrección lograda durante 5-7 días, momento en que se realiza la siguiente sesión.</span>
+        </div>
+      </div>
+    </div>
+    <div class="warning-box">
+      <div class="highlight-icon">⚠️</div>
+      <div class="warning-text"><strong>Error de Kite:</strong> Usar la articulación <strong>calcaneocuboidea</strong> como fulcro (en vez de la cabeza del astrágalo) impide la rotación del calcáneo y bloquea la corrección. Es el error técnico más común.</div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 6: FULCRO + DIAGRAMA ─── -->
+  <section class="slide" id="s6">
+    <div class="slide-label">Método Ponseti · El Fulcro</div>
+    <h2 class="section-title">Correcto vs. Incorrecto: El Fulcro</h2>
+    <div class="diagram-row">
+      <!-- Correcto -->
+      <div class="diagram-box">
+        <h4 style="color:var(--accent-green)">✅ Fulcro Correcto — Cabeza del Astrágalo</h4>
+        <svg viewBox="0 0 280 175" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+          <ellipse cx="140" cy="150" rx="115" ry="18" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+          <!-- Foot -->
+          <path d="M40,148 Q80,110 120,100 Q160,92 220,148" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+          <!-- Astrágalo -->
+          <ellipse cx="118" cy="100" rx="22" ry="14" fill="#4ade80" stroke="#16a34a" stroke-width="2"/>
+          <text x="118" y="104" font-size="8" fill="#14532d" text-anchor="middle" font-weight="700">Astrágalo</text>
+          <!-- Thumb on talus -->
+          <ellipse cx="118" cy="88" rx="14" ry="9" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <text x="118" y="92" font-size="7.5" fill="#92400e" text-anchor="middle" font-weight="700">Pulgar</text>
+          <!-- Calcáneo -->
+          <ellipse cx="60" cy="142" rx="25" ry="12" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="60" y="146" font-size="8" fill="#166534" text-anchor="middle" font-weight="700">Calcáneo</text>
+          <!-- Rotation arrow -->
+          <path d="M75,130 Q85,110 105,105" fill="none" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arr-g)"/>
+          <text x="50" y="120" font-size="8.5" fill="#16a34a" font-weight="700">Rotación</text>
+          <text x="50" y="130" font-size="8.5" fill="#16a34a">libre</text>
+          <!-- Abduction arrow -->
+          <path d="M220,120 Q240,100 255,80" fill="none" stroke="#16a34a" stroke-width="2" marker-end="url(#arr-g)"/>
+          <text x="228" y="98" font-size="8.5" fill="#166534" font-weight="700">Abducción</text>
+          <defs><marker id="arr-g" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#16a34a"/></marker></defs>
+        </svg>
+        <div class="diagram-caption">El pulgar sobre la <strong>cabeza lateral del astrágalo</strong> permite la rotación libre del calcáneo durante la abducción.</div>
+      </div>
+      <!-- Incorrecto -->
+      <div class="diagram-box">
+        <h4 style="color:var(--accent-red)">❌ Error de Kite — Articulación Calcaneocuboidea</h4>
+        <svg viewBox="0 0 280 175" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+          <ellipse cx="140" cy="150" rx="115" ry="18" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+          <!-- Foot -->
+          <path d="M40,148 Q80,120 120,115 Q165,110 220,148" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+          <!-- Calcaneocuboid joint (wrong fulcrum) -->
+          <ellipse cx="155" cy="118" rx="20" ry="12" fill="#fca5a5" stroke="#ef4444" stroke-width="2"/>
+          <text x="155" y="122" font-size="7" fill="#7f1d1d" text-anchor="middle" font-weight="700">Calc-Cuboides</text>
+          <!-- Thumb on wrong place -->
+          <ellipse cx="155" cy="105" rx="14" ry="9" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <text x="155" y="109" font-size="7.5" fill="#92400e" text-anchor="middle" font-weight="700">Pulgar</text>
+          <!-- Block arrow -->
+          <path d="M78,135 Q72,120 78,108" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+          <text x="24" y="116" font-size="7" fill="#dc2626" font-weight="700">Calcáneo</text>
+          <text x="24" y="126" font-size="7" fill="#dc2626">BLOQUEADO</text>
+          <text x="24" y="136" font-size="7" fill="#dc2626">❌ sin rotación</text>
+          <!-- X mark -->
+          <line x1="195" y1="90" x2="218" y2="113" stroke="#ef4444" stroke-width="3"/>
+          <line x1="218" y1="90" x2="195" y2="113" stroke="#ef4444" stroke-width="3"/>
+          <text x="230" y="95" font-size="8" fill="#dc2626" font-weight="700">Corrección</text>
+          <text x="230" y="107" font-size="8" fill="#dc2626">imposible</text>
+        </svg>
+        <div class="diagram-caption">Al presionar sobre la <strong>articulación calcaneocuboidea</strong>, el calcáneo queda bloqueado y la corrección del varo no puede completarse.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 7: TENOTOMÍA + ORTESIS ─── -->
+  <section class="slide" id="s7">
+    <div class="slide-label">Método Ponseti · Tenotomía y Ortesis</div>
+    <h2 class="section-title">Tenotomía de Aquiles y Denis Browne</h2>
+    <div class="two-col">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="item" style="opacity:1;transform:none;border-left:4px solid var(--accent);">
+          <div class="item-dot" style="background:var(--accent)"></div>
+          <div class="item-content">
+            <strong>¿Cuándo se indica?</strong>
+            <span>Entre el <strong>70–85%</strong> de los casos presentan un equino residual que no cede con los yesos. La tenotomía subcutánea se realiza justo antes del último yeso.</span>
+          </div>
+        </div>
+        <div class="item" style="opacity:1;transform:none;border-left:4px solid var(--accent2);">
+          <div class="item-dot" style="background:var(--accent2)"></div>
+          <div class="item-content">
+            <strong>Confirmación del éxito</strong>
+            <span>Se confirma por un <em>"resalte"</em> palpable al seccionar el tendón, seguido de una ganancia inmediata de <strong>15–20 grados</strong> de flexión dorsal.</span>
+          </div>
+        </div>
+        <div class="highlight-box" style="margin-top:0;">
+          <div class="highlight-icon">🔬</div>
+          <div class="highlight-text">La tenotomía es <strong>subcutánea</strong> (percutánea), mínimamente invasiva. No requiere hospitalización. El tendón se regenera en 3 semanas en el último yeso.</div>
+        </div>
+      </div>
+      <!-- Ortesis timeline -->
+      <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);">
+        <h4 style="font-size:0.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;">🦵 Protocolo Férula Denis Browne (DBB)</h4>
+        <div class="timeline">
+          <div class="tl-item" style="opacity:1;transform:none;">
+            <div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-badge">0–3 meses post-tenotomía</div>
+              <strong>23 horas / día</strong>
+              <span>Uso prácticamente continuo. Solo se retira para la higiene y ejercicios del fisioterapeuta. Fase crítica de mantenimiento.</span>
+            </div>
+          </div>
+          <div class="tl-item" style="opacity:1;transform:none;">
+            <div class="tl-left"><div class="tl-dot" style="background:var(--accent2)"></div><div class="tl-line"></div></div>
+            <div class="tl-content">
+              <div class="tl-badge orange">3 meses – 3 años</div>
+              <strong>Siestas + Noche</strong>
+              <span>Se retira durante el día para favorecer el desarrollo motor. Obligatorio durante el sueño diurno y nocturno.</span>
+            </div>
+          </div>
+          <div class="tl-item" style="opacity:1;transform:none;">
+            <div class="tl-left"><div class="tl-dot" style="background:var(--accent-green)"></div></div>
+            <div class="tl-content">
+              <div class="tl-badge green">3–4 años</div>
+              <strong>Solo nocturna</strong>
+              <span>Uso únicamente durante la noche. El abandono prematuro es la causa principal de <strong>recidiva</strong> (1/3 de los casos).</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 8: MÉTODO FRANCÉS ─── -->
+  <section class="slide" id="s8">
+    <div class="slide-label">Método Francés (Funcional)</div>
+    <h2 class="section-title">Cinesiterapia Diaria vs. Yesos Fijos</h2>
+    <!-- Comparación tabla -->
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th>🥇 Ponseti</th>
+          <th>🤲 Método Francés</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Tipo de inmovilización</td><td>Yesos seriados fijos</td><td>Vendaje funcional diario</td></tr>
+        <tr><td>Frecuencia de sesiones</td><td>Semanal</td><td>Diaria (30 min)</td></tr>
+        <tr><td>Movilidad articular</td><td>Preservada progresivamente</td><td>Continua desde inicio</td></tr>
+        <tr><td>Movilidad Pasiva Continua</td><td>No utilizada</td><td>Máquina MPC nocturna</td></tr>
+        <tr><td>Estimulación muscular</td><td>Secundaria</td><td>Peroneos (énfasis activo)</td></tr>
+        <tr><td>Rol de los padres</td><td>Ortesis domiciliaria</td><td>Ejercicios domiciliarios</td></tr>
+      </tbody>
+    </table>
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent3)"></div>
+        <div class="item-content">
+          <strong>Movilidad Pasiva Continua (MPC)</strong>
+          <span>Se usa una máquina de MPC mientras el niño duerme para <em>ablandar los tejidos</em> y prepararlos para la manipulación manual del terapeuta al día siguiente. Mejora la plasticidad del colágeno.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent-green)"></div>
+        <div class="item-content">
+          <strong>Estimulación de Peroneos</strong>
+          <span>Se estimulan activamente los músculos peroneos para favorecer la <strong>eversión activa</strong> del pie y equilibrar las fuerzas que tienden a volver el pie a la posición en varo.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 9: EVALUACIÓN - DIMÉGLIO ─── -->
+  <section class="slide" id="s9">
+    <div class="slide-label">Evaluación Clínica</div>
+    <h2 class="section-title">Clasificación de Diméglio</h2>
+    <div class="two-col">
+      <div class="item-list">
+        <div class="item">
+          <div class="item-dot" style="background:var(--accent)"></div>
+          <div class="item-content">
+            <strong>Sistema de 20 Puntos</strong>
+            <span>Gradúa la gravedad según la <strong>rigidez y capacidad de reducción</strong> de cada componente de la deformidad. Cuanto mayor la puntuación, mayor la rigidez y peor el pronóstico.</span>
+          </div>
+        </div>
+      </div>
+      <!-- Diméglio SVG scale -->
+      <div class="diagram-box animate" style="opacity:1;transform:none;">
+        <h4>Escala de Diméglio (20 puntos)</h4>
+        <svg viewBox="0 0 300 185" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+          <!-- Gradient bar -->
+          <defs>
+            <linearGradient id="dimGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#4ade80"/>
+              <stop offset="33%" style="stop-color:#facc15"/>
+              <stop offset="66%" style="stop-color:#fb923c"/>
+              <stop offset="100%" style="stop-color:#ef4444"/>
+            </linearGradient>
+          </defs>
+          <rect x="20" y="20" width="260" height="28" rx="14" fill="url(#dimGrad)"/>
+          <!-- Ticks -->
+          <line x1="20" y1="55" x2="20" y2="65" stroke="#6b7280" stroke-width="1.5"/>
+          <line x1="107" y1="55" x2="107" y2="65" stroke="#6b7280" stroke-width="1.5"/>
+          <line x1="193" y1="55" x2="193" y2="65" stroke="#6b7280" stroke-width="1.5"/>
+          <line x1="280" y1="55" x2="280" y2="65" stroke="#6b7280" stroke-width="1.5"/>
+          <text x="20" y="76" font-size="9" fill="#4b5563" text-anchor="middle">0</text>
+          <text x="107" y="76" font-size="9" fill="#4b5563" text-anchor="middle">7</text>
+          <text x="193" y="76" font-size="9" fill="#4b5563" text-anchor="middle">13</text>
+          <text x="280" y="76" font-size="9" fill="#4b5563" text-anchor="middle">20</text>
+          <!-- Grade boxes -->
+          <rect x="20" y="85" width="83" height="42" rx="8" fill="#f0fdf4" stroke="#4ade80" stroke-width="2"/>
+          <text x="61" y="102" font-size="9" fill="#166534" text-anchor="middle" font-weight="700">Grado I</text>
+          <text x="61" y="114" font-size="8" fill="#166534" text-anchor="middle">Benigno</text>
+          <text x="61" y="124" font-size="8" fill="#166534" text-anchor="middle">0–5 pts</text>
+          <rect x="108" y="85" width="83" height="42" rx="8" fill="#fefce8" stroke="#facc15" stroke-width="2"/>
+          <text x="149" y="102" font-size="9" fill="#854d0e" text-anchor="middle" font-weight="700">Grado II</text>
+          <text x="149" y="114" font-size="8" fill="#854d0e" text-anchor="middle">Moderado</text>
+          <text x="149" y="124" font-size="8" fill="#854d0e" text-anchor="middle">5–10 pts</text>
+          <rect x="196" y="85" width="83" height="42" rx="8" fill="#fff7ed" stroke="#fb923c" stroke-width="2"/>
+          <text x="237" y="102" font-size="9" fill="#9a3412" text-anchor="middle" font-weight="700">Grado III</text>
+          <text x="237" y="114" font-size="8" fill="#9a3412" text-anchor="middle">Severo</text>
+          <text x="237" y="124" font-size="8" fill="#9a3412" text-anchor="middle">10–15 pts</text>
+          <!-- Grade IV -->
+          <rect x="20" y="138" width="260" height="42" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+          <text x="150" y="155" font-size="9" fill="#991b1b" text-anchor="middle" font-weight="700">Grado IV — Muy Severo (15–20 pts)</text>
+          <text x="150" y="168" font-size="8" fill="#991b1b" text-anchor="middle">Pie rígido, difícilmente reducible. Mayor riesgo de recidiva y cirugía.</text>
+        </svg>
+        <div class="diagram-caption">Evalúa equino, varo del talón, rotación medial del bloque calcaneopedal y aducción del antepié.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 10: COMPLICACIONES ─── -->
+  <section class="slide" id="s10">
+    <div class="slide-label">Complicaciones y Anatomía Patológica</div>
+    <h2 class="section-title">Errores, Recidivas y Anatomía</h2>
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent-red)"></div>
+        <div class="item-content">
+          <strong>⚠️ Deformidad en Mecedora (Pie en Balancín)</strong>
+          <span>Ocurre cuando se intenta corregir el <strong>equino antes que el varo del retropié</strong>. La dorsiflexión forzada "quiebra" el pie por el mediopié generando una deformidad en balancín irreversible sin cirugía.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>🔄 Recidivas — La Causa Principal</strong>
+          <span>Ocurren en <strong>aproximadamente 1/3 de los casos</strong>, principalmente por falta de adherencia al uso de la ortesis nocturna (Denis Browne). Tratamiento inicial: repetir la serie de yesos antes de considerar cirugía.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent3)"></div>
+        <div class="item-content">
+          <strong>🦴 Anatomía Patológica — Desplazamiento del Escafoides</strong>
+          <span>En el PEVC, el <strong>escafoides se desplaza medialmente</strong>, articulando con la cara interna de la cabeza del astrágalo en lugar de su posición anterior normal. Este es el eje de toda la deformidad.</span>
+        </div>
+      </div>
+    </div>
+    <!-- Mecedora SVG -->
+    <div class="diagram-box animate" style="opacity:1;transform:none;">
+      <h4>Deformidad en Mecedora — Mecanismo</h4>
+      <svg viewBox="0 0 700 100" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+        <line x1="10" y1="90" x2="690" y2="90" stroke="#e7e0d8" stroke-width="2"/>
+        <!-- Normal correction sequence -->
+        <rect x="10" y="5" width="200" height="82" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <text x="110" y="20" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">✅ Secuencia Correcta</text>
+        <text x="110" y="36" font-size="9" fill="#166534" text-anchor="middle">1º Varo → 2º Equino</text>
+        <!-- Correct foot -->
+        <path d="M35,85 Q65,70 95,65 Q125,62 170,85" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+        <text x="103" y="58" font-size="8.5" fill="#166534" text-anchor="middle">Corrección normal</text>
+
+        <!-- Arrow -->
+        <text x="235" y="50" font-size="20" fill="#94a3b8">→</text>
+
+        <!-- Wrong sequence -->
+        <rect x="265" y="5" width="200" height="82" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="365" y="20" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">❌ Secuencia Incorrecta</text>
+        <text x="365" y="36" font-size="9" fill="#991b1b" text-anchor="middle">Equino antes que varo</text>
+        <!-- Wrong foot rocker bottom -->
+        <path d="M285,85 Q305,88 325,82 Q345,75 365,88 Q385,95 410,85 Q435,78 455,85" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+        <text x="370" y="60" font-size="8.5" fill="#dc2626" text-anchor="middle">⚡ Fractura funcional</text>
+        <text x="370" y="72" font-size="8.5" fill="#dc2626" text-anchor="middle">del mediopié</text>
+
+        <!-- Arrow -->
+        <text x="490" y="50" font-size="20" fill="#94a3b8">→</text>
+
+        <!-- Result -->
+        <rect x="520" y="5" width="165" height="82" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
+        <text x="602" y="22" font-size="10" fill="#9a3412" text-anchor="middle" font-weight="700">Pie Mecedora</text>
+        <path d="M535,85 Q555,88 575,80 Q595,68 615,78 Q635,86 660,85 Q672,84 678,82" fill="none" stroke="#f97316" stroke-width="3"/>
+        <text x="602" y="60" font-size="8" fill="#9a3412" text-anchor="middle">Convexidad plantar</text>
+        <text x="602" y="72" font-size="8" fill="#9a3412" text-anchor="middle">Irreversible sin cirugía</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 11: OBJETIVOS KINÉSICOS ─── -->
+  <section class="slide" id="s11">
+    <div class="slide-label">Rehabilitación Kinésica</div>
+    <h2 class="section-title">Objetivos del Tratamiento</h2>
+    <div class="obj-list">
+      <div class="obj-item">
+        <div class="obj-icon">🎯</div>
+        <div class="obj-text">
+          <strong>Restaurar la Alineación Anatómica</strong>
+          <span>Lograr la corrección completa de los 4 componentes del CAVE sin dolor, alcanzando una posición neutra del pie en carga.</span>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-icon">🦶</div>
+        <div class="obj-text">
+          <strong>Pie Flexible y Funcional</strong>
+          <span>Conseguir un pie con rango de movimiento adecuado que permita la carga normal, la marcha fisiológica y las actividades cotidianas.</span>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-icon">💪</div>
+        <div class="obj-text">
+          <strong>Potenciar Eversores y Flexores Dorsales</strong>
+          <span>Fortalecer los <strong>músculos peroneos</strong> y el tibial anterior para equilibrar las fuerzas musculares que tienden a reproducir el varo y el equino.</span>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-icon">👨‍👩‍👧</div>
+        <div class="obj-text">
+          <strong>Educación Familiar en Ortesis</strong>
+          <span>Instruir a los padres/cuidadores en el correcto uso, ajuste y mantenimiento de la férula Denis Browne. La adherencia familiar es el factor de éxito más importante a largo plazo.</span>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-icon">🔄</div>
+        <div class="obj-text">
+          <strong>Prevenir Recidivas</strong>
+          <span>Monitoreo continuo, controles periódicos y refuerzo del protocolo de ortesis nocturna hasta completar los 3-4 años de edad.</span>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-icon">📈</div>
+        <div class="obj-text">
+          <strong>Desarrollo Motor Normal</strong>
+          <span>Favorecer el desarrollo psicomotor del niño asegurando que el tratamiento no limite innecesariamente su movilidad y exploración del entorno durante el crecimiento.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 12: ANATOMÍA PATOLÓGICA SVG ─── -->
+  <section class="slide" id="s12">
+    <div class="slide-label">Referencia Anatómica Visual</div>
+    <h2 class="section-title">Anatomía Patológica del PEVC</h2>
+    <div class="diagram-row">
+      <!-- Normal -->
+      <div class="diagram-box">
+        <h4 style="color:var(--accent-green)">🦶 Pie Normal — Vista Axial</h4>
+        <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+          <!-- Tibia -->
+          <rect x="105" y="8" width="50" height="55" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+          <text x="130" y="40" font-size="9" fill="#475569" text-anchor="middle" font-weight="700">Tibia</text>
+          <!-- Astrágalo - normal position -->
+          <ellipse cx="130" cy="90" rx="35" ry="25" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
+          <text x="130" y="94" font-size="9" fill="#1e40af" text-anchor="middle" font-weight="700">Astrágalo</text>
+          <!-- Escafoides - normal (anterior to talus) -->
+          <ellipse cx="130" cy="140" rx="28" ry="18" fill="#4ade80" stroke="#16a34a" stroke-width="2"/>
+          <text x="130" y="144" font-size="9" fill="#14532d" text-anchor="middle" font-weight="700">Escafoides</text>
+          <!-- Normal alignment arrow -->
+          <line x1="130" y1="63" x2="130" y2="120" stroke="#16a34a" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="168" y="105" font-size="8.5" fill="#16a34a" font-weight="700">Alineado</text>
+          <!-- Calcáneo -->
+          <ellipse cx="130" cy="175" rx="45" ry="18" fill="#a5f3fc" stroke="#0891b2" stroke-width="1.5"/>
+          <text x="130" y="179" font-size="9" fill="#0e7490" text-anchor="middle" font-weight="700">Calcáneo</text>
+          <text x="130" y="193" font-size="8" fill="#059669" text-anchor="middle" font-weight="700">✅ Posición Normal</text>
+        </svg>
+        <div class="diagram-caption">En el pie normal el escafoides articula <strong>anteriormente</strong> con la cabeza del astrágalo.</div>
+      </div>
+      <!-- PEVC -->
+      <div class="diagram-box">
+        <h4 style="color:var(--accent-red)">🦴 PEVC — Desplazamiento Medial</h4>
+        <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+          <!-- Tibia -->
+          <rect x="105" y="8" width="50" height="55" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+          <text x="130" y="40" font-size="9" fill="#475569" text-anchor="middle" font-weight="700">Tibia</text>
+          <!-- Astrágalo in PEVC - internally rotated -->
+          <ellipse cx="130" cy="90" rx="35" ry="25" fill="#fca5a5" stroke="#ef4444" stroke-width="2" transform="rotate(-15,130,90)"/>
+          <text x="130" y="94" font-size="9" fill="#991b1b" text-anchor="middle" font-weight="700">Astrágalo</text>
+          <text x="130" y="105" font-size="7.5" fill="#dc2626" text-anchor="middle">(rot. interna)</text>
+          <!-- Escafoides - displaced medially -->
+          <ellipse cx="90" cy="138" rx="28" ry="18" fill="#fca5a5" stroke="#ef4444" stroke-width="2.5"/>
+          <text x="90" y="142" font-size="8.5" fill="#991b1b" text-anchor="middle" font-weight="700">Escafoides</text>
+          <!-- Medial displacement arrow -->
+          <path d="M128,125 Q110,128 102,133" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arr-r)"/>
+          <text x="152" y="128" font-size="8" fill="#dc2626" font-weight="700">Desplazado</text>
+          <text x="152" y="138" font-size="8" fill="#dc2626">medialmente</text>
+          <!-- Contact point highlight -->
+          <circle cx="107" cy="102" r="7" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+          <text x="107" y="106" font-size="6.5" fill="#92400e" text-anchor="middle" font-weight="700">!</text>
+          <text x="62" y="115" font-size="7.5" fill="#dc2626" font-weight="700">Contacto</text>
+          <text x="62" y="125" font-size="7.5" fill="#dc2626">anormal</text>
+          <!-- Calcáneo in varus -->
+          <ellipse cx="115" cy="175" rx="45" ry="18" fill="#fecdd3" stroke="#f43f5e" stroke-width="1.5" transform="rotate(-12,115,175)"/>
+          <text x="115" y="179" font-size="9" fill="#9f1239" text-anchor="middle" font-weight="700">Calcáneo (Varo)</text>
+          <text x="130" y="196" font-size="8" fill="#dc2626" text-anchor="middle" font-weight="700">⚠ Posición Patológica</text>
+          <defs><marker id="arr-r" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
+        </svg>
+        <div class="diagram-caption">En el PEVC el escafoides articula con la cara <strong>medial (interna)</strong> de la cabeza del astrágalo, generando toda la cascada deformante.</div>
+      </div>
+      <!-- Corrección SVG -->
+      <div class="diagram-box">
+        <h4 style="color:var(--accent)">🩹 Objetivo de la Corrección</h4>
+        <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" font-family="Plus Jakarta Sans,sans-serif">
+          <!-- Before -->
+          <rect x="8" y="8" width="118" height="90" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+          <text x="67" y="24" font-size="9" fill="#dc2626" text-anchor="middle" font-weight="700">Antes</text>
+          <!-- Small foot varus -->
+          <ellipse cx="67" cy="70" rx="45" ry="15" fill="#fee2e2" stroke="#f87171" stroke-width="1.5" transform="rotate(20,67,70)"/>
+          <path d="M30,85 Q50,60 67,58 Q84,56 100,85" fill="none" stroke="#f87171" stroke-width="2"/>
+          <text x="67" y="52" font-size="8" fill="#dc2626" text-anchor="middle">Varo + Equino</text>
+          <!-- Arrow -->
+          <path d="M140,100 L160,100" fill="none" stroke="#7c3aed" stroke-width="3" marker-end="url(#arr-pv)"/>
+          <text x="150" y="92" font-size="9" fill="#7c3aed" text-anchor="middle" font-weight="700">Ponseti</text>
+          <!-- After -->
+          <rect x="162" y="8" width="110" height="90" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+          <text x="217" y="24" font-size="9" fill="#16a34a" text-anchor="middle" font-weight="700">Después</text>
+          <!-- Corrected foot -->
+          <ellipse cx="217" cy="70" rx="42" ry="14" fill="#dcfce7" stroke="#4ade80" stroke-width="1.5"/>
+          <path d="M178,85 Q197,58 217,55 Q237,52 258,85" fill="none" stroke="#4ade80" stroke-width="2"/>
+          <text x="217" y="48" font-size="8" fill="#16a34a" text-anchor="middle">Neutro + Dorsiflexión</text>
+          <!-- Keys below -->
+          <rect x="8" y="110" width="262" height="80" rx="10" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+          <text x="139" y="128" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="700">Claves del Éxito</text>
+          <text x="20" y="145" font-size="8.5" fill="#5b21b6">✔ Inicio temprano (1ª semana)</text>
+          <text x="20" y="158" font-size="8.5" fill="#5b21b6">✔ Técnica correcta del fulcro</text>
+          <text x="20" y="171" font-size="8.5" fill="#5b21b6">✔ Adherencia a la ortesis DBB</text>
+          <text x="20" y="184" font-size="8.5" fill="#dc2626">✗ Abandono prematuro → recidiva</text>
+          <defs><marker id="arr-pv" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#7c3aed"/></marker></defs>
+        </svg>
+        <div class="diagram-caption">La corrección busca restaurar la articulación normal astrágalo-escafoides y la posición neutra del calcáneo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 13: RESUMEN ─── -->
+  <section class="slide" id="s13">
+    <div class="slide-label">Resumen Final</div>
+    <h2 class="section-title">Conceptos Esenciales de la Lección</h2>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="big-icon">🧩</div>
+        <h4>CAVE</h4>
+        <p>Cavo → Adductus → Varo → Equino. Cuatro componentes interrelacionados del pie zambo idiopático.</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">🥇</div>
+        <h4>Ponseti</h4>
+        <p>Estándar de oro. Corrección: cavo → adductus+varo → equino. Fulcro en cabeza del astrágalo.</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">⚠️</div>
+        <h4>Error de Kite</h4>
+        <p>Usar calcaneocuboidea como fulcro bloquea la rotación del calcáneo e impide la corrección.</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">🔪</div>
+        <h4>Tenotomía</h4>
+        <p>70-85% de los casos la necesitan. Confirmar por "resalte" + ganancia de 15-20° de dorsiflexión.</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">🦵</div>
+        <h4>Denis Browne</h4>
+        <p>23 h/día × 3 meses → siestas+noche × 3 años → solo nocturna. La adherencia previene recidivas.</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">📊</div>
+        <h4>Diméglio</h4>
+        <p>Escala 0–20 puntos. Clasifica gravedad por rigidez y reducibilidad. Guía el pronóstico.</p>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:4px;">
+      <div class="highlight-icon">💡</div>
+      <div class="highlight-text">El <strong>1/3 de recidivas</strong> casi siempre se debe al abandono de la ortesis nocturna Denis Browne, no a un fallo del método. La educación familiar es parte central del tratamiento kinésico.</div>
+    </div>
+  </section>
+
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <button class="nav-btn" id="btn-prev" disabled>← Anterior</button>
+  <div id="slide-dots"></div>
+  <button class="nav-btn" id="btn-next">Siguiente →</button>
+</nav>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let current = 0;
+
+  const progressBar = document.getElementById('progress-bar');
+  const counter = document.getElementById('slide-counter');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const dotsContainer = document.getElementById('slide-dots');
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', `Diapositiva ${i + 1}`);
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  });
+
+  function updateUI() {
+    progressBar.style.width = ((current + 1) / total * 100) + '%';
+    counter.textContent = `${current + 1} / ${total}`;
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+    dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function animateSlideIn(slide) {
+    ['card','item','summary-item','diagram-box','cave-card','seq-step','tl-item','obj-item'].forEach(cls => {
+      slide.querySelectorAll('.' + cls).forEach((el, i) => {
+        el.classList.remove('animate');
+        setTimeout(() => el.classList.add('animate'), 80 + i * 75);
+      });
+    });
+  }
+
+  function goTo(idx) {
+    if (idx === current) return;
+    const prev = current;
+    slides[prev].classList.add(idx > current ? 'exit-left' : 'exit-right');
+    slides[prev].classList.remove('active');
+    current = idx;
+    slides[current].classList.remove('exit-left','exit-right');
+    slides[current].classList.add('active');
+    setTimeout(() => slides[prev].classList.remove('exit-left','exit-right'), 500);
+    animateSlideIn(slides[current]);
+    updateUI();
+  }
+
+  btnNext.addEventListener('click', () => { if (current < total-1) goTo(current+1); });
+  btnPrev.addEventListener('click', () => { if (current > 0) goTo(current-1); });
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowRight'||e.key==='ArrowDown') { if(current<total-1) goTo(current+1); }
+    if (e.key==='ArrowLeft'||e.key==='ArrowUp') { if(current>0) goTo(current-1); }
+  });
+
+  updateUI();
+  animateSlideIn(slides[0]);
+</script>
+</body>
+</html>

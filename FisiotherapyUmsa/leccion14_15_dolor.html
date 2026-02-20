@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prácticas 14 & 15 – Dolor Musculoesquelético</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --w: #ffffff;
+    --off: #f6f7fb;
+    --p: #1e3a5f;      /* deep navy */
+    --p-l: #e3eaf5;
+    --t: #7b2d8b;      /* teal-purple */
+    --t-l: #f3eaf6;
+    --r: #b83230;      /* crimson */
+    --r-l: #faeaea;
+    --g: #2a7a54;      /* emerald */
+    --g-l: #e5f4ed;
+    --o: #c05c14;      /* amber-orange */
+    --o-l: #fdf1e5;
+    --c: #356b8b;      /* steel blue */
+    --c-l: #e5eff6;
+    --dark: #111827;
+    --mid: #4b5675;
+    --bd: #dbe1ee;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Outfit', sans-serif; background: var(--w); color: var(--dark); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+
+  #pw { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: var(--bd); z-index: 100; }
+  #pb { height: 100%; background: linear-gradient(90deg, var(--p), var(--t)); transition: width .4s ease; border-radius: 0 3px 3px 0; }
+
+  #hdr { position: fixed; top: 4px; left: 0; right: 0; height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; border-bottom: 1px solid var(--bd); background: var(--w); z-index: 99; }
+  .ltag { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--p); background: var(--p-l); padding: 3px 12px; border-radius: 20px; }
+  #ctr { font-size: 13px; color: var(--mid); font-weight: 600; }
+
+  #sc { margin-top: 54px; margin-bottom: 60px; flex: 1; position: relative; overflow: hidden; }
+  .slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 28px 52px 20px; opacity: 0; transform: translateX(55px); transition: opacity .45s ease, transform .45s ease; pointer-events: none; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; }
+  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+  .slide.exit-l { opacity: 0; transform: translateX(-55px); }
+
+  .slbl { font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--p); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .slbl::before { content: ''; display: inline-block; width: 18px; height: 2.5px; background: var(--p); border-radius: 2px; }
+  h1.tit { font-family: 'Lora', serif; font-size: clamp(1.9rem, 4.2vw, 2.9rem); line-height: 1.15; color: var(--dark); margin-bottom: 14px; }
+  h1.tit em { font-style: italic; color: var(--p); }
+  h2.stit { font-family: 'Lora', serif; font-size: clamp(1.4rem, 2.7vw, 1.9rem); line-height: 1.2; color: var(--dark); margin-bottom: 15px; }
+  p.intro { font-size: .97rem; color: var(--mid); line-height: 1.78; max-width: 700px; margin-bottom: 16px; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  .three { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  @media(max-width:680px){ .two,.three { grid-template-columns: 1fr; } }
+
+  .card { border-radius: 12px; padding: 16px 18px; border: 1.5px solid var(--bd); background: var(--off); transition: transform .2s, box-shadow .2s; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.07); }
+  .card .ci { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+  .card h3 { font-size: .88rem; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
+  .card p { font-size: .82rem; color: var(--mid); line-height: 1.6; }
+  .card.b { border-color: var(--p); background: var(--p-l); }
+  .card.t { border-color: var(--t); background: var(--t-l); }
+  .card.r { border-color: var(--r); background: var(--r-l); }
+  .card.g { border-color: var(--g); background: var(--g-l); }
+  .card.o { border-color: var(--o); background: var(--o-l); }
+  .card.c { border-color: var(--c); background: var(--c-l); }
+
+  .hb { border-radius: 11px; padding: 13px 17px; display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+  .hb.b { background: var(--p-l); border-left: 4px solid var(--p); }
+  .hb.t { background: var(--t-l); border-left: 4px solid var(--t); }
+  .hb.r { background: var(--r-l); border-left: 4px solid var(--r); }
+  .hb.g { background: var(--g-l); border-left: 4px solid var(--g); }
+  .hb.o { background: var(--o-l); border-left: 4px solid var(--o); }
+  .hb.c { background: var(--c-l); border-left: 4px solid var(--c); }
+  .hb .hi { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+  .hb h4 { font-size: .88rem; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+  .hb p { font-size: .83rem; color: var(--mid); line-height: 1.62; }
+  .hb p strong { color: var(--dark); }
+
+  .sl { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-top: 6px; }
+  .sl li { display: flex; align-items: flex-start; gap: 10px; font-size: .9rem; color: var(--mid); line-height: 1.65; opacity: 0; transform: translateY(9px); animation: fuA .4s forwards; }
+  .sl li:nth-child(1){animation-delay:.06s}.sl li:nth-child(2){animation-delay:.15s}.sl li:nth-child(3){animation-delay:.24s}.sl li:nth-child(4){animation-delay:.33s}.sl li:nth-child(5){animation-delay:.42s}
+  .sl li .dot { flex-shrink:0; width:7px; height:7px; border-radius:50%; background:var(--p); margin-top:8px; }
+  .sl li strong { color: var(--dark); font-weight: 700; }
+
+  /* BRAIN OUTPUT BOX */
+  .brain-box { border-radius: 14px; background: linear-gradient(135deg,var(--p),#0f2040); color: white; padding: 22px 26px; position: relative; overflow: hidden; margin-bottom: 14px; }
+  .brain-box::after { content:'🧠'; position:absolute; right:14px; bottom:6px; font-size:4rem; opacity:.1; }
+  .brain-box h3 { font-family:'Lora',serif; font-size:1.15rem; margin-bottom:7px; }
+  .brain-box p { font-size:.86rem; opacity:.9; line-height:1.68; }
+  .brain-box .tag { display:inline-block; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); border-radius:20px; padding:3px 12px; font-size:.78rem; font-weight:700; margin-top:10px; }
+
+  /* PAIN TRIANGLE */
+  .triangle-wrap { display:flex; justify-content:center; align-items:center; }
+
+  /* MECHANISM PILLS */
+  .mech-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+  .mpill { flex:1; min-width:150px; border-radius:12px; padding:14px 16px; text-align:center; border:2px solid; }
+  .mpill h4 { font-size:.88rem; font-weight:700; margin-bottom:4px; }
+  .mpill p { font-size:.78rem; color:var(--mid); line-height:1.5; }
+  .mpill.noc { border-color:var(--g); background:var(--g-l); } .mpill.noc h4 { color:var(--g); }
+  .mpill.neu { border-color:var(--o); background:var(--o-l); } .mpill.neu h4 { color:var(--o); }
+  .mpill.npl { border-color:var(--t); background:var(--t-l); } .mpill.npl h4 { color:var(--t); }
+
+  /* CSI GAUGE */
+  .gauge-wrap { background:var(--off); border-radius:12px; padding:14px; border:1.5px solid var(--bd); text-align:center; }
+  .gauge-bar { height:24px; border-radius:20px; background:linear-gradient(90deg,#2a7a54,#c05c14,#b83230); margin:10px 0; position:relative; }
+  .gauge-marker { position:absolute; top:-4px; width:3px; height:32px; background:var(--dark); border-radius:2px; left:calc(40% - 1.5px); }
+  .gauge-marker::after { content:'40'; position:absolute; top:-16px; left:-6px; font-size:.72rem; font-weight:700; color:var(--dark); }
+
+  /* GATE CONTROL DIAGRAM */
+  .gate-diag { background:var(--off); border-radius:12px; padding:14px; border:1.5px solid var(--bd); }
+
+  /* STEPS */
+  .steps { display:flex; flex-direction:column; gap:0; margin-top:8px; }
+  .step { display:flex; gap:14px; padding-bottom:15px; position:relative; opacity:0; transform:translateX(-12px); animation:frA .4s forwards; }
+  .step:nth-child(1){animation-delay:.07s}.step:nth-child(2){animation-delay:.20s}.step:nth-child(3){animation-delay:.33s}.step:nth-child(4){animation-delay:.46s}
+  .step::before { content:''; position:absolute; left:15px; top:32px; bottom:0; width:2px; background:var(--bd); }
+  .step:last-child::before { display:none; }
+  .sdot { flex-shrink:0; width:32px; height:32px; border-radius:50%; background:var(--p); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.8rem; z-index:1; }
+  .step h4 { font-size:.9rem; font-weight:700; color:var(--dark); margin-bottom:3px; }
+  .step p { font-size:.83rem; color:var(--mid); line-height:1.6; }
+
+  /* FLAGS */
+  .flag-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:10px; }
+  .flag { border-radius:12px; padding:14px; border:2px solid var(--o); background:var(--o-l); text-align:center; }
+  .flag .fi { font-size:1.5rem; margin-bottom:6px; }
+  .flag h4 { font-size:.84rem; font-weight:700; color:var(--o); margin-bottom:4px; }
+  .flag p { font-size:.78rem; color:var(--mid); line-height:1.5; }
+
+  /* TIMELINE BAR */
+  .week-bar { display:flex; gap:0; border-radius:10px; overflow:hidden; border:1.5px solid var(--bd); margin-top:12px; }
+  .wb { flex:1; padding:12px 8px; text-align:center; border-right:1px solid var(--bd); }
+  .wb:last-child { border-right:none; }
+  .wb .wn { font-family:'Lora',serif; font-size:1.2rem; font-weight:700; line-height:1; margin-bottom:4px; }
+  .wb .wl { font-size:.74rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; }
+  .wb .wd { font-size:.71rem; color:var(--mid); margin-top:3px; line-height:1.4; }
+  .wb.w1 { background:var(--p-l); } .wb.w1 .wn,.wb.w1 .wl { color:var(--p); }
+  .wb.w2 { background:var(--c-l); } .wb.w2 .wn,.wb.w2 .wl { color:var(--c); }
+  .wb.w3 { background:var(--g-l); } .wb.w3 .wn,.wb.w3 .wl { color:var(--g); }
+
+  /* STAT */
+  .stat { text-align:center; padding:14px 10px; border-radius:11px; background:var(--off); border:1.5px solid var(--bd); }
+  .stat .n { font-family:'Lora',serif; font-size:clamp(2rem,4.5vw,3rem); color:var(--p); line-height:1; margin-bottom:4px; }
+  .stat .l { font-size:.78rem; color:var(--mid); font-weight:600; line-height:1.5; }
+
+  /* SUMMARY */
+  .sg { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+  .si { display:flex; align-items:flex-start; gap:9px; background:var(--off); border-radius:9px; padding:10px 12px; border:1px solid var(--bd); font-size:.83rem; color:var(--mid); line-height:1.55; opacity:0; animation:fuA .4s forwards; }
+  .si:nth-child(1){animation-delay:.04s}.si:nth-child(2){animation-delay:.11s}.si:nth-child(3){animation-delay:.18s}.si:nth-child(4){animation-delay:.25s}.si:nth-child(5){animation-delay:.32s}.si:nth-child(6){animation-delay:.39s}.si:nth-child(7){animation-delay:.46s}.si:nth-child(8){animation-delay:.53s}.si:nth-child(9){animation-delay:.60s}.si:nth-child(10){animation-delay:.67s}
+  .si .ico { font-size:1.2rem; flex-shrink:0; }
+  .si strong { color:var(--dark); display:block; font-size:.77rem; margin-bottom:1px; }
+
+  @keyframes fuA { to { opacity:1; transform:translateY(0); } }
+  @keyframes frA { to { opacity:1; transform:translateX(0); } }
+
+  /* TABLE */
+  .tbl { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:10px; }
+  .tbl th { background:var(--p); color:white; padding:9px 13px; text-align:left; font-weight:700; font-size:.78rem; letter-spacing:.04em; }
+  .tbl th:first-child { border-radius:8px 0 0 0; } .tbl th:last-child { border-radius:0 8px 0 0; }
+  .tbl td { padding:9px 13px; border-bottom:1px solid var(--bd); vertical-align:top; line-height:1.55; }
+  .tbl tr:last-child td { border-bottom:none; }
+  .tbl tr:nth-child(even) td { background:var(--off); }
+
+  #nav { position:fixed; bottom:0; left:0; right:0; height:60px; background:var(--w); border-top:1px solid var(--bd); display:flex; align-items:center; justify-content:center; gap:14px; z-index:99; }
+  .nb { display:flex; align-items:center; gap:6px; background:var(--dark); color:white; border:none; border-radius:8px; padding:9px 22px; font-size:.85rem; font-weight:700; cursor:pointer; font-family:'Outfit',sans-serif; transition:background .2s,transform .15s; }
+  .nb:hover { background:var(--p); transform:translateY(-1px); }
+  .nb:disabled { background:var(--bd); color:var(--mid); cursor:default; transform:none; }
+  .nb.pv { background:var(--off); color:var(--dark); border:1.5px solid var(--bd); }
+  .nb.pv:hover:not(:disabled) { background:var(--p-l); color:var(--p); border-color:var(--p); }
+</style>
+</head>
+<body>
+
+<div id="pw"><div id="pb"></div></div>
+<header id="hdr">
+  <span class="ltag">Prácticas 14 & 15</span>
+  <span id="ctr">1 / 12</span>
+</header>
+
+<div id="sc">
+
+  <!-- SLIDE 1: PORTADA -->
+  <section class="slide active" data-index="0">
+    <div class="slbl">Kinesiología — Problemas Prevalentes</div>
+    <h1 class="tit"><em>Dolor Musculoesquelético</em><br>Modelo Biopsicosocial</h1>
+    <p class="intro">El abordaje moderno ha evolucionado del modelo biomédico (daño estructural) al <strong>modelo biopsicosocial</strong>, que reconoce al dolor como una experiencia compleja procesada por el Sistema Nervioso Central.</p>
+    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px;">
+      <span style="background:var(--p-l);color:var(--p);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--p);">🧠 Neurobiología</span>
+      <span style="background:var(--t-l);color:var(--t);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--t);">⚡ Sensibilización Central</span>
+      <span style="background:var(--g-l);color:var(--g);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--g);">🚪 Gate Control</span>
+      <span style="background:var(--o-l);color:var(--o);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--o);">🚩 Factores Psicosociales</span>
+    </div>
+    <!-- BPS triangle -->
+    <div class="triangle-wrap">
+      <svg viewBox="0 0 380 165" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:460px;width:100%;">
+        <!-- triangle -->
+        <path d="M190 12 L340 150 L40 150 Z" fill="#f6f7fb" stroke="#1e3a5f" stroke-width="2"/>
+        <!-- inner zones -->
+        <path d="M190 45 L290 135 L90 135 Z" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
+        <!-- labels -->
+        <text x="190" y="32" text-anchor="middle" fill="var(--p)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">BIOLÓGICO</text>
+        <text x="190" y="44" text-anchor="middle" fill="var(--mid)" font-size="9" font-family="Outfit,sans-serif">Tejidos · Sistema Nervioso</text>
+        <!-- left vertex -->
+        <text x="30" y="165" text-anchor="middle" fill="var(--t)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">PSICOLÓGICO</text>
+        <!-- right vertex -->
+        <text x="348" y="165" text-anchor="middle" fill="var(--g)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">SOCIAL</text>
+        <!-- center -->
+        <circle cx="190" cy="110" r="24" fill="var(--p)" opacity=".15" stroke="var(--p)" stroke-width="1.5"/>
+        <text x="190" y="107" text-anchor="middle" fill="var(--p)" font-size="10" font-family="Outfit,sans-serif" font-weight="700">DOLOR</text>
+        <text x="190" y="119" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif">experiencia</text>
+        <!-- connecting lines dashed -->
+        <line x1="40" y1="148" x2="166" y2="115" stroke="var(--t)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".5"/>
+        <line x1="340" y1="148" x2="214" y2="115" stroke="var(--g)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".5"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: DEFINICIÓN IASP -->
+  <section class="slide" data-index="1">
+    <div class="slbl">Definición y Naturaleza</div>
+    <h2 class="stit">El Dolor según la IASP</h2>
+    <div class="brain-box">
+      <h3>📖 Definición IASP</h3>
+      <p>El dolor es una <strong>experiencia sensorial y emocional desagradable</strong> asociada a un daño tisular real o potencial, o descrita en términos de dicho daño.</p>
+      <span class="tag">⚠️ No requiere lesión estructural activa</span>
+    </div>
+    <div class="two">
+      <div>
+        <div class="hb b">
+          <span class="hi">🧠</span>
+          <div>
+            <h4>Dolor como OUTPUT del cerebro</h4>
+            <p>El dolor es una <strong>salida (output)</strong> generada por el cerebro como mecanismo de <strong>protección</strong>, no un input pasivo desde los tejidos.</p>
+          </div>
+        </div>
+        <div class="hb r">
+          <span class="hi">🔄</span>
+          <div>
+            <h4>Sistema "Sobreprotector" en cronicidad</h4>
+            <p>En cuadros crónicos, el sistema de alarma se vuelve <strong>sobreprotector</strong>: genera dolor incluso en <strong>ausencia de lesión física activa</strong>.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- input vs output diagram -->
+        <div style="background:var(--off);border-radius:13px;padding:16px;border:1.5px solid var(--bd);">
+          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;text-align:center;">Modelo antiguo vs. actual</p>
+          <svg viewBox="0 0 200 130" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <!-- old model: tissue → pain -->
+            <rect x="5" y="10" width="75" height="45" rx="8" fill="#f0f0f0" stroke="#999" stroke-width="1.5"/>
+            <text x="42" y="29" text-anchor="middle" fill="#666" font-size="9" font-family="Outfit,sans-serif" font-weight="600">Modelo</text>
+            <text x="42" y="41" text-anchor="middle" fill="#666" font-size="9" font-family="Outfit,sans-serif" font-weight="600">Biomédico</text>
+            <text x="42" y="65" text-anchor="middle" fill="#999" font-size="8" font-family="Outfit,sans-serif">Daño → Dolor</text>
+            <line x1="80" y1="32" x2="95" y2="32" stroke="#999" stroke-width="1.5" marker-end="url(#aGr)"/>
+            <defs>
+              <marker id="aGr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="#999"/></marker>
+              <marker id="aBl" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--p)"/></marker>
+            </defs>
+            <line x1="80" y1="95" x2="95" y2="95" stroke="var(--p)" stroke-width="1.5" marker-end="url(#aBl)"/>
+            <!-- new model: SNC → pain -->
+            <rect x="5" y="73" width="75" height="45" rx="8" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
+            <text x="42" y="92" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Modelo</text>
+            <text x="42" y="104" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Biopsicosocial</text>
+            <text x="42" y="128" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif">SNC → Protección</text>
+            <!-- brain -->
+            <ellipse cx="155" cy="63" rx="38" ry="30" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
+            <text x="155" y="60" text-anchor="middle" fill="var(--p)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">🧠</text>
+            <text x="155" y="74" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif" font-weight="600">SNC</text>
+            <!-- old model arrow to brain grey -->
+            <path d="M83 32 Q120 48 118 55" stroke="#999" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+            <!-- new model arrow to brain -->
+            <path d="M83 95 Q120 80 118 72" stroke="var(--p)" stroke-width="1.8" fill="none"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: CLASIFICACIÓN NEUROFISIOLÓGICA -->
+  <section class="slide" data-index="2">
+    <div class="slbl">Clasificación Neurofisiológica</div>
+    <h2 class="stit">Mecanismos del Dolor — Razonamiento Clínico</h2>
+    <p class="intro" style="margin-bottom:10px;">El fisioterapeuta debe identificar el <strong>mecanismo predominante</strong> para orientar el tratamiento.</p>
+    <div class="mech-row">
+      <div class="mpill noc">
+        <h4>🟢 Nociceptivo</h4>
+        <p>Activación de nociceptores en tejidos no neurales (músculos, tendones, ligamentos).</p>
+        <p style="margin-top:6px;"><strong style="color:var(--g);">Patrón mecánico</strong> claro de provocación y alivio.</p>
+      </div>
+      <div class="mpill neu">
+        <h4>🟠 Neuropático</h4>
+        <p>Lesión del sistema somatosensorial. Ej: radiculopatía lumbar, síndrome del túnel carpiano.</p>
+        <p style="margin-top:6px;"><strong style="color:var(--o);">Distribución anatómica</strong> o dermatómica.</p>
+      </div>
+      <div class="mpill npl">
+        <h4>🟣 Nociplástico (SC)</h4>
+        <p>Alteración del procesamiento sensorial. Dolor <strong>desproporcionado, difuso</strong>.</p>
+        <p style="margin-top:6px;"><strong style="color:var(--t);">No sigue patrones mecánicos</strong> lógicos.</p>
+      </div>
+    </div>
+    <div class="hb t" style="margin-top:14px;">
+      <span class="hi">⚡</span>
+      <div>
+        <h4>Dolor Nociplástico — Clave Diagnóstica</h4>
+        <p>El dolor es <strong>desproporcionado a la lesión</strong>, difuso, cambia con el estado emocional y no tiene correlación imagenológica. Indica predominio de <strong>sensibilización central</strong>.</p>
+      </div>
+    </div>
+    <!-- comparison table -->
+    <table class="tbl" style="margin-top:12px;">
+      <thead><tr><th>Mecanismo</th><th>Localización</th><th>Relación con movimiento</th><th>Herramienta diagnóstica</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--g);">Nociceptivo</strong></td><td>Localizado</td><td>Clara y predecible</td><td>Historia clínica + palpación</td></tr>
+        <tr><td><strong style="color:var(--o);">Neuropático</strong></td><td>Dermatoma específico</td><td>Signos neurológicos</td><td>Test neurodinámicos (SLR, ULNT)</td></tr>
+        <tr><td><strong style="color:var(--t);">Nociplástico</strong></td><td>Difuso, variable</td><td>Inconsistente</td><td>CSI ≥40 (Nijs)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SLIDE 4: SENSIBILIZACIÓN CENTRAL -->
+  <section class="slide" data-index="3">
+    <div class="slbl">Sensibilización Central</div>
+    <h2 class="stit">Neurobiología de la Sensibilización Central</h2>
+    <div class="two">
+      <div>
+        <div class="hb t">
+          <span class="hi">⚡</span>
+          <div>
+            <h4>Definición de SC</h4>
+            <p>Amplificación de la señalización neural en el SNC que produce <strong>hipersensibilidad al dolor</strong>. El dolor persiste <strong>sin causa nociceptiva periférica activa</strong>.</p>
+          </div>
+        </div>
+        <div class="hb b">
+          <span class="hi">🔬</span>
+          <div>
+            <h4>Glutamato y Receptores NMDA</h4>
+            <p>El <strong>glutamato</strong> es el principal neurotransmisor excitatorio en la médula espinal. En SC, su exceso activa los <strong>receptores NMDA</strong>, manteniendo hiperexcitabilidad prolongada en el asta dorsal.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:8px;">CSI — Inventario de Sensibilización Central (Nijs)</p>
+        <div class="gauge-wrap">
+          <p style="font-size:.8rem;color:var(--mid);margin-bottom:8px;">Escala de 0 a 100 puntos</p>
+          <div class="gauge-bar">
+            <div class="gauge-marker"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--mid);">
+            <span style="color:var(--g);font-weight:700;">0 — Sin SC</span>
+            <span style="color:var(--r);font-weight:700;">100 — SC severa</span>
+          </div>
+          <div style="margin-top:10px;background:var(--t-l);border-radius:8px;padding:10px;border:1px solid var(--t);">
+            <p style="font-size:.85rem;font-weight:700;color:var(--t);text-align:center;">≥ 40 puntos = Sensibilización Central</p>
+            <p style="font-size:.78rem;color:var(--mid);text-align:center;margin-top:4px;">Punto de corte clínico según algoritmo de Nijs</p>
+          </div>
+        </div>
+        <!-- spinal cord SVG -->
+        <div style="margin-top:12px;background:var(--off);border-radius:11px;padding:12px;border:1.5px solid var(--bd);">
+          <svg viewBox="0 0 220 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <!-- peripheral signal -->
+            <path d="M10 35 L70 35" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#aG2)"/>
+            <defs>
+              <marker id="aG2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--g)"/></marker>
+              <marker id="aT" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--t)"/></marker>
+              <marker id="aBl2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--p)"/></marker>
+            </defs>
+            <text x="40" y="28" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Outfit,sans-serif">Señal periférica</text>
+            <!-- spinal cord -->
+            <rect x="72" y="10" width="70" height="50" rx="6" fill="var(--t-l)" stroke="var(--t)" stroke-width="1.5"/>
+            <text x="107" y="30" text-anchor="middle" fill="var(--t)" font-size="8" font-family="Outfit,sans-serif" font-weight="700">Asta dorsal</text>
+            <text x="107" y="42" text-anchor="middle" fill="var(--t)" font-size="7" font-family="Outfit,sans-serif">Glutamato</text>
+            <text x="107" y="52" text-anchor="middle" fill="var(--t)" font-size="7" font-family="Outfit,sans-serif">NMDA ↑</text>
+            <!-- amplified signal to brain -->
+            <path d="M142 35 L205 35" stroke="var(--t)" stroke-width="3" stroke-linecap="round" marker-end="url(#aT)"/>
+            <text x="175" y="28" text-anchor="middle" fill="var(--t)" font-size="8" font-family="Outfit,sans-serif" font-weight="700">AMPLIFICADA</text>
+            <text x="210" y="38" fill="var(--p)" font-size="12" font-family="Outfit,sans-serif">🧠</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: GATE CONTROL -->
+  <section class="slide" data-index="4">
+    <div class="slbl">Modulación del Dolor</div>
+    <h2 class="stit">Teoría de la Puerta (Gate Control)</h2>
+    <div class="two">
+      <div>
+        <div class="hb g">
+          <span class="hi">🚪</span>
+          <div>
+            <h4>Mecanismo Gate Control</h4>
+            <p>El estímulo de <strong>fibras táctiles A-beta</strong> (grueso calibre) mediante terapia manual rítmica o TENS <strong>inhibe las señales de dolor</strong> en la médula antes de que lleguen al cerebro.</p>
+          </div>
+        </div>
+        <div class="hb c">
+          <span class="hi">💊</span>
+          <div>
+            <h4>Mecanismos Endógenos</h4>
+            <p>La terapia manual y el ejercicio activan modulación descendente que libera <strong>beta-endorfinas</strong> y <strong>endocannabinoides</strong> (anandamida y 2-AG).</p>
+          </div>
+        </div>
+        <div class="hb g">
+          <span class="hi">🏃</span>
+          <div>
+            <h4>Ejercicio Aeróbico y Opioides</h4>
+            <p>Activa <strong>opioides endógenos periféricos</strong>. Este efecto analgésico se puede revertir con <strong>naloxona</strong> (antagonista opioide), lo que confirma el mecanismo.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Gate control SVG diagram -->
+      <div class="gate-diag">
+        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Teoría de la Puerta — Diagrama</p>
+        <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+          <!-- pain fiber C/Ad -->
+          <path d="M10 60 L90 60" stroke="var(--r)" stroke-width="2.5" stroke-linecap="round"/>
+          <text x="50" y="52" text-anchor="middle" fill="var(--r)" font-size="9" font-family="Outfit,sans-serif" font-weight="600">Fibras C/Aδ</text>
+          <text x="50" y="74" text-anchor="middle" fill="var(--r)" font-size="8" font-family="Outfit,sans-serif">(dolor)</text>
+          <!-- tactile fiber A-beta -->
+          <path d="M10 120 L90 120" stroke="var(--g)" stroke-width="3" stroke-linecap="round"/>
+          <text x="50" y="112" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="600">Fibras A-beta</text>
+          <text x="50" y="134" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Outfit,sans-serif">(tacto · TENS)</text>
+          <!-- interneuron gate -->
+          <ellipse cx="110" cy="90" rx="22" ry="32" fill="var(--p-l)" stroke="var(--p)" stroke-width="2"/>
+          <text x="110" y="87" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Asta</text>
+          <text x="110" y="99" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Dorsal</text>
+          <!-- gate inhibition arrow -->
+          <path d="M90 120 Q100 106 95 92" stroke="var(--g)" stroke-width="1.8" stroke-dasharray="4 3" fill="none" marker-end="url(#aGI)"/>
+          <defs>
+            <marker id="aGI" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--g)"/></marker>
+            <marker id="aRB" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--r)"/></marker>
+            <marker id="aPB" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--p)"/></marker>
+          </defs>
+          <!-- block symbol -->
+          <text x="92" y="100" fill="var(--g)" font-size="14" font-family="Outfit,sans-serif" font-weight="700">⊗</text>
+          <!-- output to brain -->
+          <path d="M132 90 L195 90" stroke="var(--p)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#aPB)"/>
+          <text x="165" y="82" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif" font-weight="600">Al cerebro</text>
+          <!-- labels bottom -->
+          <text x="110" y="152" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">TERAPIA MANUAL</text>
+          <text x="110" y="164" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">rítmica · TENS → cierra la puerta</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: MODULACIÓN DESCENDENTE -->
+  <section class="slide" data-index="5">
+    <div class="slbl">Analgesia Endógena</div>
+    <h2 class="stit">Sistemas de Modulación Descendente</h2>
+    <div class="three">
+      <div class="card g">
+        <span class="ci">🏃</span>
+        <h3>Opioides Endógenos</h3>
+        <p>El ejercicio aeróbico activa <strong>beta-endorfinas</strong> periféricas. El efecto analgésico es reversible con <strong>naloxona</strong>.</p>
+      </div>
+      <div class="card c">
+        <span class="ci">🌿</span>
+        <h3>Endocannabinoides</h3>
+        <p>Terapia manual y ejercicio liberan <strong>anandamida</strong> y <strong>2-araquidonoil glicerol (2-AG)</strong>, modulando el dolor a nivel central.</p>
+      </div>
+      <div class="card b">
+        <span class="ci">⬇️</span>
+        <h3>Modulación Descendente</h3>
+        <p>El tronco encefálico y la corteza modulan activamente las señales de dolor a través de vías inhibitorias descendentes hacia el asta dorsal.</p>
+      </div>
+    </div>
+    <div style="margin-top:14px;background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);">
+      <svg viewBox="0 0 400 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+        <!-- brain -->
+        <ellipse cx="60" cy="40" rx="48" ry="32" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
+        <text x="60" y="36" text-anchor="middle" fill="var(--p)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">🧠 Cerebro</text>
+        <text x="60" y="50" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif">+ tronco encef.</text>
+        <!-- descending path -->
+        <path d="M108 40 L175 40" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- descending label -->
+        <text x="140" y="32" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">↓ Descendente</text>
+        <text x="140" y="55" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Outfit,sans-serif">Endorfinas · Endocannab.</text>
+        <!-- spinal cord -->
+        <rect x="177" y="15" width="55" height="50" rx="8" fill="var(--c-l)" stroke="var(--c)" stroke-width="1.5"/>
+        <text x="204" y="38" text-anchor="middle" fill="var(--c)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Médula</text>
+        <text x="204" y="50" text-anchor="middle" fill="var(--c)" font-size="8" font-family="Outfit,sans-serif">Asta dorsal</text>
+        <!-- inhibition symbol -->
+        <text x="204" y="26" text-anchor="middle" fill="var(--g)" font-size="13" font-family="Outfit,sans-serif">⊖</text>
+        <!-- exercise icon -->
+        <path d="M240 40 L300 40" stroke="var(--o)" stroke-width="2" stroke-dasharray="4 3" stroke-linecap="round"/>
+        <text x="270" y="32" text-anchor="middle" fill="var(--o)" font-size="8" font-family="Outfit,sans-serif" font-weight="700">Ejercicio aeróbico</text>
+        <ellipse cx="340" cy="40" rx="55" ry="28" fill="var(--o-l)" stroke="var(--o)" stroke-width="1.5"/>
+        <text x="340" y="36" text-anchor="middle" fill="var(--o)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Beta-endorfinas</text>
+        <text x="340" y="49" text-anchor="middle" fill="var(--o)" font-size="8" font-family="Outfit,sans-serif">Revertido por naloxona</text>
+      </svg>
+    </div>
+    <div class="hb o" style="margin-top:12px;">
+      <span class="hi">🧪</span>
+      <div>
+        <h4>Evidencia del mecanismo opioide</h4>
+        <p>La administración de <strong>naloxona</strong> revierte el efecto analgésico del ejercicio aeróbico, confirmando que los <strong>opioides endógenos</strong> son los mediadores principales de este efecto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: FACTORES PSICOSOCIALES -->
+  <section class="slide" data-index="6">
+    <div class="slbl">Factores Psicosociales</div>
+    <h2 class="stit">Banderas Amarillas y Cronicidad</h2>
+    <p class="intro" style="margin-bottom:10px;">El dolor persistente está <strong>fuertemente influenciado</strong> por el estado cognitivo-emocional del paciente.</p>
+    <div class="flag-grid">
+      <div class="flag">
+        <div class="fi">😰</div>
+        <h4>Catastrofismo</h4>
+        <p>Creencia de que el dolor es señal de daño <strong>irreparable</strong>. Amplifica la percepción del dolor.</p>
+      </div>
+      <div class="flag">
+        <div class="fi">🚫🏃</div>
+        <h4>Kinesiofobia</h4>
+        <p>Miedo irracional al movimiento por temor a re-lesionarse. Valorar con <strong>escala TSK-11</strong>.</p>
+      </div>
+      <div class="flag">
+        <div class="fi">🔻</div>
+        <h4>Baja Autoeficacia</h4>
+        <p>Sensación de no poder controlar el dolor ni recuperarse. Predictor de <strong>cronicidad</strong>.</p>
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <div class="hb r">
+        <span class="hi">🚩</span>
+        <div>
+          <h4>Banderas Amarillas — Predictores de Cronicidad</h4>
+          <p>Incluyen: catastrofismo, kinesiofobia, baja autoeficacia y <strong>conductas de evitación</strong>. Su identificación temprana es clave para prevenir la cronificación del cuadro.</p>
+        </div>
+      </div>
+      <div class="hb o" style="margin-top:0;">
+        <span class="hi">📋</span>
+        <div>
+          <h4>TSK-11 — Escala Tampa de Kinesiofobia</h4>
+          <p>Instrumento validado para valorar el <strong>miedo al movimiento</strong>. Permite cuantificar el impacto de la kinesiofobia en la conducta del paciente y guiar la exposición graduada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: EDUCACIÓN EN NEUROCIENCIA DEL DOLOR -->
+  <section class="slide" data-index="7">
+    <div class="slbl">Tratamiento — END</div>
+    <h2 class="stit">Educación en Neurociencia del Dolor</h2>
+    <div class="two">
+      <div>
+        <div class="brain-box" style="margin-bottom:12px;">
+          <h3>🎓 ¿Qué es la END?</h3>
+          <p>Intervención que ayuda al paciente a <strong>reconceptualizar su dolor</strong>: comprenderlo como una respuesta del sistema nervioso, no como señal de daño estructural irremediable.</p>
+        </div>
+        <div class="hb g">
+          <span class="hi">📈</span>
+          <div>
+            <h4>Objetivos de la END</h4>
+            <ul class="sl">
+              <li><span class="dot" style="background:var(--g);"></span><span>Reducir la <strong>sensación de amenaza</strong></span></li>
+              <li><span class="dot" style="background:var(--g);"></span><span>Mejorar la <strong>autoeficacia</strong></span></li>
+              <li><span class="dot" style="background:var(--g);"></span><span>Disminuir catastrofismo y kinesiofobia</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="hb t">
+          <span class="hi">🔁</span>
+          <div>
+            <h4>Exposición Graduada</h4>
+            <p>Introducción <strong>progresiva de movimientos</strong> antes evitados o dolorosos para establecer nuevas <strong>asociaciones inhibitorias</strong> en el cerebro. Rompe el ciclo miedo-evitación-dolor.</p>
+          </div>
+        </div>
+        <!-- fear avoidance model -->
+        <div style="background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);margin-top:12px;">
+          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Ciclo Miedo-Evitación</p>
+          <svg viewBox="0 0 220 110" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <!-- cycle nodes -->
+            <ellipse cx="110" cy="20" rx="45" ry="16" fill="var(--r-l)" stroke="var(--r)" stroke-width="1.5"/>
+            <text x="110" y="24" text-anchor="middle" fill="var(--r)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Dolor / Lesión</text>
+            <ellipse cx="190" cy="60" rx="28" ry="14" fill="var(--o-l)" stroke="var(--o)" stroke-width="1.5"/>
+            <text x="190" y="64" text-anchor="middle" fill="var(--o)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Catastrofismo</text>
+            <ellipse cx="110" cy="98" rx="40" ry="14" fill="var(--t-l)" stroke="var(--t)" stroke-width="1.5"/>
+            <text x="110" y="102" text-anchor="middle" fill="var(--t)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Evitación / Desuso</text>
+            <ellipse cx="30" cy="60" rx="28" ry="14" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
+            <text x="30" y="64" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Kinesiofobia</text>
+            <!-- arrows cycle -->
+            <path d="M150 28 L174 50" stroke="var(--r)" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aC)"/>
+            <path d="M165 70 L148 88" stroke="var(--o)" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aC)"/>
+            <path d="M72 92 L55 74" stroke="var(--t)" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aC)"/>
+            <path d="M48 48 L70 28" stroke="var(--p)" stroke-width="1.5" stroke-linecap="round" marker-end="url(--r)"/>
+            <defs>
+              <marker id="aC" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--mid)"/></marker>
+            </defs>
+            <!-- END break arrow -->
+            <path d="M110 55 L110 75" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 2"/>
+            <text x="115" y="68" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">END</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: TIEMPO DE ADAPTACIÓN -->
+  <section class="slide" data-index="8">
+    <div class="slbl">Progresión Terapéutica</div>
+    <h2 class="stit">Tiempo de Adaptación y Progresión</h2>
+    <div class="two">
+      <div>
+        <div class="stat" style="border-color:var(--p);background:var(--p-l);margin-bottom:14px;">
+          <div class="n">10–12</div>
+          <div class="l">semanas de trabajo activo constante mínimo para cambio neuromuscular y remodelación de tejidos blandos</div>
+        </div>
+        <div class="hb b">
+          <span class="hi">⏱️</span>
+          <div>
+            <h4>¿Por qué 10–12 semanas?</h4>
+            <p>El cambio neuromuscular y la remodelación del tejido conectivo son procesos biológicos lentos que requieren <strong>estimulación repetida y sostenida</strong> en el tiempo.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="week-bar">
+          <div class="wb w1">
+            <div class="wn">1–3</div>
+            <div class="wl">sem.</div>
+            <div class="wd">Fase aguda. END + movilización suave.</div>
+          </div>
+          <div class="wb w2">
+            <div class="wn">4–6</div>
+            <div class="wl">sem.</div>
+            <div class="wd">Exposición graduada. Ejercicio aeróbico.</div>
+          </div>
+          <div class="wb w3">
+            <div class="wn">7–12</div>
+            <div class="wl">sem.</div>
+            <div class="wd">Fortalecimiento activo. Retorno funcional.</div>
+          </div>
+        </div>
+        <div class="hb g" style="margin-top:12px;">
+          <span class="hi">🔄</span>
+          <div>
+            <h4>Exposición Graduada — Pasos</h4>
+            <ul class="sl" style="margin-top:4px;">
+              <li><span class="dot" style="background:var(--g);"></span><span>Identificar movimientos <strong>evitados</strong></span></li>
+              <li><span class="dot" style="background:var(--g);"></span><span>Jerarquizar por nivel de miedo (TSK-11)</span></li>
+              <li><span class="dot" style="background:var(--g);"></span><span>Exposición progresiva con <strong>desensibilización</strong></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: TABLA COMPARATIVA COMPLETA -->
+  <section class="slide" data-index="9">
+    <div class="slbl">Síntesis Clínica</div>
+    <h2 class="stit">Comparativa del Modelo de Tratamiento</h2>
+    <table class="tbl">
+      <thead><tr><th>Aspecto</th><th>Modelo Biomédico</th><th>Modelo Biopsicosocial</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Origen del dolor</strong></td><td>Daño tisular estructural</td><td style="color:var(--p);font-weight:600;">Output del SNC + componente psicosocial</td></tr>
+        <tr><td><strong>Objetivo</strong></td><td>Reparar la lesión</td><td style="color:var(--p);font-weight:600;">Reconceptualizar el dolor, reducir amenaza</td></tr>
+        <tr><td><strong>Herramienta principal</strong></td><td>Tratamiento local pasivo</td><td style="color:var(--p);font-weight:600;">END + Ejercicio activo + Exposición graduada</td></tr>
+        <tr><td><strong>Factores contemplados</strong></td><td>Solo biológicos</td><td style="color:var(--p);font-weight:600;">Biológicos + Psicológicos + Sociales</td></tr>
+        <tr><td><strong>CSI (Nijs)</strong></td><td>No contemplado</td><td style="color:var(--t);font-weight:600;">≥40 = sensibilización central dominante</td></tr>
+        <tr><td><strong>Escala psicosocial</strong></td><td>No contemplada</td><td style="color:var(--o);font-weight:600;">TSK-11 para kinesiofobia</td></tr>
+        <tr><td><strong>Tiempo terapéutico</strong></td><td>Hasta resolución del daño</td><td style="color:var(--g);font-weight:600;">Mínimo 10–12 semanas de trabajo activo</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SLIDE 11: NEUROTRANSMISORES Y FARMACOLOGÍA -->
+  <section class="slide" data-index="10">
+    <div class="slbl">Neurobiología Aplicada</div>
+    <h2 class="stit">Neurotransmisores Clave</h2>
+    <div class="three">
+      <div class="card t">
+        <span class="ci">⚡</span>
+        <h3>Glutamato</h3>
+        <p>Principal NT <strong>excitatorio</strong> en la médula espinal. En SC activa receptores <strong>NMDA</strong> manteniendo hiperexcitabilidad en el asta dorsal.</p>
+      </div>
+      <div class="card g">
+        <span class="ci">💉</span>
+        <h3>Beta-Endorfinas</h3>
+        <p>Opioides endógenos liberados por el <strong>ejercicio aeróbico</strong>. Efecto analgésico demostrable y reversible con <strong>naloxona</strong>.</p>
+      </div>
+      <div class="card c">
+        <span class="ci">🌿</span>
+        <h3>Endocannabinoides</h3>
+        <p><strong>Anandamida</strong> y <strong>2-AG</strong> liberados por terapia manual y ejercicio. Modulan la transmisión sináptica en el asta dorsal.</p>
+      </div>
+    </div>
+    <div class="two" style="margin-top:12px;">
+      <div class="hb t">
+        <span class="hi">🔬</span>
+        <div>
+          <h4>Receptor NMDA — Clave en SC</h4>
+          <p>Los receptores <strong>N-metil-D-aspartato (NMDA)</strong> son activados por el exceso de glutamato. Son el sustrato molecular de la sensibilización central y la hiperalgesia.</p>
+        </div>
+      </div>
+      <div class="hb r">
+        <span class="hi">💊</span>
+        <div>
+          <h4>Naloxona — Antagonista Opioide</h4>
+          <p>Bloquea los receptores opioides. Su uso experimental <strong>revierte el efecto analgésico del ejercicio</strong>, confirmando el mecanismo endógeno opioide como mediador.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 12: RESUMEN -->
+  <section class="slide" data-index="11">
+    <div class="slbl">Resumen Integral</div>
+    <h2 class="stit">Conceptos Clave — Prácticas 14 & 15</h2>
+    <div class="sg">
+      <div class="si"><span class="ico">🧠</span><div><strong>Dolor = OUTPUT</strong>Mecanismo de protección cerebral. En cronicidad: sobreprotector.</div></div>
+      <div class="si"><span class="ico">📖</span><div><strong>Definición IASP</strong>Experiencia sensorial y emocional. No requiere daño estructural activo.</div></div>
+      <div class="si"><span class="ico">🟢🟠🟣</span><div><strong>3 Mecanismos</strong>Nociceptivo (mecánico) · Neuropático (dermatomal) · Nociplástico (difuso).</div></div>
+      <div class="si"><span class="ico">⚡</span><div><strong>SC — CSI ≥40</strong>Glutamato + NMDA → hiperexcitabilidad asta dorsal. Corte clínico: ≥40 (Nijs).</div></div>
+      <div class="si"><span class="ico">🚪</span><div><strong>Gate Control</strong>A-beta inhibe señal de dolor en médula. Base de TENS y terapia manual rítmica.</div></div>
+      <div class="si"><span class="ico">🏃</span><div><strong>Ejercicio aeróbico</strong>Libera opioides endógenos. Revertido por naloxona. Efecto analgésico demostrado.</div></div>
+      <div class="si"><span class="ico">🌿</span><div><strong>Endocannabinoides</strong>Anandamida y 2-AG liberados por terapia manual y ejercicio.</div></div>
+      <div class="si"><span class="ico">🚩</span><div><strong>Banderas Amarillas</strong>Catastrofismo, kinesiofobia (TSK-11), baja autoeficacia → predictores de cronicidad.</div></div>
+      <div class="si"><span class="ico">🎓</span><div><strong>END</strong>Reconceptualiza el dolor, reduce amenaza y mejora autoeficacia del paciente.</div></div>
+      <div class="si"><span class="ico">⏱️</span><div><strong>10–12 semanas</strong>Tiempo mínimo de trabajo activo para cambio neuromuscular y remodelación tisular.</div></div>
+    </div>
+  </section>
+
+</div>
+
+<nav id="nav">
+  <button class="nb pv" id="pp" disabled>← Anterior</button>
+  <button class="nb" id="np">Siguiente →</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const pb = document.getElementById('pb');
+  const ctr = document.getElementById('ctr');
+  const pp = document.getElementById('pp');
+  const np = document.getElementById('np');
+  let cur = 0, tot = slides.length;
+
+  function goTo(i) {
+    if (i < 0 || i >= tot) return;
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit-l');
+    const prev = cur;
+    setTimeout(() => slides[prev].classList.remove('exit-l'), 550);
+    cur = i;
+    slides[cur].classList.add('active');
+    slides[cur].querySelectorAll('.sl li,.step,.si').forEach(el => {
+      el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
+    });
+    upd();
+  }
+
+  function upd() {
+    pb.style.width = ((cur+1)/tot*100) + '%';
+    ctr.textContent = `${cur+1} / ${tot}`;
+    pp.disabled = cur === 0;
+    np.disabled = cur === tot-1;
+    np.textContent = cur === tot-1 ? '✓ Fin' : 'Siguiente →';
+  }
+
+  pp.addEventListener('click', () => goTo(cur-1));
+  np.addEventListener('click', () => goTo(cur+1));
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowRight'||e.key==='ArrowDown') goTo(cur+1);
+    if (e.key==='ArrowLeft'||e.key==='ArrowUp') goTo(cur-1);
+  });
+  upd();
+</script>
+</body>
+</html>

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lección 1 – Pie Plano y Pie Cavo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f6fb;
+    --surface: #ffffff;
+    --surface2: #eef1f8;
+    --accent: #2563eb;
+    --accent2: #f59e0b;
+    --accent3: #ef4444;
+    --accent-green: #10b981;
+    --text: #111827;
+    --text-muted: #4b5563;
+    --border: #e2e8f0;
+    --shadow: 0 2px 16px rgba(0,0,0,0.07);
+    --slide-w: 960px;
+    --radius: 14px;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Nunito', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow: hidden; }
+
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s cubic-bezier(.4,0,.2,1); z-index: 100;
+  }
+  #slide-counter {
+    position: fixed; top: 16px; right: 22px;
+    font-size: 14px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; z-index: 100;
+  }
+  #lesson-tag {
+    position: fixed; top: 10px; left: 22px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--accent); z-index: 100;
+    background: rgba(37,99,235,0.09); padding: 5px 13px; border-radius: 20px;
+  }
+
+  #slides-wrapper {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; padding: 60px 24px 80px; overflow: hidden;
+  }
+
+  .slide {
+    position: absolute; width: 100%; max-width: var(--slide-w);
+    display: flex; flex-direction: column; gap: 20px;
+    opacity: 0; pointer-events: none; transform: translateX(70px);
+    transition: opacity 0.4s ease, transform 0.4s cubic-bezier(.4,0,.2,1);
+    max-height: calc(100vh - 140px); overflow-y: auto; padding-right: 4px;
+  }
+  .slide::-webkit-scrollbar { width: 4px; }
+  .slide::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .slide.active { opacity: 1; pointer-events: all; transform: translateX(0); }
+  .slide.exit-left { opacity: 0; transform: translateX(-70px); }
+
+  .slide-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--accent); display: flex; align-items: center; gap: 10px;
+  }
+  .slide-label::before { content:''; display:inline-block; width:28px; height:3px; background:var(--accent); border-radius:2px; }
+
+  h1.slide-title { font-family: var(--font-display); font-size: clamp(2.4rem,5vw,3.6rem); line-height:1.1; font-weight:700; }
+  h1.slide-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+  h2.section-title { font-family: var(--font-display); font-size: clamp(1.7rem,3.5vw,2.3rem); font-weight:700; line-height:1.2; }
+
+  .subtitle { font-size: 1.15rem; color: var(--text-muted); font-weight:400; line-height:1.7; max-width:700px; }
+  .divider { width:70px; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; margin:-4px 0; }
+
+  /* CARDS */
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+  .card {
+    background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius);
+    padding:20px 22px; display:flex; flex-direction:column; gap:10px;
+    opacity:0; transform:translateY(20px); box-shadow:var(--shadow);
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { border-color:var(--accent); box-shadow:0 4px 20px rgba(37,99,235,0.12); }
+  .card.animate { opacity:1; transform:translateY(0); }
+  .card-icon { font-size:1.8rem; width:46px; height:46px; background:var(--surface2); border-radius:10px; display:flex; align-items:center; justify-content:center; }
+  .card-title { font-size:0.88rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); }
+  .card-body { font-size:1rem; color:var(--text-muted); line-height:1.65; }
+
+  /* ITEMS */
+  .item-list { display:flex; flex-direction:column; gap:12px; }
+  .item {
+    display:flex; gap:14px; align-items:flex-start;
+    background:var(--surface); border:1.5px solid var(--border); border-radius:12px;
+    padding:16px 18px; box-shadow:var(--shadow);
+    opacity:0; transform:translateX(-22px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .item.animate { opacity:1; transform:translateX(0); }
+  .item-dot { width:10px; height:10px; border-radius:50%; background:var(--accent); margin-top:7px; flex-shrink:0; }
+  .item-content strong { display:block; font-size:1.02rem; font-weight:700; color:var(--text); margin-bottom:4px; }
+  .item-content span { font-size:0.97rem; color:var(--text-muted); line-height:1.65; }
+
+  /* TWO COL */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:640px) { .two-col { grid-template-columns:1fr; } }
+
+  /* HIGHLIGHT */
+  .highlight-box {
+    background:linear-gradient(135deg,rgba(37,99,235,0.05),rgba(245,158,11,0.05));
+    border:1.5px solid rgba(37,99,235,0.18); border-radius:var(--radius);
+    padding:18px 22px; display:flex; gap:14px; align-items:flex-start;
+  }
+  .highlight-icon { font-size:1.6rem; flex-shrink:0; margin-top:1px; }
+  .highlight-text { font-size:1rem; line-height:1.7; color:var(--text-muted); }
+  .highlight-text strong { color:var(--accent); }
+
+  /* TAGS */
+  .tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:700; letter-spacing:0.5px; }
+  .tag-blue { background:rgba(37,99,235,0.1); color:var(--accent); }
+  .tag-orange { background:rgba(245,158,11,0.12); color:#d97706; }
+  .tag-red { background:rgba(239,68,68,0.1); color:var(--accent3); }
+  .tag-green { background:rgba(16,185,129,0.1); color:var(--accent-green); }
+
+  /* SUMMARY */
+  .summary-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media(max-width:600px) { .summary-grid { grid-template-columns:1fr; } }
+  .summary-item {
+    text-align:center; background:var(--surface); border:1.5px solid var(--border);
+    border-radius:var(--radius); padding:20px 14px; box-shadow:var(--shadow);
+    opacity:0; transform:scale(0.92);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .summary-item.animate { opacity:1; transform:scale(1); }
+  .summary-item .big-icon { font-size:2rem; margin-bottom:8px; }
+  .summary-item h4 { font-size:0.85rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); margin-bottom:7px; }
+  .summary-item p { font-size:0.92rem; color:var(--text-muted); line-height:1.55; }
+
+  /* COVER */
+  .cover-module { font-size:0.8rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#d97706; display:flex; align-items:center; gap:10px; margin-bottom:-4px; }
+  .cover-module::before { content:''; display:inline-block; width:22px; height:3px; background:#d97706; border-radius:2px; }
+  .cover-meta { display:flex; gap:12px; flex-wrap:wrap; }
+  .cover-pill { display:flex; align-items:center; gap:7px; background:var(--surface); border:1.5px solid var(--border); border-radius:50px; padding:8px 16px; font-size:0.92rem; color:var(--text-muted); box-shadow:var(--shadow); font-weight:600; }
+
+  /* DIAGRAM BOX */
+  .diagram-row { display:flex; gap:18px; align-items:stretch; }
+  .diagram-box {
+    flex:1; background:var(--surface); border:1.5px solid var(--border);
+    border-radius:var(--radius); padding:18px; display:flex; flex-direction:column; gap:10px;
+    box-shadow:var(--shadow);
+    opacity:0; transform:translateY(16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .diagram-box.animate { opacity:1; transform:translateY(0); }
+  .diagram-box h4 { font-size:0.88rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); }
+  .diagram-box svg { width:100%; height:auto; display:block; }
+  .diagram-box .diagram-caption { font-size:0.86rem; color:var(--text-muted); line-height:1.55; text-align:center; }
+
+  /* IMG TEXT */
+  .img-text-row { display:grid; grid-template-columns:210px 1fr; gap:20px; align-items:start; }
+  .img-block { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+  .img-block img { width:100%; height:185px; object-fit:cover; display:block; }
+  .img-cap { font-size:0.76rem; color:var(--text-muted); padding:7px 10px; background:var(--surface2); text-align:center; font-weight:600; }
+  @media(max-width:620px) { .img-text-row { grid-template-columns:1fr; } }
+
+  /* CHAIN */
+  .chain-diagram {
+    display:flex; flex-direction:column; gap:0; align-items:center;
+    background:var(--surface); border:1.5px solid var(--border);
+    border-radius:var(--radius); padding:18px 22px; box-shadow:var(--shadow);
+    opacity:0; transform:translateY(16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .chain-diagram.animate { opacity:1; transform:translateY(0); }
+  .chain-node { display:flex; align-items:center; gap:14px; padding:11px 16px; border-radius:10px; width:100%; background:var(--surface2); border:1.5px solid var(--border); margin:3px 0; }
+  .chain-node .node-icon { font-size:1.5rem; }
+  .chain-node .node-text strong { font-size:0.97rem; font-weight:700; display:block; color:var(--text); }
+  .chain-node .node-text span { font-size:0.88rem; color:var(--text-muted); }
+  .chain-arrow { font-size:1.2rem; color:#cbd5e1; margin:2px 0; }
+  .cn-blue { border-color:rgba(37,99,235,0.3); background:rgba(37,99,235,0.05); }
+  .cn-orange { border-color:rgba(245,158,11,0.3); background:rgba(245,158,11,0.05); }
+  .cn-red { border-color:rgba(239,68,68,0.25); background:rgba(239,68,68,0.04); }
+
+  /* STEPS */
+  .steps-row { display:flex; }
+  .step { flex:1; text-align:center; padding:16px 12px; background:var(--surface); border:1.5px solid var(--border); opacity:0; transform:translateY(14px); transition:opacity 0.35s ease,transform 0.35s ease; }
+  .step:first-child { border-radius:12px 0 0 12px; }
+  .step:last-child { border-radius:0 12px 12px 0; }
+  .step+.step { border-left:none; }
+  .step.animate { opacity:1; transform:translateY(0); }
+  .step .step-num { width:32px; height:32px; border-radius:50%; background:var(--accent); color:white; font-size:0.88rem; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; }
+  .step h5 { font-size:0.85rem; font-weight:700; color:var(--text); margin-bottom:5px; }
+  .step p { font-size:0.83rem; color:var(--text-muted); line-height:1.5; }
+
+  /* NAV */
+  #nav {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    display:flex; align-items:center; gap:10px; z-index:100;
+    background:white; border:1.5px solid var(--border); border-radius:50px;
+    padding:8px 12px; box-shadow:0 4px 24px rgba(0,0,0,0.1);
+  }
+  .nav-btn { background:var(--surface2); border:1.5px solid var(--border); color:var(--text); border-radius:50px; padding:9px 24px; font-family:var(--font-body); font-size:0.92rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
+  .nav-btn:hover { background:var(--accent); color:white; border-color:var(--accent); }
+  .nav-btn:disabled { opacity:0.3; cursor:not-allowed; }
+  .nav-btn:disabled:hover { background:var(--surface2); color:var(--text); border-color:var(--border); }
+  #slide-dots { display:flex; gap:6px; align-items:center; padding:0 6px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:#d1d5db; transition:all 0.3s; cursor:pointer; border:none; }
+  .dot.active { background:var(--accent); width:20px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="lesson-tag">PRÁCTICA 1</div>
+<div id="slide-counter">1 / 12</div>
+
+<div id="slides-wrapper">
+
+  <!-- ─── SLIDE 1: PORTADA ─── -->
+  <section class="slide active" id="s1">
+    <div class="cover-module">Fisioterapia y Kinesiología</div>
+    <h1 class="slide-title">Pie Plano &amp;<br><em>Pie Cavo</em></h1>
+    <p class="subtitle">Biomecánica del pie, evaluación funcional y repercusiones en la cadena cinética del miembro inferior. Tratamiento fisioterapéutico y kinésico.</p>
+    <div class="divider"></div>
+    <div class="cover-meta">
+      <div class="cover-pill"><span>🦴</span> Biomecánica</div>
+      <div class="cover-pill"><span>🔬</span> Evaluación Clínica</div>
+      <div class="cover-pill"><span>⛓️</span> Cadena Cinética</div>
+      <div class="cover-pill"><span>💪</span> Tratamiento</div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 2: CONTENIDO ─── -->
+  <section class="slide" id="s2">
+    <div class="slide-label">Contenido de la Lección</div>
+    <h2 class="section-title">¿Qué vamos a aprender?</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🦶</div>
+        <div class="card-title">01 · Biomecánica</div>
+        <div class="card-body">Desarrollo del arco plantar, mecanismo de Windlass, modelo de Kirby y función del Peroneo Largo.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <div class="card-title">02 · Evaluación</div>
+        <div class="card-body">Línea de Feiss, Navicular Drop Test, Test de Lunge y registro de asimetrías metatarsales.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⛓️</div>
+        <div class="card-title">03 · Cadena Cinética</div>
+        <div class="card-body">Impacto en rodilla, cadera y columna. Valgo dinámico y signo de Trendelenburg.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏥</div>
+        <div class="card-title">04 · Tratamiento</div>
+        <div class="card-body">Foot core, shortfoot, abordaje multimodal y reeducación neuromuscular del movimiento.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 3: ARCO PLANTAR + WINDLASS ─── -->
+  <section class="slide" id="s3">
+    <div class="slide-label">Biomecánica del Pie · 1 de 3</div>
+    <h2 class="section-title">Arco Plantar y Mecanismo de Windlass</h2>
+    <div class="img-text-row">
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Arches_of_the_foot.png/320px-Arches_of_the_foot.png" alt="Arcos del pie" onerror="this.parentNode.innerHTML='<div style=\'height:185px;background:#eef1f8;display:flex;align-items:center;justify-content:center;font-size:2.5rem;\'>🦶</div>'">
+        <div class="img-cap">Arcos del pie (Wikimedia)</div>
+      </div>
+      <div class="item-list">
+        <div class="item">
+          <div class="item-dot"></div>
+          <div class="item-content">
+            <strong>Consolidación del Arco Plantar</strong>
+            <span>El arco longitudinal medial no está presente al nacer. Se consolida fisiológicamente a los <strong>3 años</strong>, impulsado por la carga mecánica y el desarrollo de la musculatura intrínseca durante la deambulación.</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-dot"></div>
+          <div class="item-content">
+            <strong>Mecanismo de Windlass</strong>
+            <span>La dorsiflexión del hallux <strong>tensa la fascia plantar</strong> → provoca inversión del pie y elevación pasiva del arco → el pie se convierte en una <em>palanca rígida</em> para el despegue.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SVG Windlass -->
+    <div class="diagram-box animate" style="opacity:1;transform:none;">
+      <h4>Diagrama: Mecanismo de Windlass</h4>
+      <svg viewBox="0 0 700 115" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
+        <ellipse cx="175" cy="88" rx="148" ry="20" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+        <path d="M55,88 Q175,38 320,88" fill="none" stroke="#2563eb" stroke-width="3" stroke-dasharray="6,3"/>
+        <line x1="55" y1="90" x2="320" y2="90" stroke="#ef4444" stroke-width="2.5"/>
+        <rect x="308" y="58" width="32" height="34" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+        <text x="324" y="79" font-size="11" fill="#1d4ed8" text-anchor="middle" font-weight="700">Hallux</text>
+        <path d="M352,72 Q375,50 362,32" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#wg)"/>
+        <text x="378" y="30" font-size="11" fill="#059669" font-weight="700">Dorsiflexión</text>
+        <text x="175" y="30" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="700">Arco Longitudinal Medial</text>
+        <text x="175" y="106" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="600">Fascia Plantar (en tensión)</text>
+        <path d="M82,89 L60,89" stroke="#ef4444" stroke-width="1.5" marker-end="url(#wr)"/>
+        <path d="M286,89 L308,89" stroke="#ef4444" stroke-width="1.5" marker-end="url(#wr)"/>
+        <text x="520" y="42" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="700">Resultado:</text>
+        <text x="520" y="60" font-size="11" fill="#2563eb" text-anchor="middle">✔ Elevación del arco</text>
+        <text x="520" y="77" font-size="11" fill="#2563eb" text-anchor="middle">✔ Inversión del pie</text>
+        <text x="520" y="94" font-size="11" fill="#10b981" text-anchor="middle">✔ Propulsión eficiente</text>
+        <defs>
+          <marker id="wg" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#10b981"/></marker>
+          <marker id="wr" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ef4444"/></marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">Al dorsiflexionar el hallux, la fascia plantar actúa como un cabrestante (windlass) elevando el arco y creando una palanca rígida para el despegue.</div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 4: MODELO KIRBY ─── -->
+  <section class="slide" id="s4">
+    <div class="slide-label">Biomecánica del Pie · 2 de 3</div>
+    <h2 class="section-title">Modelo de Kirby: Eje Subastragalino</h2>
+    <div class="diagram-row">
+      <div class="diagram-box">
+        <h4>🔵 Eje Medializado → Pie Plano</h4>
+        <svg viewBox="0 0 250 155" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
+          <ellipse cx="125" cy="130" rx="105" ry="20" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+          <path d="M28,130 Q70,124 125,126 Q180,128 222,130" fill="none" stroke="#2563eb" stroke-width="3"/>
+          <line x1="72" y1="8" x2="90" y2="148" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="5,3"/>
+          <text x="60" y="20" font-size="11" fill="#1d4ed8" font-weight="700">Eje Medial</text>
+          <path d="M148,75 Q178,100 172,126" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#km)"/>
+          <text x="158" y="95" font-size="11" fill="#ef4444" font-weight="700">Pronación</text>
+          <text x="20" y="152" font-size="10" fill="#4b5563">Arco colapsado → Pie Plano</text>
+          <defs><marker id="km" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
+        </svg>
+        <div class="diagram-caption">Momentos de fuerza que favorecen la <strong>pronación excesiva</strong> y el colapso del arco medial.</div>
+      </div>
+      <div class="diagram-box">
+        <h4>🟠 Eje Lateralizado → Pie Cavo</h4>
+        <svg viewBox="0 0 250 155" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
+          <ellipse cx="125" cy="130" rx="105" ry="20" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+          <path d="M28,130 Q75,65 125,55 Q175,50 222,130" fill="none" stroke="#f59e0b" stroke-width="3"/>
+          <line x1="178" y1="8" x2="162" y2="148" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5,3"/>
+          <text x="168" y="20" font-size="11" fill="#b45309" font-weight="700">Eje Lateral</text>
+          <path d="M95,80 Q64,104 68,127" fill="none" stroke="#d97706" stroke-width="2.5" marker-end="url(#kl)"/>
+          <text x="24" y="100" font-size="11" fill="#d97706" font-weight="700">Supinación</text>
+          <text x="20" y="152" font-size="10" fill="#4b5563">Arco elevado → Pie Cavo</text>
+          <defs><marker id="kl" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#d97706"/></marker></defs>
+        </svg>
+        <div class="diagram-caption">Favorece la <strong>supinación y rigidez</strong>. Mayor riesgo de esguinces de tobillo y metatarsalgia.</div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="highlight-icon">💡</div>
+      <div class="highlight-text">El <strong>Peroneo Largo</strong> es el estabilizador principal del primer radio. Fija el 1er metatarsiano contra el suelo evitando la inversión forzada y el colapso del arco medial.</div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 5: COMPARACIÓN PIE PLANO vs CAVO ─── -->
+  <section class="slide" id="s5">
+    <div class="slide-label">Biomecánica del Pie · 3 de 3</div>
+    <h2 class="section-title">Pie Plano vs. Pie Cavo: Comparativa</h2>
+    <div class="two-col">
+      <div class="card" style="border-top:4px solid var(--accent);">
+        <div class="card-icon">🔵</div>
+        <div class="card-title">Pie Plano (Pesplano)</div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+          <div><span class="tag tag-blue">Eje</span> <span>Subastragalino medializado</span></div>
+          <div><span class="tag tag-blue">Arco</span> <span>Colapsado / disminuido</span></div>
+          <div><span class="tag tag-blue">Movimiento</span> <span>Pronación excesiva</span></div>
+          <div><span class="tag tag-red">Riesgo</span> <span>Fascitis, valgo de rodilla, insuf. tibial posterior</span></div>
+        </div>
+      </div>
+      <div class="card" style="border-top:4px solid var(--accent2);">
+        <div class="card-icon">🟠</div>
+        <div class="card-title">Pie Cavo</div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+          <div><span class="tag tag-orange">Eje</span> <span>Subastragalino lateralizado</span></div>
+          <div><span class="tag tag-orange">Arco</span> <span>Elevado / rígido</span></div>
+          <div><span class="tag tag-orange">Movimiento</span> <span>Supinación / rigidez</span></div>
+          <div><span class="tag tag-red">Riesgo</span> <span>Esguinces tobillo, metatarsalgia, coxa vara</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- SVG foot profiles -->
+    <div class="diagram-box animate" style="opacity:1;transform:none;">
+      <h4>Perfil del arco en apoyo bipodal</h4>
+      <svg viewBox="0 0 700 95" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
+        <line x1="10" y1="84" x2="690" y2="84" stroke="#e2e8f0" stroke-width="2"/>
+        <!-- Normal -->
+        <path d="M38,84 Q82,46 122,50 Q162,47 202,84" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+        <text x="120" y="26" font-size="12" fill="#0284c7" text-anchor="middle" font-weight="700">Pie Normal</text>
+        <line x1="120" y1="30" x2="120" y2="50" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="3,2"/>
+        <!-- Plano -->
+        <path d="M268,84 Q308,78 348,79 Q388,78 428,84" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+        <text x="348" y="26" font-size="12" fill="#2563eb" text-anchor="middle" font-weight="700">Pie Plano</text>
+        <line x1="348" y1="30" x2="348" y2="79" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="3,2"/>
+        <text x="348" y="95" font-size="10" fill="#2563eb" text-anchor="middle">Arco disminuido</text>
+        <!-- Cavo -->
+        <path d="M490,84 Q530,28 570,22 Q612,18 650,84" fill="#fef3c7" stroke="#f59e0b" stroke-width="2.5"/>
+        <text x="570" y="10" font-size="12" fill="#d97706" text-anchor="middle" font-weight="700">Pie Cavo</text>
+        <text x="570" y="95" font-size="10" fill="#d97706" text-anchor="middle">Arco elevado / rígido</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 6: LÍNEA DE FEISS + NAVICULAR DROP ─── -->
+  <section class="slide" id="s6">
+    <div class="slide-label">Evaluación Clínica · 1 de 2</div>
+    <h2 class="section-title">Línea de Feiss y Navicular Drop Test</h2>
+    <div class="two-col">
+      <div class="diagram-box">
+        <h4>📏 Línea de Feiss</h4>
+        <svg viewBox="0 0 270 175" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
+          <ellipse cx="135" cy="148" rx="110" ry="20" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5"/>
+          <path d="M48,148 Q90,85 135,90 Q180,85 222,148" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,2"/>
+          <circle cx="48" cy="100" r="9" fill="#2563eb"/>
+          <text x="20" y="97" font-size="10" fill="#1d4ed8" font-weight="700">Maléolo</text>
+          <circle cx="228" cy="122" r="8" fill="#2563eb"/>
+          <text x="232" y="120" font-size="10" fill="#1d4ed8" font-weight="700">MTF1</text>
+          <line x1="48" y1="100" x2="228" y2="122" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="7,3"/>
+          <text x="133" y="98" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="700">Línea de Feiss</text>
+          <circle cx="135" cy="80" r="7" fill="#10b981"/>
+          <text x="155" y="78" font-size="10" fill="#059669" font-weight="700">↑ Pie Cavo</text>
+          <circle cx="135" cy="112" r="7" fill="#f59e0b"/>
+          <text x="155" y="115" font-size="10" fill="#d97706" font-weight="700">→ Normal</text>
+          <circle cx="135" cy="134" r="7" fill="#ef4444"/>
+          <text x="155" y="137" font-size="10" fill="#dc2626" font-weight="700">↓ Pie Plano</text>
+          <text x="8" y="168" font-size="9" fill="#6b7280">Escafoides respecto a la línea maléolo–MTF1</text>
+        </svg>
+        <div class="diagram-caption">El escafoides <strong>sobre</strong> la línea = pie cavo · <strong>bajo</strong> la línea = pie plano.</div>
+      </div>
+      <div class="diagram-box">
+        <h4>📉 Navicular Drop Test</h4>
+        <svg viewBox="0 0 270 175" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
+          <rect x="8" y="8" width="116" height="148" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+          <text x="66" y="26" font-size="11" fill="#059669" text-anchor="middle" font-weight="700">Sin Carga</text>
+          <ellipse cx="66" cy="130" rx="48" ry="14" fill="#dcfce7" stroke="#86efac" stroke-width="1.5"/>
+          <circle cx="66" cy="82" r="12" fill="#10b981"/>
+          <text x="66" y="86" font-size="10" fill="white" text-anchor="middle" font-weight="700">E</text>
+          <text x="66" y="107" font-size="9" fill="#4b5563" text-anchor="middle">Escafoides alto</text>
+          <rect x="144" y="8" width="118" height="148" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+          <text x="203" y="26" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="700">Con Carga</text>
+          <ellipse cx="203" cy="140" rx="48" ry="14" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
+          <circle cx="203" cy="100" r="12" fill="#ef4444"/>
+          <text x="203" y="104" font-size="10" fill="white" text-anchor="middle" font-weight="700">E</text>
+          <line x1="203" y1="82" x2="203" y2="118" stroke="#ef4444" stroke-width="3" marker-end="url(#nd)"/>
+          <text x="220" y="102" font-size="12" fill="#ef4444" font-weight="700">≥1cm</text>
+          <text x="203" y="58" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="700">⚠ POSITIVO</text>
+          <text x="203" y="71" font-size="9" fill="#4b5563" text-anchor="middle">Tibial posterior insuf.</text>
+          <defs><marker id="nd" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ef4444"/></marker></defs>
+        </svg>
+        <div class="diagram-caption"><strong>Positivo si ≥ 1 cm</strong> de descenso. Indica insuficiencia del tibial posterior y debilidad del control motor del mediopié.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 7: TEST DE LUNGE ─── -->
+  <section class="slide" id="s7">
+    <div class="slide-label">Evaluación Clínica · 2 de 2</div>
+    <h2 class="section-title">Test de Lunge — Dorsiflexión Funcional</h2>
+    <div class="img-text-row">
+      <div class="img-block">
+        <!-- SVG del test de lunge en vez de imagen externa -->
+        <svg viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:185px;background:#eef1f8;" font-family="Nunito,sans-serif">
+          <!-- Pared -->
+          <rect x="145" y="20" width="12" height="170" rx="3" fill="#d1d5db"/>
+          <text x="151" y="15" font-size="9" fill="#6b7280" text-anchor="middle">Pared</text>
+          <!-- Suelo -->
+          <rect x="10" y="178" width="145" height="8" rx="3" fill="#e5e7eb"/>
+          <!-- Tobillo/pie -->
+          <ellipse cx="55" cy="175" rx="32" ry="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <!-- Tibia inclinada -->
+          <line x1="55" y1="175" x2="92" y2="60" stroke="#2563eb" stroke-width="6" stroke-linecap="round"/>
+          <!-- Rodilla -->
+          <circle cx="92" cy="58" r="9" fill="#93c5fd" stroke="#2563eb" stroke-width="2"/>
+          <!-- Muslo -->
+          <line x1="92" y1="58" x2="72" y2="22" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+          <!-- Distancia flechas -->
+          <line x1="50" y1="172" x2="144" y2="172" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="96" y="165" font-size="11" fill="#ef4444" text-anchor="middle" font-weight="700">11-14 cm</text>
+          <!-- Angle arc -->
+          <path d="M55,145 A30,30 0 0,1 82,118" fill="none" stroke="#10b981" stroke-width="2"/>
+          <text x="28" y="128" font-size="10" fill="#059669" font-weight="700">30-50°</text>
+        </svg>
+        <div class="img-cap">Test de Lunge (diagrama)</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="item" style="opacity:1;transform:none;">
+          <div class="item-dot"></div>
+          <div class="item-content">
+            <strong>¿Qué evalúa?</strong>
+            <span>La dorsiflexión funcional del tobillo en bipedestación. Se avanza el pie hacia una pared sin despegar el talón.</span>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="card" style="opacity:1;transform:none;border-top:3px solid var(--accent);">
+            <div class="card-icon">📏</div>
+            <div class="card-title">Medición Lineal</div>
+            <div class="card-body"><strong style="font-size:1.5rem;color:var(--accent)">11 – 14 cm</strong><br>Distancia dedo–pared. Menor = restricción de dorsiflexión.</div>
+          </div>
+          <div class="card" style="opacity:1;transform:none;border-top:3px solid var(--accent2);">
+            <div class="card-icon">📊</div>
+            <div class="card-title">Medición Angular</div>
+            <div class="card-body"><strong style="font-size:1.5rem;color:var(--accent2)">30 – 50°</strong><br>Con inclinómetro sobre el tendón de Aquiles.</div>
+          </div>
+        </div>
+        <div class="highlight-box">
+          <div class="highlight-icon">⚠️</div>
+          <div class="highlight-text">La restricción de dorsiflexión predispone a <strong>fasciopatía plantar, tendinopatía aquílea y dolor patelofemoral</strong>.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 8: CADENA CINÉTICA ─── -->
+  <section class="slide" id="s8">
+    <div class="slide-label">Cadena Cinética · 1 de 2</div>
+    <h2 class="section-title">El Pie como Base de la Cadena Cinética</h2>
+    <div class="two-col">
+      <div class="chain-diagram">
+        <h4 style="font-size:0.88rem;font-weight:700;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;align-self:flex-start;">Apilamiento Articular</h4>
+        <div class="chain-node cn-blue">
+          <div class="node-icon">🦶</div>
+          <div class="node-text"><strong>Pie</strong><span>Base. Pronación / supinación</span></div>
+        </div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-node cn-orange">
+          <div class="node-icon">🦵</div>
+          <div class="node-text"><strong>Rodilla</strong><span>Rotación tibial + valgo dinámico</span></div>
+        </div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-node cn-red">
+          <div class="node-icon">🍑</div>
+          <div class="node-text"><strong>Cadera</strong><span>Rotación femoral + abducción</span></div>
+        </div>
+        <div class="chain-arrow">↓</div>
+        <div class="chain-node" style="border-color:rgba(16,185,129,0.35);background:rgba(16,185,129,0.05);">
+          <div class="node-icon">🏗️</div>
+          <div class="node-text"><strong>Columna Lumbar</strong><span>Flexión compensatoria del tronco</span></div>
+        </div>
+      </div>
+      <div class="item-list">
+        <div class="item">
+          <div class="item-dot"></div>
+          <div class="item-content">
+            <strong>Golpe de Talón → Compromiso del Retropié</strong>
+            <span>Dolor en contacto inicial indica alteración del retropié. La pronación descontrolada sobrecarga el <em>ligamento deltoideo, fascia plantar y tendones de la pata de ganso</em>.</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-dot"></div>
+          <div class="item-content">
+            <strong>Limitación Tibiotarsiana → Compensaciones en Cadena</strong>
+            <span>La restricción de dorsiflexión obliga a una pronación excesiva del mediopié que colapsa el arco, generando <strong>flexión lumbar compensatoria</strong> para bajar el centro de gravedad.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 9: VALGO + TRENDELENBURG ─── -->
+  <section class="slide" id="s9">
+    <div class="slide-label">Cadena Cinética · 2 de 2</div>
+    <h2 class="section-title">Valgo Dinámico y Signo de Trendelenburg</h2>
+    <div class="diagram-row">
+      <div class="diagram-box">
+        <h4>🦵 Valgo Dinámico — Single Leg Squat</h4>
+        <svg viewBox="0 0 270 195" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
+          <rect x="5" y="5" width="120" height="185" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+          <text x="65" y="24" font-size="11" fill="#059669" text-anchor="middle" font-weight="700">✅ Normal</text>
+          <line x1="65" y1="40" x2="65" y2="168" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="65" cy="38" r="13" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+          <text x="65" y="43" font-size="11" fill="#059669" text-anchor="middle">🍑</text>
+          <circle cx="65" cy="104" r="11" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+          <text x="65" y="108" font-size="10" fill="#059669" text-anchor="middle">🦵</text>
+          <ellipse cx="65" cy="172" rx="30" ry="11" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+          <rect x="140" y="5" width="124" height="185" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+          <text x="202" y="24" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="700">⚠ Valgo Dinámico</text>
+          <line x1="202" y1="40" x2="178" y2="104" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
+          <line x1="178" y1="104" x2="202" y2="168" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="202" cy="38" r="13" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+          <circle cx="178" cy="104" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+          <text x="178" y="108" font-size="10" fill="#dc2626" text-anchor="middle">🦵</text>
+          <path d="M205,115 L172,112" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#vv)"/>
+          <text x="150" y="126" font-size="10" fill="#ef4444" font-weight="700">Caída medial</text>
+          <ellipse cx="202" cy="172" rx="30" ry="11" fill="#fee2e2" stroke="#fca5a5" stroke-width="2"/>
+          <defs><marker id="vv" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
+        </svg>
+        <div class="diagram-caption">Corregir manualmente el arco del pie alinea la rodilla → <strong>la inestabilidad del pie es el factor causal</strong>.</div>
+      </div>
+      <div class="diagram-box">
+        <h4>🍑 Trendelenburg y Coxa Vara</h4>
+        <svg viewBox="0 0 270 195" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
+          <rect x="5" y="5" width="120" height="185" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+          <text x="65" y="24" font-size="11" fill="#1d4ed8" text-anchor="middle" font-weight="700">Pelvis Normal</text>
+          <ellipse cx="65" cy="85" rx="42" ry="21" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+          <line x1="23" y1="85" x2="107" y2="85" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="65" y="100" font-size="9" fill="#3b82f6" text-anchor="middle">Horizontal</text>
+          <line x1="48" y1="103" x2="44" y2="172" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
+          <line x1="82" y1="103" x2="86" y2="172" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
+          <text x="65" y="185" font-size="9" fill="#4b5563" text-anchor="middle">✅ Glúteo Medio OK</text>
+          <rect x="140" y="5" width="124" height="185" rx="10" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5"/>
+          <text x="202" y="22" font-size="10" fill="#d97706" text-anchor="middle" font-weight="700">Signo Trendelenburg</text>
+          <ellipse cx="202" cy="87" rx="42" ry="21" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" transform="rotate(-14,202,87)"/>
+          <line x1="160" y1="74" x2="244" y2="98" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2"/>
+          <path d="M162,72 L162,96" fill="none" stroke="#ef4444" stroke-width="3" marker-end="url(#tt)"/>
+          <text x="144" y="108" font-size="10" fill="#dc2626" font-weight="700">Caída</text>
+          <line x1="186" y1="102" x2="174" y2="172" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
+          <line x1="218" y1="106" x2="230" y2="172" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
+          <text x="202" y="185" font-size="9" fill="#dc2626" text-anchor="middle">⚠ Glúteo Medio débil</text>
+          <defs><marker id="tt" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
+        </svg>
+        <div class="diagram-caption"><span class="tag tag-red">Coxa Vara &lt;125°</span> → varo de rodilla + pie cavo. Debilidad del glúteo medio altera el apoyo plantar.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 10: TRATAMIENTO ─── -->
+  <section class="slide" id="s10">
+    <div class="slide-label">Tratamiento Fisioterapéutico y Kinésico</div>
+    <h2 class="section-title">Estrategias Terapéuticas</h2>
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent-green)"></div>
+        <div class="item-content">
+          <strong>🦶 Foot Core — Ejercicio Shortfoot</strong>
+          <span>Activa la musculatura intrínseca (abductor del hallux) <em>sin encoger los dedos</em>. Reduce el navicular drop y mejora la estabilidad del mediopié con control motor fino.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>🏋️ Abordaje Multimodal</strong>
+          <span>En pie plano laxo con dolor lumbar, <strong>solo tratar el pie no es suficiente</strong>. Se requiere fortalecer la musculatura lateral del tronco y los estabilizadores de cadera (glúteo medio) para restaurar el control lumbopélvico.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent)"></div>
+        <div class="item-content">
+          <strong>🔄 Reeducación del Movimiento</strong>
+          <span>Introducir nuevos patrones en el SNC con progresión: <strong>analítico aislado → gestos deportivos integrados</strong> (sentadillas → saltos → marcha). La calidad de ejecución es prioritaria sobre la cantidad.</span>
+        </div>
+      </div>
+    </div>
+    <div class="steps-row">
+      <div class="step"><div class="step-num">1</div><h5>Analítico</h5><p>Shortfoot, activación intrínseca aislada</p></div>
+      <div class="step"><div class="step-num">2</div><h5>Funcional</h5><p>Sentadilla bipodal con control de arco</p></div>
+      <div class="step"><div class="step-num">3</div><h5>Dinámico</h5><p>Sentadilla monopodal, steps laterales</p></div>
+      <div class="step"><div class="step-num">4</div><h5>Integrado</h5><p>Saltos, marcha y gestos deportivos</p></div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 11: IMÁGENES ANATÓMICAS ─── -->
+  <section class="slide" id="s11">
+    <div class="slide-label">Referencia Anatómica Visual</div>
+    <h2 class="section-title">Estructuras Clave del Pie</h2>
+    <div class="cards-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="card" style="padding:0;overflow:hidden;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Foot_bones_-_tarsus%2C_metatarsus_and_phalanges_-_lateral_view.jpg/320px-Foot_bones_-_tarsus%2C_metatarsus_and_phalanges_-_lateral_view.jpg"
+             alt="Huesos del pie vista lateral"
+             style="width:100%;height:155px;object-fit:cover;display:block;"
+             onerror="this.style.cssText='height:155px;width:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;font-size:2.5rem;'">
+        <div style="padding:14px;">
+          <div class="card-title">Huesos del Pie</div>
+          <div class="card-body">Tarso, metatarso y falanges. Vista lateral que muestra el perfil del arco longitudinal.</div>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Tibialis_posterior_muscle.PNG/220px-Tibialis_posterior_muscle.PNG"
+             alt="Músculo tibial posterior"
+             style="width:100%;height:155px;object-fit:cover;object-position:top;display:block;"
+             onerror="this.style.cssText='height:155px;width:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;font-size:2.5rem;'">
+        <div style="padding:14px;">
+          <div class="card-title">Tibial Posterior</div>
+          <div class="card-body">Principal estabilizador dinámico del arco medial. Su insuficiencia provoca pie plano adquirido.</div>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Plantar_fascia.jpg/320px-Plantar_fascia.jpg"
+             alt="Fascia plantar"
+             style="width:100%;height:155px;object-fit:cover;display:block;"
+             onerror="this.style.cssText='height:155px;width:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;font-size:2.5rem;'">
+        <div style="padding:14px;">
+          <div class="card-title">Fascia Plantar</div>
+          <div class="card-body">Estructura central del mecanismo de Windlass. Su tensión sostiene el arco longitudinal medial.</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="highlight-icon">📚</div>
+      <div class="highlight-text">La comprensión anatómica de estas estructuras es fundamental para identificar tejidos en riesgo y diseñar programas de tratamiento kinésico efectivos y seguros.</div>
+    </div>
+  </section>
+
+  <!-- ─── SLIDE 12: RESUMEN ─── -->
+  <section class="slide" id="s12">
+    <div class="slide-label">Resumen Final</div>
+    <h2 class="section-title">Conceptos Clave de la Lección</h2>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="big-icon">🌀</div>
+        <h4>Windlass</h4>
+        <p>Dorsiflexión del hallux → fascia plantar tensa → palanca rígida para el despegue.</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">🎯</div>
+        <h4>Eje Subtalar</h4>
+        <p>Medial = pie plano (pronación). Lateral = pie cavo (supinación). Modelo de Kirby.</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">📐</div>
+        <h4>Evaluación</h4>
+        <p>Línea de Feiss · Navicular Drop ≥1 cm · Lunge 11-14 cm / 30-50°</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">⛓️</div>
+        <h4>Cadena Cinética</h4>
+        <p>Pie → rodilla (valgo) → cadera (Trendelenburg) → lumbar (flexión).</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">💪</div>
+        <h4>Shortfoot</h4>
+        <p>Foot core sin encoger dedos. Activa intrínseca → reduce navicular drop.</p>
+      </div>
+      <div class="summary-item">
+        <div class="big-icon">🏥</div>
+        <h4>Tratamiento</h4>
+        <p>Multimodal: pie + cadera + tronco. Progresión analítica → integrada en SNC.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <button class="nav-btn" id="btn-prev" disabled>← Anterior</button>
+  <div id="slide-dots"></div>
+  <button class="nav-btn" id="btn-next">Siguiente →</button>
+</nav>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let current = 0;
+
+  const progressBar = document.getElementById('progress-bar');
+  const counter = document.getElementById('slide-counter');
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const dotsContainer = document.getElementById('slide-dots');
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', `Diapositiva ${i + 1}`);
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  });
+
+  function updateUI() {
+    progressBar.style.width = ((current + 1) / total * 100) + '%';
+    counter.textContent = `${current + 1} / ${total}`;
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+    dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function animateSlideIn(slide) {
+    ['card', 'item', 'summary-item', 'diagram-box', 'chain-diagram', 'step'].forEach(cls => {
+      slide.querySelectorAll('.' + cls).forEach((el, i) => {
+        el.classList.remove('animate');
+        setTimeout(() => el.classList.add('animate'), 80 + i * 75);
+      });
+    });
+  }
+
+  function goTo(idx) {
+    if (idx === current) return;
+    const prev = current;
+    slides[prev].classList.add(idx > current ? 'exit-left' : 'exit-right');
+    slides[prev].classList.remove('active');
+    current = idx;
+    slides[current].classList.remove('exit-left', 'exit-right');
+    slides[current].classList.add('active');
+    setTimeout(() => slides[prev].classList.remove('exit-left', 'exit-right'), 500);
+    animateSlideIn(slides[current]);
+    updateUI();
+  }
+
+  btnNext.addEventListener('click', () => { if (current < total - 1) goTo(current + 1); });
+  btnPrev.addEventListener('click', () => { if (current > 0) goTo(current - 1); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (current < total - 1) goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { if (current > 0) goTo(current - 1); }
+  });
+
+  updateUI();
+  animateSlideIn(slides[0]);
+</script>
+</body>
+</html>

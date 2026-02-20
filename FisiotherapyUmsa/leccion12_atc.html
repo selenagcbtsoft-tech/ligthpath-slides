@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Práctica 12 – Artroplastia Total de Cadera</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --off: #f5f6fa;
+    --p: #1a4a6e;        /* navy blue */
+    --p-l: #e4eef6;
+    --p2: #8b2c2c;       /* deep red */
+    --p2-l: #f9eaea;
+    --g: #1b6b4a;        /* forest green */
+    --g-l: #e5f4ed;
+    --o: #b85c0d;        /* burnt orange */
+    --o-l: #fdf0e4;
+    --v: #5a3d8a;        /* violet */
+    --v-l: #f0ebf8;
+    --dark: #12192b;
+    --mid: #3d4966;
+    --bd: #dce2ef;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--dark);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* PROGRESS */
+  #prog-wrap { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: var(--bd); z-index: 100; }
+  #prog { height: 100%; background: linear-gradient(90deg, var(--p), var(--p2)); transition: width .4s ease; border-radius: 0 3px 3px 0; }
+
+  /* HEADER */
+  #hdr {
+    position: fixed; top: 4px; left: 0; right: 0; height: 50px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px;
+    border-bottom: 1px solid var(--bd);
+    background: white; z-index: 99;
+  }
+  .ltag { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--p); background: var(--p-l); padding: 3px 12px; border-radius: 20px; }
+  #ctr { font-size: 13px; color: var(--mid); font-weight: 600; }
+
+  /* SLIDES */
+  #sc { margin-top: 54px; margin-bottom: 60px; flex: 1; position: relative; overflow: hidden; }
+  .slide {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    padding: 28px 52px 20px;
+    opacity: 0; transform: translateX(55px);
+    transition: opacity .45s ease, transform .45s ease;
+    pointer-events: none;
+    overflow-y: auto;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+  .slide.exit-l { opacity: 0; transform: translateX(-55px); }
+
+  /* TYPE */
+  .slbl {
+    font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--p); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .slbl::before { content: ''; display: inline-block; width: 18px; height: 2.5px; background: var(--p); border-radius: 2px; }
+  h1.tit {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.15; color: var(--dark); margin-bottom: 16px;
+  }
+  h1.tit em { font-style: italic; color: var(--p); }
+  h2.stit {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.45rem, 2.8vw, 2rem); line-height: 1.2; color: var(--dark); margin-bottom: 16px;
+  }
+  p.intro { font-size: .98rem; color: var(--mid); line-height: 1.75; max-width: 700px; margin-bottom: 18px; }
+
+  /* LAYOUTS */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  .three { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  @media(max-width:680px){ .two,.three { grid-template-columns: 1fr; } }
+
+  /* CARD */
+  .card { border-radius: 12px; padding: 18px 20px; border: 1.5px solid var(--bd); background: var(--off); transition: transform .2s,box-shadow .2s; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.07); }
+  .card .ci { font-size: 1.6rem; margin-bottom: 8px; display: block; }
+  .card h3 { font-size: .9rem; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .card p { font-size: .83rem; color: var(--mid); line-height: 1.6; }
+  .card.b { border-color: var(--p); background: var(--p-l); }
+  .card.r { border-color: var(--p2); background: var(--p2-l); }
+  .card.g { border-color: var(--g); background: var(--g-l); }
+  .card.o { border-color: var(--o); background: var(--o-l); }
+  .card.v { border-color: var(--v); background: var(--v-l); }
+
+  /* HB */
+  .hb { border-radius: 12px; padding: 14px 18px; display: flex; align-items: flex-start; gap: 13px; margin-bottom: 11px; }
+  .hb.b { background: var(--p-l); border-left: 4px solid var(--p); }
+  .hb.r { background: var(--p2-l); border-left: 4px solid var(--p2); }
+  .hb.g { background: var(--g-l); border-left: 4px solid var(--g); }
+  .hb.o { background: var(--o-l); border-left: 4px solid var(--o); }
+  .hb.v { background: var(--v-l); border-left: 4px solid var(--v); }
+  .hb .hi { font-size: 1.35rem; flex-shrink: 0; margin-top: 1px; }
+  .hb h4 { font-size: .9rem; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+  .hb p { font-size: .84rem; color: var(--mid); line-height: 1.62; }
+  .hb p strong { color: var(--dark); }
+
+  /* LIST */
+  .sl { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+  .sl li { display: flex; align-items: flex-start; gap: 11px; font-size: .91rem; color: var(--mid); line-height: 1.65; opacity: 0; transform: translateY(10px); animation: fuA .4s forwards; }
+  .sl li:nth-child(1){animation-delay:.06s}.sl li:nth-child(2){animation-delay:.16s}.sl li:nth-child(3){animation-delay:.26s}.sl li:nth-child(4){animation-delay:.36s}.sl li:nth-child(5){animation-delay:.46s}
+  .sl li .dot { flex-shrink:0; width:7px; height:7px; border-radius:50%; background:var(--p); margin-top:8px; }
+  .sl li strong { color: var(--dark); font-weight: 700; }
+
+  /* DANGER ZONE */
+  .danger { background: linear-gradient(135deg,#8b2c2c,#5a1a1a); border-radius: 14px; padding: 20px 24px; color: white; position: relative; overflow: hidden; margin-bottom: 12px; }
+  .danger::after { content:'🚫'; position:absolute; right:14px; bottom:4px; font-size:3.5rem; opacity:.1; }
+  .danger h3 { font-family:'Cormorant Garamond',serif; font-size:1.15rem; margin-bottom:7px; }
+  .danger p { font-size:.86rem; opacity:.88; line-height:1.65; }
+  .danger .moves { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .danger .mv { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); border-radius:20px; padding:4px 12px; font-size:.8rem; font-weight:700; color:white; }
+
+  /* STEPS */
+  .steps { display:flex; flex-direction:column; gap:0; margin-top:8px; }
+  .step { display:flex; gap:15px; padding-bottom:16px; position:relative; opacity:0; transform:translateX(-12px); animation:frA .4s forwards; }
+  .step:nth-child(1){animation-delay:.08s}.step:nth-child(2){animation-delay:.21s}.step:nth-child(3){animation-delay:.34s}.step:nth-child(4){animation-delay:.47s}.step:nth-child(5){animation-delay:.60s}
+  .step::before { content:''; position:absolute; left:16px; top:34px; bottom:0; width:2px; background:var(--bd); }
+  .step:last-child::before { display:none; }
+  .sdot { flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--p); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.82rem; z-index:1; }
+  .step h4 { font-size:.91rem; font-weight:700; color:var(--dark); margin-bottom:3px; }
+  .step p { font-size:.84rem; color:var(--mid); line-height:1.6; }
+
+  /* TABLE */
+  .tbl { width:100%; border-collapse:collapse; font-size:.86rem; margin-top:10px; }
+  .tbl th { background:var(--p); color:white; padding:9px 13px; text-align:left; font-weight:700; font-size:.79rem; letter-spacing:.04em; }
+  .tbl th:first-child { border-radius:8px 0 0 0; }
+  .tbl th:last-child { border-radius:0 8px 0 0; }
+  .tbl td { padding:9px 13px; border-bottom:1px solid var(--bd); vertical-align:top; }
+  .tbl tr:last-child td { border-bottom:none; }
+  .tbl tr:nth-child(even) td { background:var(--off); }
+
+  /* STAT */
+  .stat { text-align:center; padding:16px 12px; border-radius:12px; background:var(--off); border:1.5px solid var(--bd); }
+  .stat .n { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,3.2rem); color:var(--p); line-height:1; margin-bottom:5px; }
+  .stat .l { font-size:.8rem; color:var(--mid); font-weight:600; line-height:1.5; }
+
+  /* RULE BOX */
+  .rule { border-radius:12px; background:var(--dark); color:white; padding:18px 22px; text-align:center; margin-top:12px; }
+  .rule .rtit { font-family:'Cormorant Garamond',serif; font-size:1.3rem; margin-bottom:8px; }
+  .rule .rrow { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-top:6px; }
+  .rule .rchip { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:10px; padding:8px 18px; font-size:.85rem; font-weight:600; }
+  .rule .rchip span { display:block; font-size:.72rem; opacity:.7; margin-top:2px; font-weight:400; }
+
+  /* PHASE BAND */
+  .phase-band { display:flex; gap:0; border-radius:10px; overflow:hidden; border:1.5px solid var(--bd); margin-top:10px; }
+  .phase { flex:1; padding:14px 10px; text-align:center; border-right:1px solid var(--bd); }
+  .phase:last-child { border-right:none; }
+  .phase .pn { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:700; line-height:1; margin-bottom:4px; }
+  .phase .pl { font-size:.77rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+  .phase .pd { font-size:.73rem; color:var(--mid); margin-top:4px; line-height:1.4; }
+  .phase.p1 { background:var(--p-l); } .phase.p1 .pn,.phase.p1 .pl { color:var(--p); }
+  .phase.p2 { background:var(--g-l); } .phase.p2 .pn,.phase.p2 .pl { color:var(--g); }
+  .phase.p3 { background:var(--o-l); } .phase.p3 .pn,.phase.p3 .pl { color:var(--o); }
+
+  /* SUMMARY */
+  .sg { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:9px; }
+  .si { display:flex; align-items:flex-start; gap:9px; background:var(--off); border-radius:9px; padding:10px 12px; border:1px solid var(--bd); font-size:.84rem; color:var(--mid); line-height:1.55; opacity:0; animation:fuA .4s forwards; }
+  .si:nth-child(1){animation-delay:.05s}.si:nth-child(2){animation-delay:.13s}.si:nth-child(3){animation-delay:.21s}.si:nth-child(4){animation-delay:.29s}.si:nth-child(5){animation-delay:.37s}.si:nth-child(6){animation-delay:.45s}.si:nth-child(7){animation-delay:.53s}.si:nth-child(8){animation-delay:.61s}.si:nth-child(9){animation-delay:.69s}.si:nth-child(10){animation-delay:.77s}
+  .si .ico { font-size:1.2rem; flex-shrink:0; }
+  .si strong { color:var(--dark); display:block; font-size:.78rem; margin-bottom:1px; }
+
+  @keyframes fuA { to { opacity:1; transform:translateY(0); } }
+  @keyframes frA { to { opacity:1; transform:translateX(0); } }
+
+  /* NAV */
+  #nav { position:fixed; bottom:0; left:0; right:0; height:60px; background:white; border-top:1px solid var(--bd); display:flex; align-items:center; justify-content:center; gap:14px; z-index:99; }
+  .nb { display:flex; align-items:center; gap:6px; background:var(--dark); color:white; border:none; border-radius:8px; padding:9px 22px; font-size:.86rem; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:background .2s,transform .15s; letter-spacing:.02em; }
+  .nb:hover { background:var(--p); transform:translateY(-1px); }
+  .nb:disabled { background:var(--bd); color:var(--mid); cursor:default; transform:none; }
+  .nb.pv { background:var(--off); color:var(--dark); border:1.5px solid var(--bd); }
+  .nb.pv:hover:not(:disabled) { background:var(--p-l); color:var(--p); border-color:var(--p); }
+</style>
+</head>
+<body>
+
+<div id="prog-wrap"><div id="prog"></div></div>
+<header id="hdr">
+  <span class="ltag">Práctica 12</span>
+  <span id="ctr">1 / 11</span>
+</header>
+
+<div id="sc">
+
+  <!-- SLIDE 1: PORTADA -->
+  <section class="slide active" data-index="0">
+    <div class="slbl">Kinesiología y Rehabilitación</div>
+    <h1 class="tit"><em>Artroplastia Total<br>de Cadera</em></h1>
+    <p class="intro">Rehabilitación post-ATC: la protección de partes blandas y la reeducación del control motor determinan la <strong>estabilidad de la prótesis</strong> y la <strong>calidad de la marcha</strong>.</p>
+    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px;">
+      <span style="background:var(--p-l);color:var(--p);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--p);">🛡️ Precauciones Posturales</span>
+      <span style="background:var(--p2-l);color:var(--p2);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--p2);">🚶 Biomecánica de Marcha</span>
+      <span style="background:var(--g-l);color:var(--g);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--g);">🏋️ Ejercicio Terapéutico</span>
+      <span style="background:var(--o-l);color:var(--o);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--o);">⚠️ Complicaciones</span>
+    </div>
+    <!-- Hip joint SVG -->
+    <div style="display:flex;justify-content:center;">
+      <svg viewBox="0 0 340 170" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:400px;width:100%;">
+        <!-- pelvis outline -->
+        <path d="M60 60 Q100 30 170 28 Q240 30 280 60 Q310 90 290 120 Q270 145 240 140 L220 130 Q200 140 170 142 Q140 140 120 130 L100 140 Q70 145 50 120 Q30 90 60 60Z" fill="#e4eef6" stroke="#1a4a6e" stroke-width="2"/>
+        <!-- acetabulum left (operated) -->
+        <circle cx="110" cy="120" r="22" fill="white" stroke="#1a4a6e" stroke-width="2"/>
+        <!-- prosthesis cup left -->
+        <path d="M88 120 Q88 98 110 98 Q132 98 132 120" fill="#c8d8e8" stroke="#1a4a6e" stroke-width="2"/>
+        <!-- femoral stem left -->
+        <line x1="110" y1="120" x2="85" y2="168" stroke="#8b2c2c" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="110" cy="120" r="8" fill="#8b2c2c"/>
+        <!-- prosthesis label -->
+        <text x="55" y="162" fill="#8b2c2c" font-size="9" font-family="Inter,sans-serif" font-weight="700">Vástago femoral</text>
+        <text x="68" y="100" fill="#1a4a6e" font-size="9" font-family="Inter,sans-serif" font-weight="700">Copa acetabular</text>
+        <!-- acetabulum right (native) -->
+        <circle cx="230" cy="120" r="22" fill="white" stroke="#999" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <circle cx="230" cy="120" r="13" fill="#dce2ef" stroke="#999" stroke-width="1"/>
+        <line x1="230" y1="133" x2="215" y2="168" stroke="#999" stroke-width="3.5" stroke-linecap="round"/>
+        <text x="238" y="162" fill="#999" font-size="9" font-family="Inter,sans-serif">Nativa</text>
+        <!-- labels top -->
+        <text x="148" y="18" text-anchor="middle" fill="#3d4966" font-size="10" font-family="Inter,sans-serif" font-weight="600">Vista anterior de pelvis</text>
+        <text x="88" y="82" fill="#1a4a6e" font-size="9" font-family="Inter,sans-serif" font-weight="700">↑ ATC</text>
+        <!-- 6-12 weeks callout -->
+        <rect x="250" y="28" width="84" height="32" rx="8" fill="#fdf0e4" stroke="#b85c0d" stroke-width="1.5"/>
+        <text x="292" y="42" text-anchor="middle" fill="#b85c0d" font-size="9" font-family="Inter,sans-serif" font-weight="700">Restricciones</text>
+        <text x="292" y="53" text-anchor="middle" fill="#b85c0d" font-size="9" font-family="Inter,sans-serif">6 – 12 semanas</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: ABORDAJE POSTERIOR -->
+  <section class="slide" data-index="1">
+    <div class="slbl">Precauciones Posturales</div>
+    <h2 class="stit">Abordaje Posterior — El Más Frecuente</h2>
+    <p class="intro" style="margin-bottom:12px;">Riesgo: <strong>luxación posterior</strong>. Restricciones activas durante <strong>6 a 12 semanas</strong> para proteger los tejidos cicatrizales.</p>
+    <div class="danger">
+      <h3>⛔ Combinación Luxante — Prohibido</h3>
+      <p>La combinación de los siguientes movimientos genera luxación posterior de la prótesis:</p>
+      <div class="moves">
+        <span class="mv">Flexión cadera &gt; 90°</span>
+        <span class="mv">Aducción de la pierna</span>
+        <span class="mv">Rotación Interna</span>
+      </div>
+    </div>
+    <div class="two" style="margin-top:12px;">
+      <div>
+        <div class="hb r">
+          <span class="hi">🪑</span>
+          <div><h4>No sentarse en sillas bajas</h4><p>La flexión de cadera supera los 90° al sentarse en superficies bajas. <strong>Usar silla alta con reposabrazos.</strong></p></div>
+        </div>
+        <div class="hb r">
+          <span class="hi">🦵</span>
+          <div><h4>No cruzar las piernas</h4><p>La aducción de la pierna es uno de los movimientos más peligrosos en el postoperatorio.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="hb r">
+          <span class="hi">🦶</span>
+          <div><h4>No rotar el pie hacia adentro</h4><p>La rotación interna, especialmente combinada con flexión, es la principal causa de luxación posterior.</p></div>
+        </div>
+        <div class="hb g">
+          <span class="hi">🌙</span>
+          <div><h4>Almohada de abducción</h4><p>Se coloca entre las rodillas durante el sueño para prevenir <strong>aducción y rotación interna accidentales</strong>. (Hoppenfeld 266, 271)</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: ABORDAJE ANTERIOR -->
+  <section class="slide" data-index="2">
+    <div class="slbl">Precauciones Posturales</div>
+    <h2 class="stit">Comparativa de Abordajes Quirúrgicos</h2>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Abordaje</th>
+          <th>Riesgo de luxación</th>
+          <th>Movimientos prohibidos</th>
+          <th>Consideraciones especiales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--p2);">Posterior</strong><br><small style="color:var(--mid);">El más frecuente</small></td>
+          <td style="color:var(--p2);font-weight:700;">Luxación posterior</td>
+          <td>Flexión &gt;90° + Aducción + Rotación Interna</td>
+          <td>Almohada de abducción nocturna. No agacharse a los pies.</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--p);">Anterior</strong></td>
+          <td style="color:var(--o);font-weight:700;">Luxación anterior</td>
+          <td>Extensión extrema + Rotación Externa extrema</td>
+          <td>Menor restricción de flexión. Recuperación más rápida en fases iniciales.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="hb b" style="margin-top:16px;">
+      <span class="hi">ℹ️</span>
+      <div>
+        <h4>Duración de las Restricciones</h4>
+        <p>Las precauciones posturales se mantienen durante las <strong>primeras 6 a 12 semanas</strong> postoperatorias, hasta que la cápsula articular y los tejidos blandos hayan cicatrizado adecuadamente.</p>
+      </div>
+    </div>
+    <div style="margin-top:14px;background:var(--off);border-radius:12px;padding:16px;border:1.5px solid var(--bd);">
+      <svg viewBox="0 0 380 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+        <!-- posterior luxation diagram -->
+        <circle cx="80" cy="40" r="30" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
+        <circle cx="80" cy="40" r="14" fill="white" stroke="var(--p)" stroke-width="1.5"/>
+        <!-- luxation arrow posterior -->
+        <path d="M80 54 Q80 80 60 85" stroke="var(--p2)" stroke-width="2.5" stroke-linecap="round" fill="none" marker-end="url(#aRed)"/>
+        <defs>
+          <marker id="aRed" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0 0 L7 3.5 L0 7Z" fill="var(--p2)"/>
+          </marker>
+          <marker id="aBlue" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+            <path d="M0 0 L7 3.5 L0 7Z" fill="var(--p)"/>
+          </marker>
+        </defs>
+        <text x="80" y="14" text-anchor="middle" fill="var(--p2)" font-size="10" font-family="Inter,sans-serif" font-weight="700">Abordaje Posterior</text>
+        <text x="34" y="76" fill="var(--p2)" font-size="9" font-family="Inter,sans-serif">Lux. posterior</text>
+        <!-- anterior diagram -->
+        <circle cx="280" cy="40" r="30" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
+        <circle cx="280" cy="40" r="14" fill="white" stroke="var(--p)" stroke-width="1.5"/>
+        <path d="M280 26 Q280 5 300 0" stroke="var(--p)" stroke-width="2.5" stroke-linecap="round" fill="none" marker-end="url(#aBlue)"/>
+        <text x="280" y="14" text-anchor="middle" fill="var(--p)" font-size="10" font-family="Inter,sans-serif" font-weight="700">Abordaje Anterior</text>
+        <text x="295" y="10" fill="var(--p)" font-size="9" font-family="Inter,sans-serif">Lux. anterior</text>
+        <!-- vs -->
+        <text x="190" y="45" text-anchor="middle" fill="var(--mid)" font-size="16" font-family="Inter,sans-serif" font-weight="700">VS</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: TRANSFERENCIAS Y AVD -->
+  <section class="slide" data-index="3">
+    <div class="slbl">Actividades de la Vida Diaria</div>
+    <h2 class="stit">Transferencias Seguras</h2>
+    <div class="two">
+      <div>
+        <div class="steps" style="margin-top:0;">
+          <div class="step">
+            <div class="sdot" style="background:var(--g);">🛏</div>
+            <div><h4>Levantarse de la cama</h4><p>Girar sobre el <strong>lado sano</strong> o impulsarse con brazos. <strong>Sin flexionar cadera &gt;90°.</strong></p></div>
+          </div>
+          <div class="step">
+            <div class="sdot" style="background:var(--g);">🪑</div>
+            <div><h4>Sentarse / Levantarse</h4><p>Deslizarse al borde, pierna operada <strong>adelantada</strong>, empujarse con reposabrazos. <strong>Nunca tirar del andador.</strong></p></div>
+          </div>
+          <div class="step">
+            <div class="sdot" style="background:var(--g);">👖</div>
+            <div><h4>Vestido</h4><p>Poner: primero pierna <strong>operada</strong>. Quitar: primero pierna <strong>sana</strong>. (Hoppenfeld 294)</p></div>
+          </div>
+          <div class="step">
+            <div class="sdot" style="background:var(--g);">🚿</div>
+            <div><h4>Uso del Baño</h4><p><strong>Elevador para WC</strong> y barandillas para evitar flexión excesiva de cadera.</p></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- Vestido mnemonic visual -->
+        <div style="background:var(--g-l);border-radius:14px;padding:18px;border:1.5px solid var(--g);text-align:center;margin-bottom:12px;">
+          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--g);margin-bottom:12px;">Regla del Vestido</p>
+          <div style="display:flex;gap:10px;justify-content:center;">
+            <div style="background:white;border-radius:10px;padding:12px 16px;border:1px solid var(--bd);text-align:center;flex:1;">
+              <div style="font-size:1.5rem;margin-bottom:6px;">👖</div>
+              <div style="font-size:.78rem;font-weight:700;color:var(--g);">PONER</div>
+              <div style="font-size:.82rem;color:var(--mid);margin-top:4px;">1° pierna <strong style="color:var(--p2);">operada</strong></div>
+              <div style="font-size:.82rem;color:var(--mid);">2° pierna sana</div>
+            </div>
+            <div style="background:white;border-radius:10px;padding:12px 16px;border:1px solid var(--bd);text-align:center;flex:1;">
+              <div style="font-size:1.5rem;margin-bottom:6px;">🔄</div>
+              <div style="font-size:.78rem;font-weight:700;color:var(--p2);">QUITAR</div>
+              <div style="font-size:.82rem;color:var(--mid);margin-top:4px;">1° pierna <strong style="color:var(--g);">sana</strong></div>
+              <div style="font-size:.82rem;color:var(--mid);">2° pierna operada</div>
+            </div>
+          </div>
+        </div>
+        <div class="hb o">
+          <span class="hi">🚫</span>
+          <div><h4>Prohibido con andador</h4><p>El paciente <strong>nunca debe tirar del andador</strong> para levantarse. Esto genera carga irregular y riesgo de caída y luxación.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: BIOMECÁNICA MARCHA -->
+  <section class="slide" data-index="4">
+    <div class="slbl">Biomecánica de la Marcha</div>
+    <h2 class="stit">Control Motor y Patrones de Marcha</h2>
+    <div class="two">
+      <div>
+        <div class="hb r">
+          <span class="hi">🚶</span>
+          <div>
+            <h4>Marcha de Trendelenburg</h4>
+            <p>Debilidad del <strong>glúteo medio</strong> → la pelvis cae hacia el <strong>lado sano</strong> durante el apoyo monopodal en la pierna operada. La reeducación de este músculo es vital. (Brotzman 374)</p>
+          </div>
+        </div>
+        <div class="hb b">
+          <span class="hi">🦯</span>
+          <div>
+            <h4>Uso del Bastón</h4>
+            <p>Se lleva en la mano <strong>opuesta al lado operado</strong>. Traslada el centro de gravedad hacia el lado sano, reduciendo las fuerzas de contacto en la cadera operada.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--off);border-radius:14px;padding:16px;border:1.5px solid var(--bd);margin-bottom:12px;">
+          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;">Carga sobre la cadera</p>
+          <svg viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <!-- bars -->
+            <rect x="25" y="50" width="55" height="35" rx="6" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
+            <rect x="120" y="20" width="55" height="65" rx="6" fill="var(--p2-l)" stroke="var(--p2)" stroke-width="1.5"/>
+            <text x="52" y="45" text-anchor="middle" fill="var(--p)" font-size="11" font-family="Inter,sans-serif" font-weight="700">1× PC</text>
+            <text x="147" y="15" text-anchor="middle" fill="var(--p2)" font-size="11" font-family="Inter,sans-serif" font-weight="700">2× PC</text>
+            <text x="52" y="97" text-anchor="middle" fill="var(--mid)" font-size="9" font-family="Inter,sans-serif">Reposo</text>
+            <text x="147" y="97" text-anchor="middle" fill="var(--p2)" font-size="9" font-family="Inter,sans-serif" font-weight="700">Apoyo medio</text>
+          </svg>
+          <p style="font-size:.76rem;color:var(--p2);text-align:center;margin-top:4px;font-weight:700;">Fase monopodal: doble del peso corporal</p>
+        </div>
+        <div class="hb g">
+          <span class="hi">🧲</span>
+          <div><h4>Glúteo Medio — Prioridad</h4><p>Su reeducación es clave para la <strong>estabilidad pélvica</strong> y para eliminar el patrón de Trendelenburg en la marcha final.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: ESCALERAS -->
+  <section class="slide" data-index="5">
+    <div class="slbl">Biomecánica de la Marcha</div>
+    <h2 class="stit">Regla de Escaleras y Bastón</h2>
+    <div class="two">
+      <div>
+        <div class="rule">
+          <div class="rtit">📏 Regla de las Escaleras</div>
+          <div class="rrow">
+            <div class="rchip">⬆️ SUBIR<span>Pierna SANA primero</span></div>
+            <div class="rchip">⬇️ BAJAR<span>Pierna OPERADA primero</span></div>
+          </div>
+          <p style="font-size:.78rem;opacity:.7;margin-top:10px;">"Lo bueno sube al cielo, lo malo baja primero"</p>
+        </div>
+        <div class="hb b" style="margin-top:14px;">
+          <span class="hi">🦯</span>
+          <div>
+            <h4>Posición del Bastón en Escalera</h4>
+            <p>El bastón acompaña al <strong>pie operado al bajar</strong> y se queda con el sano al subir, para distribuir correctamente la carga.</p>
+          </div>
+        </div>
+      </div>
+      <!-- stair SVG -->
+      <div style="background:var(--off);border-radius:14px;padding:18px;border:1.5px solid var(--bd);display:flex;flex-direction:column;align-items:center;">
+        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:220px;">
+          <!-- stairs -->
+          <path d="M20 180 L20 140 L65 140 L65 100 L110 100 L110 60 L155 60 L155 20 L180 20 L180 180 Z" fill="#e4eef6" stroke="#1a4a6e" stroke-width="1.5"/>
+          <!-- UP arrows (sana primero) -->
+          <path d="M40 155 L40 135" stroke="#1b6b4a" stroke-width="3" stroke-linecap="round" marker-end="url(#aGreen)"/>
+          <path d="M85 115 L85 95" stroke="#1b6b4a" stroke-width="3" stroke-linecap="round" marker-end="url(#aGreen)"/>
+          <path d="M130 75 L130 55" stroke="#1b6b4a" stroke-width="3" stroke-linecap="round" marker-end="url(#aGreen)"/>
+          <!-- DOWN arrows (operada primero) -->
+          <path d="M160 35 L160 55" stroke="#8b2c2c" stroke-width="3" stroke-linecap="round" marker-end="url(#aRed2)"/>
+          <defs>
+            <marker id="aGreen" markerWidth="7" markerHeight="7" refX="3.5" refY="0" orient="auto">
+              <path d="M0 7 L3.5 0 L7 7Z" fill="#1b6b4a"/>
+            </marker>
+            <marker id="aRed2" markerWidth="7" markerHeight="7" refX="3.5" refY="7" orient="auto">
+              <path d="M0 0 L3.5 7 L7 0Z" fill="#8b2c2c"/>
+            </marker>
+          </defs>
+          <!-- labels -->
+          <text x="14" y="132" fill="#1b6b4a" font-size="9" font-family="Inter,sans-serif" font-weight="700">SANA</text>
+          <text x="172" y="52" fill="#8b2c2c" font-size="9" font-family="Inter,sans-serif" font-weight="700">OP.</text>
+          <text x="30" y="195" fill="#1b6b4a" font-size="10" font-family="Inter,sans-serif" font-weight="700">↑ Sube sana</text>
+          <text x="110" y="195" fill="#8b2c2c" font-size="10" font-family="Inter,sans-serif" font-weight="700">↓ Baja op.</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: EJERCICIO TERAPÉUTICO -->
+  <section class="slide" data-index="6">
+    <div class="slbl">Ejercicio Terapéutico</div>
+    <h2 class="stit">Progresión del Ejercicio</h2>
+    <div class="phase-band">
+      <div class="phase p1">
+        <div class="pn">Día 1–3</div>
+        <div class="pl">Fase Inmediata</div>
+        <div class="pd">Isométricos cuádriceps y glúteos + bombeos de tobillo</div>
+      </div>
+      <div class="phase p2">
+        <div class="pn">Semana 1–3</div>
+        <div class="pl">Fase Temprana</div>
+        <div class="pd">Transferencias, marcha con andador, ejercicios de amplitud</div>
+      </div>
+      <div class="phase p3">
+        <div class="pn">Semana 4+</div>
+        <div class="pl">Fase Activa</div>
+        <div class="pd">Fortalecimiento progresivo glúteo medio, equilibrio, escaleras</div>
+      </div>
+    </div>
+    <div class="two" style="margin-top:14px;">
+      <div class="hb r">
+        <span class="hi">🚫</span>
+        <div>
+          <h4>EPR — Contraindicada en Fases Iniciales</h4>
+          <p>La <strong>Elevación de Pierna Recta</strong> genera <strong>1.5 a 1.8× el peso corporal</strong> sobre el acetábulo. Puede comprometer la fijación de la prótesis. (Brotzman 374)</p>
+        </div>
+      </div>
+      <div>
+        <div class="hb g">
+          <span class="hi">✅</span>
+          <div>
+            <h4>Ejercicios Seguros Iniciales</h4>
+            <ul class="sl" style="margin-top:4px;">
+              <li><span class="dot" style="background:var(--g);"></span><span>Isométrico de cuádriceps en cama</span></li>
+              <li><span class="dot" style="background:var(--g);"></span><span>Bombeos de tobillo (prevención TVP)</span></li>
+              <li><span class="dot" style="background:var(--g);"></span><span>Isométrico de glúteos</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: CRITERIOS DE ALTA Y EDUCACIÓN -->
+  <section class="slide" data-index="7">
+    <div class="slbl">Alta y Educación</div>
+    <h2 class="stit">Criterios de Alta y Educación Preoperatoria</h2>
+    <div class="two">
+      <div>
+        <div class="hb g">
+          <span class="hi">🏁</span>
+          <div>
+            <h4>Criterios de Alta — Sara & Lewis</h4>
+            <p>Hito clave: capacidad de <strong>deambular de forma independiente al menos 4,5 metros</strong> y realizar todas las transferencias de forma segura sin supervisión.</p>
+          </div>
+        </div>
+        <div class="hb b" style="margin-top:0;">
+          <span class="hi">📏</span>
+          <div>
+            <h4>Deambulación Independiente</h4>
+            <p>La evaluación funcional previa al alta debe verificar tanto la <strong>distancia de marcha</strong> como la seguridad en las transferencias básicas (cama, silla, WC).</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--v-l);border-radius:14px;padding:18px;border:1.5px solid var(--v);">
+          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--v);margin-bottom:12px;">📚 Educación Preoperatoria — Vukomanovic</p>
+          <ul class="sl">
+            <li><span class="dot" style="background:var(--v);"></span><span>Alcanzan hitos como <strong>subir escaleras mucho antes</strong></span></li>
+            <li><span class="dot" style="background:var(--v);"></span><span>Requieren <strong>menos medicación analgésica</strong> postoperatoria</span></li>
+            <li><span class="dot" style="background:var(--v);"></span><span>Mayor comprensión de las precauciones posturales</span></li>
+            <li><span class="dot" style="background:var(--v);"></span><span>Menor ansiedad preoperatoria y mejor adherencia al protocolo</span></li>
+          </ul>
+        </div>
+        <div class="stat" style="margin-top:12px;border-color:var(--g);">
+          <div class="n" style="color:var(--g);">4.5 m</div>
+          <div class="l">Distancia mínima de marcha <strong>independiente</strong> para el alta</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: COMPLICACIONES -->
+  <section class="slide" data-index="8">
+    <div class="slbl">Complicaciones y Alarma</div>
+    <h2 class="stit">Signos de Alarma Post-ATC</h2>
+    <div class="three">
+      <div class="card r">
+        <span class="ci">⚠️</span>
+        <h3>Luxación Protésica</h3>
+        <p>Causa principal: <strong>incumplimiento de precauciones posturales</strong>. Mayor riesgo en las primeras 6 semanas. Requiere reducción urgente.</p>
+        <p style="margin-top:8px;font-size:.8rem;color:var(--p2);font-weight:700;">Signos: dolor súbito, posición anormal del miembro, acortamiento.</p>
+      </div>
+      <div class="card o">
+        <span class="ci">🩸</span>
+        <h3>Trombosis Venosa Profunda (TVP)</h3>
+        <p>Emergencia médica. Se previene con <strong>bombeos de tobillo</strong> desde el día 1 y anticoagulación.</p>
+        <p style="margin-top:8px;font-size:.8rem;color:var(--o);font-weight:700;">Signos: dolor, rubefacción y edema en pantorrilla.</p>
+      </div>
+      <div class="card v">
+        <span class="ci">📏</span>
+        <h3>Discrepancia de Longitud</h3>
+        <p>Debe evaluarse en <strong>bipedestación</strong>. Si confirmada, se indica <strong>alza compensatoria</strong> para normalizar la marcha y la biomecánica pélvica. (Hoppenfeld 267)</p>
+      </div>
+    </div>
+    <div class="hb r" style="margin-top:14px;">
+      <span class="hi">🆘</span>
+      <div>
+        <h4>TVP — Emergencia Médica</h4>
+        <p>Ante la presencia de <strong>dolor + rubefacción + edema en pantorrilla</strong>, se debe derivar inmediatamente a urgencias. El riesgo de tromboembolismo pulmonar es una amenaza vital.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 10: TABLA REFERENCIAS -->
+  <section class="slide" data-index="9">
+    <div class="slbl">Síntesis Clínica</div>
+    <h2 class="stit">Referencias y Datos Clave</h2>
+    <table class="tbl">
+      <thead>
+        <tr><th>Concepto</th><th>Dato clave</th><th>Fuente</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Almohada de abducción</strong></td><td>Previene aducción y rotación interna nocturna</td><td style="color:var(--mid);">Hoppenfeld 266, 271</td></tr>
+        <tr><td><strong>Vestido — orden de piernas</strong></td><td>Poner: operada 1°. Quitar: sana 1°</td><td style="color:var(--mid);">Hoppenfeld 294</td></tr>
+        <tr><td><strong>Discrepancia de longitud</strong></td><td>Evaluar en bipedestación → alza compensatoria</td><td style="color:var(--mid);">Hoppenfeld 267</td></tr>
+        <tr><td><strong>Marcha de Trendelenburg</strong></td><td>Debilidad de glúteo medio → caída pélvica al lado sano</td><td style="color:var(--mid);">Brotzman 374</td></tr>
+        <tr><td><strong>EPR contraindicada</strong></td><td>1.5–1.8× peso corporal sobre acetábulo</td><td style="color:var(--mid);">Brotzman 374</td></tr>
+        <tr><td><strong>Criterio de alta</strong></td><td>Deambulación independiente ≥ 4.5 metros</td><td style="color:var(--mid);">Sara & Lewis</td></tr>
+        <tr><td><strong>Educación preoperatoria</strong></td><td>Menos analgesia, hitos funcionales más tempranos</td><td style="color:var(--mid);">Vukomanovic</td></tr>
+        <tr><td><strong>Carga fase monopodal</strong></td><td>Hasta 2× el peso corporal en apoyo medio</td><td style="color:var(--mid);">Biomecánica ATC</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SLIDE 11: RESUMEN -->
+  <section class="slide" data-index="10">
+    <div class="slbl">Resumen Integral</div>
+    <h2 class="stit">Conceptos Clave — Práctica 12</h2>
+    <div class="sg">
+      <div class="si"><span class="ico">🚫</span><div><strong>Combinación luxante (post.)</strong>Flexión &gt;90° + Aducción + Rotación Interna = luxación posterior.</div></div>
+      <div class="si"><span class="ico">🌙</span><div><strong>Almohada abducción</strong>Entre rodillas al dormir. Previene movimientos luxantes nocturnos.</div></div>
+      <div class="si"><span class="ico">👖</span><div><strong>Vestido</strong>Poner: operada 1ª. Quitar: sana 1ª. Minimiza riesgo de luxación.</div></div>
+      <div class="si"><span class="ico">🦯</span><div><strong>Bastón contralateral</strong>Mano opuesta al lado operado. Reduce carga en cadera afecta.</div></div>
+      <div class="si"><span class="ico">⬆️⬇️</span><div><strong>Escaleras</strong>Sube: sana 1°. Baja: operada 1°. "Lo bueno sube, lo malo baja."</div></div>
+      <div class="si"><span class="ico">🚶</span><div><strong>Trendelenburg</strong>Debilidad de glúteo medio → pelvis cae al lado sano. Reeducación esencial.</div></div>
+      <div class="si"><span class="ico">🚫🦵</span><div><strong>EPR contraindicada</strong>Genera 1.5–1.8× PC en acetábulo. Riesgo de aflojamiento precoz.</div></div>
+      <div class="si"><span class="ico">🏁</span><div><strong>Alta: ≥4.5 m</strong>Deambulación independiente + transferencias seguras (Sara & Lewis).</div></div>
+      <div class="si"><span class="ico">🩸</span><div><strong>TVP = emergencia</strong>Dolor + rubefacción + edema en pantorrilla → derivación urgente.</div></div>
+      <div class="si"><span class="ico">📚</span><div><strong>Educación preop.</strong>Menor analgesia y hitos funcionales más tempranos (Vukomanovic).</div></div>
+    </div>
+  </section>
+
+</div>
+
+<nav id="nav">
+  <button class="nb pv" id="pp" disabled>← Anterior</button>
+  <button class="nb" id="np">Siguiente →</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const prog = document.getElementById('prog');
+  const ctr = document.getElementById('ctr');
+  const pp = document.getElementById('pp');
+  const np = document.getElementById('np');
+  let cur = 0;
+  const tot = slides.length;
+
+  function goTo(i) {
+    if (i < 0 || i >= tot) return;
+    slides[cur].classList.remove('active');
+    slides[cur].classList.add('exit-l');
+    const prev = cur;
+    setTimeout(() => slides[prev].classList.remove('exit-l'), 550);
+    cur = i;
+    slides[cur].classList.add('active');
+    slides[cur].querySelectorAll('.sl li,.step,.si').forEach(el => {
+      el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
+    });
+    upd();
+  }
+
+  function upd() {
+    prog.style.width = ((cur+1)/tot*100) + '%';
+    ctr.textContent = `${cur+1} / ${tot}`;
+    pp.disabled = cur === 0;
+    np.disabled = cur === tot-1;
+    np.textContent = cur === tot-1 ? '✓ Fin' : 'Siguiente →';
+  }
+
+  pp.addEventListener('click', () => goTo(cur-1));
+  np.addEventListener('click', () => goTo(cur+1));
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowRight'||e.key==='ArrowDown') goTo(cur+1);
+    if (e.key==='ArrowLeft'||e.key==='ArrowUp') goTo(cur-1);
+  });
+
+  upd();
+</script>
+</body>
+</html>

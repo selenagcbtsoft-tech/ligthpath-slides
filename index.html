@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice de Carpetas - Repositorio General</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117; --accent-color: #58a6ff; --text-color: #c9d1d9; --text-title: #ffffff;
+            --card-bg: #161b22; --card-border: #30363d; --card-hover-border: #8b949e; --card-hover-bg: #21262d;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; overflow-x: hidden; position: relative; }
+        
+        .bg-gradient { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
+            background: radial-gradient(circle at 15% 50%, rgba(88, 166, 255, 0.12), transparent 30%), 
+                        radial-gradient(circle at 85% 30%, rgba(163, 113, 247, 0.12), transparent 30%); 
+            animation: gradientMove 15s ease-in-out infinite alternate; pointer-events: none;
+        }
+        @keyframes gradientMove { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; width: 100%; }
+        
+        header { margin-bottom: 5rem; text-align: center; }
+        header h1 { color: var(--text-title); font-size: 3.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 1.5rem; background: linear-gradient(90deg, #58a6ff, #a371f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+        header p { font-size: 1.2rem; max-width: 600px; margin: 0 auto; color: var(--text-color); opacity: 0.85; font-weight: 300; line-height: 1.6;}
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+        
+        .card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 2.5rem 2rem; text-decoration: none; color: var(--text-color); display: flex; flex-direction: column; position: relative; overflow: hidden; transition: var(--transition); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #58a6ff, #a371f7); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+        .card:hover { transform: translateY(-8px); background-color: var(--card-hover-bg); border-color: var(--card-hover-border); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4); }
+        .card:hover::before { transform: scaleX(1); }
+        
+        .card-icon { width: 56px; height: 56px; background: rgba(88, 166, 255, 0.1); color: var(--accent-color); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; transition: var(--transition); }
+        .card-icon svg { width: 28px; height: 28px; }
+        .card:hover .card-icon { background: var(--accent-color); color: #fff; transform: scale(1.1) rotate(-5deg); box-shadow: 0 8px 16px rgba(88,166,255,0.3);}
+        
+        .card-content h2 { color: var(--text-title); font-size: 1.6rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: capitalize; }
+        .card-content p { font-size: 1rem; line-height: 1.5; color: #8b949e; }
+        
+        .card-arrow { position: absolute; bottom: 2.5rem; right: 2rem; color: var(--accent-color); opacity: 0; transform: translateX(-15px); transition: var(--transition); }
+        .card-arrow svg { width: 24px; height: 24px; }
+        .card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+        
+        .instructions { margin-top: 6rem; padding-top: 4rem; border-top: 1px dashed var(--card-border); text-align: center; }
+        .instructions h3 { color: var(--text-title); margin-bottom: 1rem; font-weight: 600; font-size: 1.5rem;}
+        .instructions p { color: #8b949e; font-size: 1rem; margin-bottom: 2rem; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.6;}
+        .alert { display: inline-flex; align-items: center; gap: 12px; padding: 1rem 1.5rem; background: rgba(88, 166, 255, 0.1); border-left: 4px solid #58a6ff; border-radius: 0 8px 8px 0; color: #c9d1d9; text-align: left; margin-bottom: 2rem; }
+        .alert svg { color: #58a6ff; }
+        .code-block { background: #010409; border: 1px solid var(--card-border); border-radius: 8px; padding: 1.25rem 2rem; display: inline-block; font-family: monospace; color: #7ee787; font-size: 1.1rem; box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);}
+        
+        /* Empty state */
+        .empty-state { text-align: center; padding: 4rem 0; color: #8b949e; }
+        .empty-state svg { width: 64px; height: 64px; margin-bottom: 1rem; color: #30363d; }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <main class="container">
+        <header>
+            <h1>Repositorio General</h1>
+            <p>Explora el directorio de todas las carpetas del repositorio. Haz clic en cualquiera de ellas para ver sus HTMLs y lecciones disponibles.</p>
+        </header>
+        
+        <div class="grid" id="folder-grid">
+
+            <a href="FisiotherapyUmsa/" class="card">
+                <div class="card-icon">
+                    <svg fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path></svg>
+                </div>
+                <div class="card-content">
+                    <h2>FisiotherapyUmsa</h2>
+                    <p>Accede para explorar las lecciones y archivos HTML dentro.</p>
+                </div>
+                <div class="card-arrow">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </div>
+            </a>
+</div>
+
+        <div class="instructions">
+            <h3>¿Cómo actualizar este índice?</h3>
+            <div class="alert">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>Hay un script automático llamado <strong>generar-indices.js</strong> en esta carpeta.</span>
+            </div>
+            <p>Cada vez que agregues una nueva carpeta o añadas nuevos archivos HTML a las existentes, ejecuta el script en tu terminal. Esto regenerará este índice y los índices internos automáticamente:</p>
+            <div class="code-block">
+                node generar-indices.js
+            </div>
+        </div>
+    </main>
+</body>
+</html>

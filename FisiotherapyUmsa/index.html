@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivos en FisiotherapyUmsa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Outfit', sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; padding: 2rem; min-height: 100vh;}
+        .container { max-width: 800px; margin: 0 auto; }
+        .back-link { display: inline-flex; align-items: center; color: #58a6ff; text-decoration: none; margin-bottom: 2rem; transition: color 0.3s; font-weight: 600; padding: 0.5rem 1rem; background: rgba(88, 166, 255, 0.1); border-radius: 8px; border: 1px solid rgba(88, 166, 255, 0.2);}
+        .back-link:hover { color: #fff; background: rgba(88, 166, 255, 0.2); }
+        .back-link svg { width: 20px; height: 20px; margin-right: 8px; }
+        h1 { font-size: 2.5rem; font-weight: 600; color: #fff; margin-bottom: 2rem; display: flex; align-items: center; gap: 12px;}
+        .list { display: flex; flex-direction: column; gap: 1rem; }
+        .list-item { display: flex; align-items: center; padding: 1.25rem; background: #161b22; border: 1px solid #30363d; border-radius: 12px; color: #c9d1d9; text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .list-item:hover { transform: translateX(8px); background: #21262d; border-color: #58a6ff; box-shadow: 0 4px 20px rgba(88,166,255,0.15); color: #fff;}
+        .icon-container { padding: 10px; background: rgba(88, 166, 255, 0.1); border-radius: 8px; margin-right: 16px; color: #58a6ff; transition: all 0.3s; }
+        .list-item:hover .icon-container { background: #58a6ff; color: #fff; }
+        .icon-container svg { width: 24px; height: 24px; display: block;}
+        .list-item span { font-size: 1.1rem; text-transform: capitalize; }
+        
+        /* Gradient bg */
+        .bg-mesh { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(circle at 0% 0%, rgba(88, 166, 255, 0.08), transparent 40%); pointer-events: none;}
+    </style>
+</head>
+<body>
+    <div class="bg-mesh"></div>
+    <div class="container">
+        <a href="../index.html" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Volver al Menú Principal
+        </a>
+        <h1>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            Carpeta: FisiotherapyUmsa
+        </h1>
+        <div class="list">
+            
+            <a href="leccion11_descarga_fracturas.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion11 descarga fracturas</span>
+            </a>
+
+            <a href="leccion12_atc.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion12 atc</span>
+            </a>
+
+            <a href="leccion13_fractura_colles.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion13 fractura colles</span>
+            </a>
+
+            <a href="leccion14_15_dolor.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion14 15 dolor</span>
+            </a>
+
+            <a href="leccion16_amputaciones.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion16 amputaciones</span>
+            </a>
+
+            <a href="leccion17_gonartrosis.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion17 gonartrosis</span>
+            </a>
+
+            <a href="leccion18_artritis_reumatoidea.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion18 artritis reumatoidea</span>
+            </a>
+
+            <a href="leccion1_pie_plano_cavo.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion1 pie plano cavo</span>
+            </a>
+
+            <a href="leccion2_PEVC_pie_equinovaro.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion2 PEVC pie equinovaro</span>
+            </a>
+
+            <a href="leccion3_genu_valgo_varo.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion3 genu valgo varo</span>
+            </a>
+
+            <a href="leccion4_SDFP_femoropatelar.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion4 SDFP femoropatelar</span>
+            </a>
+
+            <a href="leccion5_DDC_cadera.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion5 DDC cadera</span>
+            </a>
+
+            <a href="leccion6_pectus_excavatum.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion6 pectus excavatum</span>
+            </a>
+
+            <a href="leccion7_escoliosis.html" class="list-item">
+                <div class="icon-container">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <span>leccion7 escoliosis</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

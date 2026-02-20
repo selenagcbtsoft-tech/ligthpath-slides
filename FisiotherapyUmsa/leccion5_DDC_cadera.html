@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lección 5 – DDC y Unidad Funcional de la Cadera</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#faf5ee;--surface:#fff;--surface2:#f0e8db;
+    --accent:#92400e;--accent2:#1e6b8a;--accent3:#5c6b1e;
+    --accent-purple:#5b2d8e;--accent-red:#991b1b;--accent-teal:#0f766e;
+    --text:#1c1208;--text-muted:#5a4a35;--border:#e0d4c0;
+    --shadow:0 2px 18px rgba(0,0,0,0.07);--slide-w:980px;--radius:14px;
+    --font-display:'Playfair Display',Georgia,serif;--font-body:'IBM Plex Sans',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);overflow:hidden}
+  #progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s;z-index:100}
+  #slide-counter{position:fixed;top:16px;right:22px;font-size:13px;font-weight:700;color:var(--text-muted);z-index:100}
+  #lesson-tag{position:fixed;top:10px;left:22px;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);z-index:100;background:rgba(146,64,14,.09);padding:5px 13px;border-radius:20px}
+  #slides-wrapper{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;padding:60px 24px 80px;overflow:hidden}
+  .slide{position:absolute;width:100%;max-width:var(--slide-w);display:flex;flex-direction:column;gap:20px;opacity:0;pointer-events:none;transform:translateX(70px);transition:opacity .4s ease,transform .4s cubic-bezier(.4,0,.2,1);max-height:calc(100vh - 140px);overflow-y:auto;padding-right:4px}
+  .slide::-webkit-scrollbar{width:4px}.slide::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+  .slide.active{opacity:1;pointer-events:all;transform:translateX(0)}
+  .slide.exit-left{opacity:0;transform:translateX(-70px)}
+  .slide-label{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px}
+  .slide-label::before{content:'';display:inline-block;width:28px;height:3px;background:var(--accent);border-radius:2px}
+  h1.slide-title{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.3rem);line-height:1.1;font-weight:700}
+  h1.slide-title em{font-style:italic;color:var(--accent);font-weight:500}
+  h2.section-title{font-family:var(--font-display);font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:700;line-height:1.2}
+  .subtitle{font-size:1.1rem;color:var(--text-muted);line-height:1.75;max-width:720px}
+  .divider{width:70px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;margin:-4px 0}
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 22px;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(22px);box-shadow:var(--shadow);transition:opacity .4s ease,transform .4s ease}
+  .card.animate{opacity:1;transform:translateY(0)}
+  .card-icon{font-size:1.8rem;width:46px;height:46px;background:var(--surface2);border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .card-title{font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
+  .card-body{font-size:.97rem;color:var(--text-muted);line-height:1.65}
+  .item-list{display:flex;flex-direction:column;gap:12px}
+  .item{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);opacity:0;transform:translateX(-22px);transition:opacity .35s ease,transform .35s ease}
+  .item.animate{opacity:1;transform:translateX(0)}
+  .item-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+  .item-content strong{display:block;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:4px}
+  .item-content span{font-size:.96rem;color:var(--text-muted);line-height:1.65}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:700px){.three-col{grid-template-columns:1fr}}
+  .highlight-box{background:linear-gradient(135deg,rgba(146,64,14,.05),rgba(30,107,138,.05));border:1.5px solid rgba(146,64,14,.2);border-radius:var(--radius);padding:18px 22px;display:flex;gap:14px;align-items:flex-start}
+  .highlight-icon{font-size:1.6rem;flex-shrink:0;margin-top:1px}
+  .highlight-text{font-size:.97rem;line-height:1.7;color:var(--text-muted)}
+  .highlight-text strong{color:var(--accent)}
+  .warning-box{background:rgba(153,27,27,.04);border:1.5px solid rgba(153,27,27,.22);border-radius:var(--radius);padding:16px 20px;display:flex;gap:14px;align-items:flex-start}
+  .warning-text{font-size:.95rem;line-height:1.7;color:var(--text-muted)}
+  .warning-text strong{color:var(--accent-red)}
+  .tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.8rem;font-weight:700}
+  .tag-amber{background:rgba(146,64,14,.1);color:var(--accent)}
+  .tag-blue{background:rgba(30,107,138,.1);color:var(--accent2)}
+  .tag-green{background:rgba(92,107,30,.1);color:var(--accent3)}
+  .tag-red{background:rgba(153,27,27,.1);color:var(--accent-red)}
+  .tag-purple{background:rgba(91,45,142,.1);color:var(--accent-purple)}
+  .tag-teal{background:rgba(15,118,110,.1);color:var(--accent-teal)}
+  .diagram-row{display:flex;gap:16px;align-items:stretch}
+  .diagram-box{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
+  .diagram-box.animate,.diagram-box.aa{opacity:1;transform:translateY(0)}
+  .diagram-box h4{font-size:.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
+  .diagram-caption{font-size:.85rem;color:var(--text-muted);line-height:1.55;text-align:center}
+  /* ANGLE CARDS */
+  .angle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:700px){.angle-grid{grid-template-columns:1fr}}
+  .angle-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:0;overflow:hidden;box-shadow:var(--shadow);opacity:0;transform:scale(.92);transition:opacity .4s ease,transform .4s ease}
+  .angle-card.animate{opacity:1;transform:scale(1)}
+  .angle-header{padding:13px 16px;font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+  .angle-body{padding:12px 16px 16px;font-size:.92rem;color:var(--text-muted);line-height:1.65;display:flex;flex-direction:column;gap:8px}
+  .ah-normal{background:rgba(92,107,30,.08);color:var(--accent3);border-bottom:1.5px solid var(--border)}
+  .ah-valga{background:rgba(153,27,27,.07);color:var(--accent-red);border-bottom:1.5px solid var(--border)}
+  .ah-vara{background:rgba(146,64,14,.08);color:var(--accent);border-bottom:1.5px solid var(--border)}
+  /* JANDA SEQUENCE */
+  .janda-seq{display:flex;gap:0;align-items:center;justify-content:center}
+  .janda-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+  .janda-circle{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;font-family:var(--font-display)}
+  .janda-arrow{font-size:1.6rem;color:var(--border);flex-shrink:0;margin:0 4px}
+  .janda-label{font-size:.78rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;text-align:center}
+  .janda-sub{font-size:.75rem;color:var(--text-muted);text-align:center;line-height:1.4}
+  /* SUBSYSTEMS */
+  .subsystem-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .subsystem-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
+  .subsystem-card.animate{opacity:1;transform:translateY(0)}
+  .subsystem-header{padding:13px 18px;font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:1.5px solid var(--border)}
+  .sh-local{background:rgba(15,118,110,.08);color:var(--accent-teal)}
+  .sh-global{background:rgba(30,107,138,.08);color:var(--accent2)}
+  .subsystem-body{padding:14px 18px;display:flex;flex-direction:column;gap:8px}
+  /* PLIOMETRY */
+  .plio-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .plio-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
+  .plio-card.animate{opacity:1;transform:translateY(0)}
+  /* SUMMARY */
+  .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:600px){.summary-grid{grid-template-columns:1fr}}
+  .summary-item{text-align:center;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 14px;box-shadow:var(--shadow);opacity:0;transform:scale(.92);transition:opacity .4s ease,transform .4s ease}
+  .summary-item.animate{opacity:1;transform:scale(1)}
+  .summary-item .big-icon{font-size:2rem;margin-bottom:8px}
+  .summary-item h4{font-size:.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+  .summary-item p{font-size:.9rem;color:var(--text-muted);line-height:1.55}
+  .cover-module{font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent2);display:flex;align-items:center;gap:10px;margin-bottom:-4px}
+  .cover-module::before{content:'';display:inline-block;width:22px;height:3px;background:var(--accent2);border-radius:2px}
+  .cover-meta{display:flex;gap:12px;flex-wrap:wrap}
+  .cover-pill{display:flex;align-items:center;gap:7px;background:var(--surface);border:1.5px solid var(--border);border-radius:50px;padding:8px 16px;font-size:.9rem;color:var(--text-muted);box-shadow:var(--shadow);font-weight:600}
+  #nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;z-index:100;background:white;border:1.5px solid var(--border);border-radius:50px;padding:8px 12px;box-shadow:0 4px 24px rgba(0,0,0,.1)}
+  .nav-btn{background:var(--surface2);border:1.5px solid var(--border);color:var(--text);border-radius:50px;padding:9px 24px;font-family:var(--font-body);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+  .nav-btn:hover{background:var(--accent);color:white;border-color:var(--accent)}
+  .nav-btn:disabled{opacity:.3;cursor:not-allowed}
+  .nav-btn:disabled:hover{background:var(--surface2);color:var(--text);border-color:var(--border)}
+  #slide-dots{display:flex;gap:6px;align-items:center;padding:0 6px}
+  .dot{width:7px;height:7px;border-radius:50%;background:#d1d5db;transition:all .3s;cursor:pointer;border:none}
+  .dot.active{background:var(--accent);width:20px;border-radius:4px}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="lesson-tag">PRÁCTICA 5</div>
+<div id="slide-counter">1 / 13</div>
+<div id="slides-wrapper">
+
+<!-- SLIDE 1: PORTADA -->
+<section class="slide active" id="s1">
+  <div class="cover-module">Fisioterapia y Kinesiología</div>
+  <h1 class="slide-title">DDC y Unidad<br><em>Funcional de la Cadera</em></h1>
+  <p class="subtitle">El desarrollo de la articulación coxofemoral es un proceso dinámico condicionado por la carga mecánica. La comprensión de sus ángulos y el control motor es vital para prevenir patologías degenerativas.</p>
+  <div class="divider"></div>
+  <div class="cover-meta">
+    <div class="cover-pill"><span>🦴</span> Desarrollo Fisiológico</div>
+    <div class="cover-pill"><span>📐</span> Ángulos y Deformidades</div>
+    <div class="cover-pill"><span>🔬</span> Evaluación Clínica</div>
+    <div class="cover-pill"><span>🧠</span> Estabilización Lumbopélvica</div>
+    <div class="cover-pill"><span>💪</span> Tratamiento</div>
+  </div>
+</section>
+
+<!-- SLIDE 2: CONTENIDO -->
+<section class="slide" id="s2">
+  <div class="slide-label">Contenido de la Lección</div>
+  <h2 class="section-title">Estructura de la Práctica</h2>
+  <div class="cards-grid">
+    <div class="card"><div class="card-icon">🦴</div><div class="card-title">01 · Desarrollo</div><div class="card-body">Consolidación a los 8 años. Ángulo cervico-diafisario: de 150° al nacer hasta 127° en el adulto.</div></div>
+    <div class="card"><div class="card-icon">📐</div><div class="card-title">02 · Deformidades</div><div class="card-body">Coxa valga (&gt;125°), coxa vara (&lt;125°) y anteversión femoral. Consecuencias biomecánicas.</div></div>
+    <div class="card"><div class="card-icon">🔬</div><div class="card-title">03 · Evaluación</div><div class="card-body">Prueba de Craig, Test de Janda, Trendelenburg, Single Leg Squat y compensaciones del cuadrado lumbar.</div></div>
+    <div class="card"><div class="card-icon">🧠</div><div class="card-title">04 · Lumbopélvica</div><div class="card-body">Modelo de Vleeming y Lee: subsistema local (transverso, multífidos) y control motor de la pelvis.</div></div>
+    <div class="card"><div class="card-icon">💪</div><div class="card-title">05 · Tratamiento</div><div class="card-body">10–12 semanas mínimas, pliometría (bound/hop) y disociación lumbopélvica como objetivo final.</div></div>
+  </div>
+</section>
+
+<!-- SLIDE 3: DESARROLLO FISIOLÓGICO + ÁNGULO -->
+<section class="slide" id="s3">
+  <div class="slide-label">Desarrollo Fisiológico · Maduración Ósea</div>
+  <h2 class="section-title">Ángulo Cervico-Diafisario: de 150° a 127°</h2>
+  <div class="diagram-row">
+    <!-- SVG evolution of angle -->
+    <div class="diagram-box" style="flex:1.4;">
+      <h4>Evolución del Ángulo Cervico-Diafisario</h4>
+      <svg viewBox="0 0 500 210" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+        <defs>
+          <linearGradient id="agGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#fbbf24"/>
+            <stop offset="50%" style="stop-color:#fb923c"/>
+            <stop offset="100%" style="stop-color:#92400e"/>
+          </linearGradient>
+        </defs>
+        <!-- Timeline axis -->
+        <line x1="40" y1="160" x2="470" y2="160" stroke="#e0d4c0" stroke-width="2"/>
+        <!-- Gradient bar -->
+        <rect x="40" y="152" width="430" height="16" rx="8" fill="url(#agGrad)" opacity=".25"/>
+        <!-- Time labels -->
+        <text x="40" y="178" font-size="10" fill="#5a4a35" text-anchor="middle" font-weight="700">Nacer</text>
+        <text x="155" y="178" font-size="10" fill="#5a4a35" text-anchor="middle">1–2 años</text>
+        <text x="270" y="178" font-size="10" fill="#5a4a35" text-anchor="middle">4–5 años</text>
+        <text x="385" y="178" font-size="10" fill="#5a4a35" text-anchor="middle">8 años</text>
+        <text x="460" y="178" font-size="10" fill="#92400e" text-anchor="middle" font-weight="700">Adulto</text>
+        <!-- Points on curve -->
+        <circle cx="40" cy="30" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+        <circle cx="155" cy="70" r="7" fill="#fb923c" stroke="#c2410c" stroke-width="2"/>
+        <circle cx="270" cy="110" r="7" fill="#ea580c" stroke="#9a3412" stroke-width="2"/>
+        <circle cx="385" cy="140" r="7" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+        <circle cx="460" cy="148" r="9" fill="#92400e" stroke="#451a03" stroke-width="2.5"/>
+        <!-- Curve -->
+        <path d="M40,30 Q100,50 155,70 Q215,92 270,110 Q330,128 385,140 Q422,146 460,148" fill="none" stroke="#92400e" stroke-width="3"/>
+        <!-- Angle labels -->
+        <text x="40" y="18" font-size="12" fill="#d97706" text-anchor="middle" font-weight="700">150°</text>
+        <text x="155" y="58" font-size="11" fill="#c2410c" text-anchor="middle" font-weight="700">145°</text>
+        <text x="270" y="98" font-size="11" fill="#9a3412" text-anchor="middle" font-weight="700">135°</text>
+        <text x="385" y="128" font-size="11" fill="#78350f" text-anchor="middle" font-weight="700">130°</text>
+        <text x="460" y="136" font-size="12" fill="#92400e" text-anchor="middle" font-weight="700">127°</text>
+        <!-- Key milestone -->
+        <rect x="336" y="5" width="128" height="38" rx="8" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+        <text x="400" y="22" font-size="9.5" fill="#78350f" text-anchor="middle" font-weight="700">⭐ Consolidación</text>
+        <text x="400" y="35" font-size="9" fill="#78350f" text-anchor="middle">definitiva: 8 años</text>
+        <line x1="385" y1="43" x2="385" y2="128" stroke="#fcd34d" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <!-- Y label -->
+        <text x="8" y="95" font-size="9" fill="#5a4a35" font-weight="700" transform="rotate(-90,8,95)">Ángulo (°)</text>
+        <!-- Carga stimulus label -->
+        <rect x="42" y="185" width="395" height="20" rx="6" fill="#f0e8db" stroke="#e0d4c0" stroke-width="1"/>
+        <text x="240" y="198" font-size="8.5" fill="#92400e" text-anchor="middle" font-weight="700">Estímulo: fuerzas de carga + marcha → modelado óseo fisiológico</text>
+      </svg>
+      <div class="diagram-caption">La reducción del ángulo es impulsada por el <strong>estímulo mecánico de la carga</strong> durante la marcha. Sin carga adecuada, el remodelado no ocurre correctamente.</div>
+    </div>
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot"></div>
+        <div class="item-content">
+          <strong>Valor Normal del Adulto: 127°</strong>
+          <span>El ángulo cervico-diafisario fisiológico del adulto es de <strong>127°</strong> (promedio). Se forma por la intersección de los ejes del cuello y la diáfisis femoral.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>Consolidación a los 8 Años</strong>
+          <span>El miembro inferior y la cadera alcanzan su <strong>posición, alineación y ángulos fisiológicos definitivos</strong> hacia los 8 años de edad, cuando el remodelado óseo por carga se completa.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent3)"></div>
+        <div class="item-content">
+          <strong>Fuerzas Reactivas Articulares</strong>
+          <span>No solo proporcionan estabilidad. Son esenciales para <strong>nutrir el cartílago</strong> articular y aportar el estímulo mecánico necesario para el modelado óseo correcto.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: COXA VALGA / VARA -->
+<section class="slide" id="s4">
+  <div class="slide-label">Deformidades Morfológicas</div>
+  <h2 class="section-title">Coxa Valga, Coxa Vara y Anteversión</h2>
+  <div class="angle-grid">
+    <!-- Normal -->
+    <div class="angle-card">
+      <div class="angle-header ah-normal">🟢 Normal — 127°</div>
+      <svg viewBox="0 0 180 145" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif" style="width:100%;display:block;padding:10px 8px 4px;background:#f8fdf5">
+        <!-- Pelvis -->
+        <ellipse cx="90" cy="30" rx="55" ry="20" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+        <text x="90" y="34" font-size="9" fill="#065f46" text-anchor="middle" font-weight="700">Acetábulo</text>
+        <!-- Femoral head -->
+        <circle cx="90" cy="50" r="16" fill="#a7f3d0" stroke="#10b981" stroke-width="2.5"/>
+        <!-- Neck -->
+        <line x1="90" y1="66" x2="75" y2="95" stroke="#059669" stroke-width="6" stroke-linecap="round"/>
+        <!-- Shaft -->
+        <line x1="75" y1="95" x2="90" y2="140" stroke="#6b7280" stroke-width="7" stroke-linecap="round"/>
+        <!-- Angle arc -->
+        <path d="M75,95 A22,22 0 0,1 93,116" fill="none" stroke="#0d9488" stroke-width="2.5"/>
+        <text x="104" y="108" font-size="11" fill="#0d9488" font-weight="700">127°</text>
+        <!-- Coverage indicator -->
+        <path d="M62,28 Q62,35 74,44" fill="none" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="30" y="42" font-size="8" fill="#059669" font-weight="700">Cobertura</text>
+        <text x="30" y="52" font-size="8" fill="#059669">adecuada</text>
+      </svg>
+      <div class="angle-body">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-green" style="flex-shrink:0;">Ángulo</span><span>127° · Cobertura acetabular normal</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-green" style="flex-shrink:0;">Carga</span><span>Distribución equitativa en la articulación</span></div>
+      </div>
+    </div>
+    <!-- Coxa Valga -->
+    <div class="angle-card">
+      <div class="angle-header ah-valga">🔴 Coxa Valga — &gt;125–130°</div>
+      <svg viewBox="0 0 180 145" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif" style="width:100%;display:block;padding:10px 8px 4px;background:#fff5f5">
+        <ellipse cx="90" cy="30" rx="55" ry="20" fill="#fee2e2" stroke="#f87171" stroke-width="2"/>
+        <text x="90" y="34" font-size="9" fill="#991b1b" text-anchor="middle" font-weight="700">Acetábulo</text>
+        <!-- Head partially uncovered -->
+        <circle cx="100" cy="50" r="16" fill="#fca5a5" stroke="#ef4444" stroke-width="2.5"/>
+        <!-- Neck more vertical (valgus) -->
+        <line x1="100" y1="66" x2="92" y2="95" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+        <!-- Shaft -->
+        <line x1="92" y1="95" x2="95" y2="140" stroke="#6b7280" stroke-width="7" stroke-linecap="round"/>
+        <!-- Larger angle arc -->
+        <path d="M92,95 A22,22 0 0,1 105,118" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+        <text x="112" y="112" font-size="11" fill="#dc2626" font-weight="700">&gt;130°</text>
+        <!-- Uncoverage arrow -->
+        <path d="M108,30 Q110,38 108,46" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#acv1)"/>
+        <text x="115" y="35" font-size="8" fill="#dc2626" font-weight="700">Cabeza</text>
+        <text x="115" y="45" font-size="8" fill="#dc2626">descubierta</text>
+        <defs><marker id="acv1" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
+      </svg>
+      <div class="angle-body">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Ángulo</span><span>Mayor de 125–130° · Cuello más vertical</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Riesgo</span><span>↓ Cobertura acetabular → inestabilidad + artrosis prematura</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Genu</span><span>Se asocia con valgo compensatorio de rodilla</span></div>
+      </div>
+    </div>
+    <!-- Coxa Vara -->
+    <div class="angle-card">
+      <div class="angle-header ah-vara">🟠 Coxa Vara — &lt;125°</div>
+      <svg viewBox="0 0 180 145" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif" style="width:100%;display:block;padding:10px 8px 4px;background:#fffbf0">
+        <ellipse cx="90" cy="30" rx="55" ry="20" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="90" y="34" font-size="9" fill="#78350f" text-anchor="middle" font-weight="700">Acetábulo</text>
+        <!-- Head -->
+        <circle cx="82" cy="52" r="16" fill="#fde68a" stroke="#d97706" stroke-width="2.5"/>
+        <!-- Neck more horizontal (vara) -->
+        <line x1="82" y1="68" x2="60" y2="95" stroke="#d97706" stroke-width="6" stroke-linecap="round"/>
+        <!-- Shaft -->
+        <line x1="60" y1="95" x2="80" y2="140" stroke="#6b7280" stroke-width="7" stroke-linecap="round"/>
+        <!-- Smaller angle arc -->
+        <path d="M60,95 A22,22 0 0,1 78,116" fill="none" stroke="#b45309" stroke-width="2.5"/>
+        <text x="85" y="108" font-size="11" fill="#b45309" font-weight="700">&lt;125°</text>
+        <!-- Legg forces -->
+        <text x="108" y="90" font-size="8" fill="#b45309" font-weight="700">↑ Tensión</text>
+        <text x="108" y="100" font-size="8" fill="#b45309">Glúteo medio</text>
+      </svg>
+      <div class="angle-body">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Ángulo</span><span>Menor de 125° · Cuello más horizontal</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Asociado</span><span>Genu varo + pie cavo</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Efecto</span><span>Acorta el brazo de palanca del glúteo medio</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: ANTEVERSIÓN FEMORAL -->
+<section class="slide" id="s5">
+  <div class="slide-label">Deformidades · Anteversión Femoral</div>
+  <h2 class="section-title">Anteversión Femoral y Marcha en "Intoeing"</h2>
+  <div class="two-col">
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot"></div>
+        <div class="item-content">
+          <strong>Definición</strong>
+          <span>La anteversión es el ángulo de torsión del fémur. El valor normal oscila entre <strong>10° y 15°</strong>. Se mide como la rotación anterior del cuello femoral respecto al eje de los cóndilos.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent-red)"></div>
+        <div class="item-content">
+          <strong>Antetorsión Excesiva</strong>
+          <span>Un aumento excesivo del ángulo provoca una <strong>marcha con los pies hacia adentro</strong> (<em>intoeing gait</em>). El niño gira internamente los pies para compensar la rotación interna femoral.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>Prueba de Craig</strong>
+          <span>Es la prueba específica para valorar el grado de anteversión femoral. Se realiza con el paciente en <strong>decúbito prono y rodilla flexionada a 90°</strong>, buscando el punto de mayor prominencia del trocánter mayor.</span>
+        </div>
+      </div>
+    </div>
+    <!-- Craig test SVG + foot angle SVG -->
+    <div class="diagram-box aa">
+      <h4>Prueba de Craig y Anteversión</h4>
+      <svg viewBox="0 0 290 225" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+        <!-- Normal anteversion top -->
+        <rect x="5" y="5" width="130" height="105" rx="10" fill="#f8fdf5" stroke="#86efac" stroke-width="1.5"/>
+        <text x="70" y="22" font-size="9.5" fill="#15803d" text-anchor="middle" font-weight="700">✅ Normal (10–15°)</text>
+        <!-- Femur axial view -->
+        <ellipse cx="70" cy="65" rx="30" ry="20" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
+        <!-- Neck direction normal -->
+        <line x1="70" y1="45" x2="62" y2="30" stroke="#059669" stroke-width="3" stroke-linecap="round" marker-end="url(#acr1)"/>
+        <text x="55" y="26" font-size="8" fill="#059669" font-weight="700">Cuello</text>
+        <!-- Condyle axis -->
+        <line x1="40" y1="65" x2="100" y2="65" stroke="#6b7280" stroke-width="2" stroke-dasharray="3,2"/>
+        <path d="M70,55 A12,12 0 0,1 64,43" fill="none" stroke="#0d9488" stroke-width="2"/>
+        <text x="76" y="44" font-size="9" fill="#0d9488" font-weight="700">~12°</text>
+        <text x="70" y="90" font-size="8" fill="#15803d" text-anchor="middle">Marcha normal</text>
+        <text x="70" y="100" font-size="8" fill="#15803d" text-anchor="middle">Pies al frente</text>
+        <!-- Antetorsion right -->
+        <rect x="155" y="5" width="130" height="105" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="220" y="22" font-size="9.5" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ Antetorsión &gt;20°</text>
+        <ellipse cx="220" cy="65" rx="30" ry="20" fill="#fee2e2" stroke="#f87171" stroke-width="2"/>
+        <!-- Neck direction rotated -->
+        <line x1="220" y1="45" x2="200" y2="32" stroke="#ef4444" stroke-width="3" stroke-linecap="round" marker-end="url(#acr2)"/>
+        <line x1="190" y1="65" x2="250" y2="65" stroke="#6b7280" stroke-width="2" stroke-dasharray="3,2"/>
+        <path d="M220,55 A18,18 0 0,1 203,38" fill="none" stroke="#dc2626" stroke-width="2"/>
+        <text x="228" y="44" font-size="9" fill="#dc2626" font-weight="700">&gt;20°</text>
+        <text x="220" y="90" font-size="8" fill="#b91c1c" text-anchor="middle">Marcha intoeing</text>
+        <text x="220" y="100" font-size="8" fill="#b91c1c" text-anchor="middle">Pies hacia adentro</text>
+        <!-- Craig test diagram bottom -->
+        <rect x="5" y="120" width="280" height="100" rx="10" fill="#eff6ff" stroke="#bae6fd" stroke-width="1.5"/>
+        <text x="145" y="137" font-size="10" fill="#1d4ed8" text-anchor="middle" font-weight="700">Prueba de Craig — Técnica</text>
+        <!-- Patient prone -->
+        <rect x="20" y="148" width="110" height="25" rx="8" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+        <text x="75" y="163" font-size="9" fill="#1e40af" text-anchor="middle" font-weight="700">Decúbito Prono</text>
+        <!-- Knee flexed 90° -->
+        <line x1="155" y1="145" x2="155" y2="195" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+        <line x1="155" y1="195" x2="185" y2="195" stroke="#1d4ed8" stroke-width="4" stroke-linecap="round"/>
+        <text x="180" y="215" font-size="8.5" fill="#1d4ed8" text-anchor="middle" font-weight="700">Rodilla 90° flexión</text>
+        <!-- Trochanter prominence -->
+        <circle cx="148" cy="175" r="8" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+        <text x="110" y="172" font-size="8" fill="#d97706" font-weight="700">Mayor</text>
+        <text x="110" y="182" font-size="8" fill="#d97706">prominence</text>
+        <line x1="128" y1="175" x2="140" y2="175" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <defs>
+          <marker id="acr1" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#059669"/></marker>
+          <marker id="acr2" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">La prueba de Craig con el paciente en prono busca el punto de máxima prominencia del trocánter mayor para medir la anteversión real.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: TEST DE JANDA -->
+<section class="slide" id="s6">
+  <div class="slide-label">Evaluación Clínica · Test de Janda</div>
+  <h2 class="section-title">Patrón de Extensión de Janda</h2>
+  <p class="subtitle" style="font-size:.97rem;">Evalúa la <strong>secuencia de reclutamiento neuromuscular</strong> de la cadena posterior durante la extensión activa de cadera en decúbito prono.</p>
+  <!-- Janda sequence visual -->
+  <div class="diagram-box aa" style="padding:24px 20px;">
+    <h4>Orden Fisiológico Correcto de Activación</h4>
+    <div class="janda-seq" style="margin:16px 0 10px;">
+      <div class="janda-step">
+        <div class="janda-circle" style="background:#d1fae5;border:3px solid #10b981;color:#065f46;">1°</div>
+        <div class="janda-label" style="color:#065f46;">Glúteo Mayor</div>
+        <div class="janda-sub">Motor primario<br>Extensión de cadera</div>
+      </div>
+      <div class="janda-arrow">→</div>
+      <div class="janda-step">
+        <div class="janda-circle" style="background:#dbeafe;border:3px solid #3b82f6;color:#1e40af;">2°</div>
+        <div class="janda-label" style="color:#1e40af;">Isquiotibiales</div>
+        <div class="janda-sub">Asistentes<br>Extensión cadera</div>
+      </div>
+      <div class="janda-arrow">→</div>
+      <div class="janda-step">
+        <div class="janda-circle" style="background:#fef3c7;border:3px solid #f59e0b;color:#78350f;">3°</div>
+        <div class="janda-label" style="color:#78350f;">Paravertebrales</div>
+        <div class="janda-sub">Estabilizadores<br>Lumbares ipsilat.</div>
+      </div>
+      <div class="janda-arrow" style="color:#e0d4c0;font-size:1.2rem;">→→</div>
+      <div class="janda-step">
+        <div class="janda-circle" style="background:#f5f3ff;border:3px solid #8b5cf6;color:#5b21b6;">4°</div>
+        <div class="janda-label" style="color:#5b21b6;">Paravertebrales</div>
+        <div class="janda-sub">Estabilizadores<br>Contralaterales</div>
+      </div>
+    </div>
+    <div class="diagram-caption">El glúteo mayor debe ser el primer músculo en activarse. Si los isquiotibiales o los paravertebrales se activan primero, indica inhibición del glúteo.</div>
+  </div>
+  <div class="two-col">
+    <div class="warning-box">
+      <div class="highlight-icon">⚠️</div>
+      <div class="warning-text"><strong>Patrón Alterado:</strong> Si los isquiotibiales o paravertebrales se activan antes que el glúteo mayor, indica <strong>síndrome de inhibición recíproca</strong>: glúteo débil / inhibido y flexores de cadera acortados.</div>
+    </div>
+    <div class="diagram-box aa" style="padding:14px 16px;">
+      <h4>Compensación Lumbar</h4>
+      <svg viewBox="0 0 270 110" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+        <!-- Normal -->
+        <rect x="5" y="5" width="120" height="100" rx="8" fill="#f8fdf5" stroke="#86efac" stroke-width="1.5"/>
+        <text x="65" y="22" font-size="9.5" fill="#15803d" text-anchor="middle" font-weight="700">✅ Glúteo activo</text>
+        <line x1="65" y1="28" x2="65" y2="95" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="65" y1="65" x2="90" y2="85" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
+        <text x="65" y="102" font-size="8" fill="#15803d" text-anchor="middle">Pelvis estable</text>
+        <!-- Wrong -->
+        <rect x="145" y="5" width="120" height="100" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="205" y="22" font-size="9.5" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ Glúteo inhibido</text>
+        <line x1="200" y1="28" x2="200" y2="95" stroke="#94a3b8" stroke-width="4" stroke-linecap="round"/>
+        <line x1="200" y1="65" x2="225" y2="85" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
+        <!-- Lumbar compensates -->
+        <path d="M168,50 Q155,40 160,30" fill="none" stroke="#f97316" stroke-width="2.5" stroke-dasharray="4,2"/>
+        <text x="152" y="42" font-size="7.5" fill="#ea580c" font-weight="700">↑ Cuadrado</text>
+        <text x="152" y="52" font-size="7.5" fill="#ea580c">Lumbar</text>
+        <text x="205" y="102" font-size="8" fill="#b91c1c" text-anchor="middle">Antev. pelvis</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: TRENDELENBURG + SINGLE LEG SQUAT -->
+<section class="slide" id="s7">
+  <div class="slide-label">Evaluación Clínica · Tests Funcionales</div>
+  <h2 class="section-title">Trendelenburg y Single Leg Squat</h2>
+  <div class="diagram-row">
+    <!-- Trendelenburg -->
+    <div class="diagram-box">
+      <h4>🚶 Signo de Trendelenburg</h4>
+      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+        <!-- Normal -->
+        <rect x="5" y="5" width="125" height="190" rx="10" fill="#f8fdf5" stroke="#86efac" stroke-width="1.5"/>
+        <text x="67" y="22" font-size="10" fill="#15803d" text-anchor="middle" font-weight="700">✅ Negativo</text>
+        <rect x="28" y="84" width="78" height="14" rx="4" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+        <ellipse cx="67" cy="50" rx="14" ry="14" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
+        <line x1="35" y1="72" x2="99" y2="72" stroke="#059669" stroke-width="3.5" stroke-linecap="round"/>
+        <text x="67" y="68" font-size="8" fill="#065f46" text-anchor="middle" font-weight="700">Pelvis horizontal</text>
+        <text x="67" y="110" font-size="8" fill="#15803d" text-anchor="middle">Glúteo medio</text>
+        <text x="67" y="120" font-size="8.5" fill="#15803d" text-anchor="middle" font-weight="700">FUERTE (&gt;25% PC)</text>
+        <!-- Glute force arrow -->
+        <path d="M30" y1="62" fill="none"/>
+        <path d="M30,62 L44,65" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#atr1)"/>
+        <text x="8" y="56" font-size="7.5" fill="#059669" font-weight="700">Glúteo</text>
+        <text x="8" y="66" font-size="7.5" fill="#059669">Medio</text>
+        <!-- Trendelenburg positive -->
+        <rect x="148" y="5" width="127" height="190" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="211" y="22" font-size="10" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ Positivo</text>
+        <rect x="165" y="84" width="78" height="14" rx="4" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+        <ellipse cx="211" cy="50" rx="14" ry="14" fill="#fee2e2" stroke="#f87171" stroke-width="2"/>
+        <!-- Tilted pelvis -->
+        <line x1="172" y1="65" x2="252" y2="78" stroke="#ef4444" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- Drop arrow -->
+        <path d="M172,63 L172,74" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#atr2)"/>
+        <text x="148" y="70" font-size="7.5" fill="#dc2626" font-weight="700">Caída</text>
+        <text x="148" y="80" font-size="7.5" fill="#dc2626">pelvis</text>
+        <text x="211" y="110" font-size="8" fill="#b91c1c" text-anchor="middle">Glúteo medio</text>
+        <text x="211" y="120" font-size="8.5" fill="#b91c1c" text-anchor="middle" font-weight="700">DÉBIL (≤25% PC)</text>
+        <text x="211" y="145" font-size="8" fill="#b91c1c" text-anchor="middle">Hemipelvis</text>
+        <text x="211" y="155" font-size="8" fill="#b91c1c" text-anchor="middle">contralateral cae</text>
+        <defs>
+          <marker id="atr1" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#059669"/></marker>
+          <marker id="atr2" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">Indica insuficiencia del <strong>glúteo medio</strong>. La hemipelvis contralateral al apoyo cae durante la marcha.</div>
+    </div>
+    <!-- SLS + compensaciones -->
+    <div class="diagram-box">
+      <h4>🧍 Single Leg Squat — Compensaciones</h4>
+      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+        <!-- Correct -->
+        <rect x="5" y="5" width="120" height="190" rx="10" fill="#f8fdf5" stroke="#86efac" stroke-width="1.5"/>
+        <text x="65" y="22" font-size="9.5" fill="#15803d" text-anchor="middle" font-weight="700">✅ Correcto</text>
+        <line x1="65" y1="30" x2="65" y2="90" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+        <line x1="65" y1="90" x2="65" y2="145" stroke="#94a3b8" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="65" cy="92" r="10" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
+        <line x1="65" y1="88" x2="65" y2="160" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="65" y="170" font-size="8" fill="#15803d" text-anchor="middle">Rodilla → 2° dedo</text>
+        <text x="65" y="182" font-size="8" fill="#15803d" text-anchor="middle">Pelvis estable</text>
+        <!-- Compensations: QL elevation -->
+        <rect x="148" y="5" width="127" height="190" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="211" y="22" font-size="9.5" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ Compensación QL</text>
+        <!-- Lateral trunk lean + hip hike -->
+        <line x1="220" y1="30" x2="205" y2="88" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
+        <line x1="205" y1="88" x2="215" y2="145" stroke="#94a3b8" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="205" cy="90" r="10" fill="#fee2e2" stroke="#f87171" stroke-width="2.5"/>
+        <!-- QL activation arrow -->
+        <path d="M185,52 Q168,45 162,35" fill="none" stroke="#f97316" stroke-width="2.5" stroke-dasharray="4,2"/>
+        <text x="155" y="32" font-size="7.5" fill="#ea580c" font-weight="700">Cuadrado</text>
+        <text x="155" y="42" font-size="7.5" fill="#ea580c">Lumbar ↑</text>
+        <!-- Pelvis hike -->
+        <line x1="168" y1="62" x2="245" y2="55" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="250" y="58" font-size="7.5" fill="#dc2626" font-weight="700">Pelvis</text>
+        <text x="250" y="68" font-size="7.5" fill="#dc2626">elevada</text>
+        <text x="211" y="170" font-size="8" fill="#b91c1c" text-anchor="middle">QL suple al</text>
+        <text x="211" y="182" font-size="8.5" fill="#b91c1c" text-anchor="middle" font-weight="700">Glúteo Medio débil</text>
+      </svg>
+      <div class="diagram-caption">El cuadrado lumbar eleva la pelvis contralateral para compensar la debilidad del glúteo medio. Detectar esta compensación es clave en la evaluación.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: ESTABILIZACIÓN LUMBOPÉLVICA - VLEEMING -->
+<section class="slide" id="s8">
+  <div class="slide-label">Estabilización Lumbopélvica · Vleeming y Lee</div>
+  <h2 class="section-title">Subsistemas de Estabilidad</h2>
+  <div class="subsystem-grid">
+    <div class="subsystem-card">
+      <div class="subsystem-header sh-local">🔵 Subsistema Intrínseco (Local)</div>
+      <div class="subsystem-body">
+        <div style="display:flex;gap:9px;align-items:flex-start;"><span class="tag tag-teal" style="flex-shrink:0;">Transverso</span><span style="font-size:.93rem;color:var(--text-muted);">Musculatura profunda del abdomen. Precede a todos los movimientos.</span></div>
+        <div style="display:flex;gap:9px;align-items:flex-start;"><span class="tag tag-teal" style="flex-shrink:0;">Multífidos</span><span style="font-size:.93rem;color:var(--text-muted);">Estabilizan cada segmento vertebral individualmente.</span></div>
+        <div style="display:flex;gap:9px;align-items:flex-start;"><span class="tag tag-teal" style="flex-shrink:0;">Diafragma</span><span style="font-size:.93rem;color:var(--text-muted);">Forma el "techo" de la cavidad abdominal presurizada.</span></div>
+        <div style="display:flex;gap:9px;align-items:flex-start;"><span class="tag tag-teal" style="flex-shrink:0;">Suelo pélvico</span><span style="font-size:.93rem;color:var(--text-muted);">Forma la "base". Su co-contracción aumenta la presión intraabdominal.</span></div>
+        <div class="highlight-box" style="margin-top:6px;">
+          <div class="highlight-icon" style="font-size:1.2rem;">💡</div>
+          <div class="highlight-text" style="font-size:.88rem;">Su activación incrementa la <strong>presión intraabdominal</strong> y estabiliza los segmentos lumbares antes de que los músculos globales generen movimiento.</div>
+        </div>
+      </div>
+    </div>
+    <div class="subsystem-card">
+      <div class="subsystem-header sh-global">🟠 Subsistema Extrínseco (Global)</div>
+      <div class="subsystem-body">
+        <div style="display:flex;gap:9px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Recto abdominal</span><span style="font-size:.93rem;color:var(--text-muted);">Genera movimiento y transmite fuerzas entre tórax y pelvis.</span></div>
+        <div style="display:flex;gap:9px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Glúteo mayor</span><span style="font-size:.93rem;color:var(--text-muted);">Potente extensor de cadera. Control del plano sagital.</span></div>
+        <div style="display:flex;gap:9px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Dorsal ancho</span><span style="font-size:.93rem;color:var(--text-muted);">Conecta la extremidad superior con la cintura pélvica.</span></div>
+        <div style="display:flex;gap:9px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Isquiotibiales</span><span style="font-size:.93rem;color:var(--text-muted);">Biarticulares. Controlan la posición pélvica en carga.</span></div>
+        <div class="warning-box" style="margin-top:6px;">
+          <div class="highlight-icon" style="font-size:1.2rem;">⚠️</div>
+          <div class="warning-text" style="font-size:.88rem;">Un déficit en la sinergia con los <strong>flexores de pelvis</strong> puede aumentar la compresión en las articulaciones cigapofisarias lumbares → <strong>dolor de espalda</strong>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Pressure cylinder SVG -->
+  <div class="diagram-box aa">
+    <h4>Cilindro de Presión Intraabdominal</h4>
+    <svg viewBox="0 0 580 110" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+      <!-- Cylinder -->
+      <rect x="220" y="10" width="140" height="90" rx="6" fill="#f0fdf4" stroke="#4ade80" stroke-width="2"/>
+      <!-- Diaphragm top -->
+      <path d="M220,30 Q260,18 290,22 Q320,26 360,30" fill="none" stroke="#059669" stroke-width="3"/>
+      <text x="290" y="16" font-size="9" fill="#059669" text-anchor="middle" font-weight="700">Diafragma</text>
+      <!-- Pelvic floor bottom -->
+      <path d="M220,85 Q260,96 290,92 Q320,88 360,85" fill="none" stroke="#0891b2" stroke-width="3"/>
+      <text x="290" y="108" font-size="9" fill="#0891b2" text-anchor="middle" font-weight="700">Suelo Pélvico</text>
+      <!-- Transverse sides -->
+      <line x1="220" y1="30" x2="220" y2="85" stroke="#6d28d9" stroke-width="3"/>
+      <line x1="360" y1="30" x2="360" y2="85" stroke="#6d28d9" stroke-width="3"/>
+      <text x="200" y="62" font-size="8.5" fill="#6d28d9" text-anchor="end" font-weight="700">Transverso</text>
+      <text x="380" y="62" font-size="8.5" fill="#6d28d9" font-weight="700">Multífidos</text>
+      <!-- Pressure arrows inward -->
+      <path d="M195,55 L215,55" fill="none" stroke="#0d6b50" stroke-width="2.5" marker-end="url(#apr1)"/>
+      <path d="M365,55 L385,55" fill="none" stroke="#0d6b50" stroke-width="2.5" marker-end="url(#apr1)"/>
+      <!-- Pressure content -->
+      <text x="290" y="52" font-size="11" fill="#0d6b50" text-anchor="middle" font-weight="700">↑ Presión</text>
+      <text x="290" y="68" font-size="9" fill="#0d6b50" text-anchor="middle">Intraabdominal</text>
+      <!-- Left label -->
+      <text x="80" y="52" font-size="9" fill="#5a4a35" text-anchor="middle">Co-contracción</text>
+      <text x="80" y="65" font-size="9" fill="#5a4a35" text-anchor="middle">de los 4</text>
+      <text x="80" y="78" font-size="9" fill="#92400e" text-anchor="middle" font-weight="700">→ ESTABILIDAD</text>
+      <!-- Right result -->
+      <text x="490" y="45" font-size="9" fill="#5a4a35" text-anchor="middle">Segmentos</text>
+      <text x="490" y="58" font-size="9" fill="#5a4a35" text-anchor="middle">lumbares</text>
+      <text x="490" y="72" font-size="9" fill="#0891b2" text-anchor="middle" font-weight="700">estabilizados</text>
+      <defs><marker id="apr1" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#0d6b50"/></marker></defs>
+    </svg>
+    <div class="diagram-caption">Los 4 músculos del subsistema local actúan como un <strong>cilindro presurizado</strong> que estabiliza la columna lumbar antes de cualquier movimiento de las extremidades.</div>
+  </div>
+</section>
+
+<!-- SLIDE 9: DISOCIACIÓN LUMBOPÉLVICA -->
+<section class="slide" id="s9">
+  <div class="slide-label">Reeducación · Disociación Lumbopélvica</div>
+  <h2 class="section-title">Objetivo Final: Disociación Lumbopélvica</h2>
+  <div class="two-col">
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot"></div>
+        <div class="item-content">
+          <strong>¿Qué es la Disociación Lumbopélvica?</strong>
+          <span>La capacidad de mover la cadera en extensión <strong>sin que la pelvis se antevierta prematuramente</strong>. Si la pelvis se adelanta antes de completar el arco de movimiento, indica un patrón motor incorrecto.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent-red)"></div>
+        <div class="item-content">
+          <strong>Patrón Incorrecto — Anteversión Prematura</strong>
+          <span>La pelvis se antevierta tempranamente para <em>compensar la insuficiencia del glúteo mayor</em>, extendiendo desde la columna lumbar en lugar de desde la articulación coxofemoral.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>Objetivo Kinésico</strong>
+          <span>Reeducar al sistema nervioso central para que active el glúteo mayor como motor primario y mantenga la pelvis neutra durante toda la extensión de cadera, evitando sobrecargar la columna lumbar.</span>
+        </div>
+      </div>
+    </div>
+    <div class="diagram-box aa">
+      <h4>Patrón Correcto vs. Incorrecto</h4>
+      <svg viewBox="0 0 285 215" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+        <!-- Correct: hip extension without pelvic tilt -->
+        <rect x="5" y="5" width="128" height="200" rx="10" fill="#f8fdf5" stroke="#86efac" stroke-width="1.5"/>
+        <text x="69" y="22" font-size="9.5" fill="#15803d" text-anchor="middle" font-weight="700">✅ Disociación OK</text>
+        <!-- Spine neutral -->
+        <path d="M70,30 Q68,55 70,80 Q72,105 70,130" fill="none" stroke="#94a3b8" stroke-width="3"/>
+        <!-- Pelvis neutral -->
+        <ellipse cx="70" cy="135" rx="30" ry="14" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
+        <text x="70" y="139" font-size="7.5" fill="#065f46" text-anchor="middle" font-weight="700">Pelvis neutral</text>
+        <!-- Leg extending -->
+        <line x1="70" y1="149" x2="55" y2="195" stroke="#059669" stroke-width="5" stroke-linecap="round"/>
+        <text x="70" y="210" font-size="8" fill="#15803d" text-anchor="middle">Cadera extiende</text>
+        <!-- Glute activation -->
+        <path d="M38,148 L52,142" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#adis1)"/>
+        <text x="8" y="142" font-size="7.5" fill="#059669" font-weight="700">Glúteo</text>
+        <text x="8" y="152" font-size="7.5" fill="#059669">Mayor</text>
+        <!-- Wrong: lumbar extension -->
+        <rect x="151" y="5" width="128" height="200" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="215" y="22" font-size="9.5" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ Antev. Prematura</text>
+        <!-- Spine hyperlordosis -->
+        <path d="M215,30 Q225,55 215,80 Q205,105 215,130" fill="none" stroke="#ef4444" stroke-width="3"/>
+        <!-- Pelvis anteverted -->
+        <ellipse cx="215" cy="135" rx="30" ry="14" fill="#fee2e2" stroke="#f87171" stroke-width="2" transform="rotate(-15,215,135)"/>
+        <text x="215" y="138" font-size="7.5" fill="#991b1b" text-anchor="middle" font-weight="700">Pelvis ant.</text>
+        <!-- Leg extending -->
+        <line x1="215" y1="149" x2="200" y2="195" stroke="#dc2626" stroke-width="5" stroke-linecap="round"/>
+        <text x="215" y="210" font-size="8" fill="#b91c1c" text-anchor="middle">Extensión lumbar</text>
+        <!-- Lumbar overload -->
+        <path d="M215,75 L238,68" fill="none" stroke="#f97316" stroke-width="2.5" marker-end="url(#adis2)"/>
+        <text x="240" y="65" font-size="7.5" fill="#ea580c" font-weight="700">Sobrecarga</text>
+        <text x="240" y="75" font-size="7.5" fill="#ea580c">lumbar</text>
+        <defs>
+          <marker id="adis1" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#059669"/></marker>
+          <marker id="adis2" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#f97316"/></marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">La anteversión prematura transfiere las fuerzas de extensión a la columna lumbar, sobrecargando las cigapofisarias y generando dolor.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: TRATAMIENTO - PRINCIPIOS -->
+<section class="slide" id="s10">
+  <div class="slide-label">Tratamiento Kinésico · Principios</div>
+  <h2 class="section-title">Tiempo Mínimo de Trabajo y Progresión</h2>
+  <div class="two-col">
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot"></div>
+        <div class="item-content">
+          <strong>⏱️ Tiempo Mínimo: 10–12 Semanas</strong>
+          <span>Para que un programa de ejercicio terapéutico produzca <strong>beneficios significativos y cambios adaptativos</strong> en el tejido blando se requieren un mínimo de 10 a 12 semanas de trabajo constante.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>📈 Por Qué Este Plazo</strong>
+          <span>Los cambios en el tejido blando (hipertrofia muscular, remodelación del colágeno, neuroplasticidad motora) requieren tiempo. Los resultados visibles a corto plazo reflejan <em>adaptaciones neurales</em>, no estructurales.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent3)"></div>
+        <div class="item-content">
+          <strong>🔄 Progresión por Fases</strong>
+          <span>De ejercicios analíticos (glúteo aislado) hacia funcionales (step, sentadilla monopodal) y finalmente a ejercicios pliométricos que reproducen las demandas del deporte o la actividad laboral.</span>
+        </div>
+      </div>
+    </div>
+    <!-- Progression timeline SVG -->
+    <div class="diagram-box aa">
+      <h4>Progresión del Programa (10–12 semanas)</h4>
+      <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+        <!-- Phase 1 -->
+        <rect x="10" y="10" width="260" height="46" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <text x="140" y="28" font-size="10" fill="#15803d" text-anchor="middle" font-weight="700">Fase 1 — Semanas 1–3</text>
+        <text x="140" y="42" font-size="9" fill="#166534" text-anchor="middle">Estabilización local: transverso, multífidos, activación glúteo</text>
+        <line x1="140" y1="56" x2="140" y2="68" stroke="#e0d4c0" stroke-width="2" marker-end="url(#aprog)"/>
+        <!-- Phase 2 -->
+        <rect x="10" y="72" width="260" height="46" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+        <text x="140" y="90" font-size="10" fill="#1d4ed8" text-anchor="middle" font-weight="700">Fase 2 — Semanas 4–6</text>
+        <text x="140" y="104" font-size="9" fill="#1e40af" text-anchor="middle">Control motor: Janda, disociación lumbopélvica, sentadilla bipodal</text>
+        <line x1="140" y1="118" x2="140" y2="130" stroke="#e0d4c0" stroke-width="2" marker-end="url(#aprog)"/>
+        <!-- Phase 3 -->
+        <rect x="10" y="134" width="260" height="46" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
+        <text x="140" y="152" font-size="10" fill="#b45309" text-anchor="middle" font-weight="700">Fase 3 — Semanas 7–9</text>
+        <text x="140" y="166" font-size="9" fill="#9a3412" text-anchor="middle">Funcional: sentadilla monopodal, step lateral, lunge con control</text>
+        <line x1="140" y1="180" x2="140" y2="192" stroke="#e0d4c0" stroke-width="2" marker-end="url(#aprog)"/>
+        <!-- Phase 4 -->
+        <rect x="10" y="196" width="260" height="20" rx="8" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="1.5"/>
+        <text x="140" y="210" font-size="9.5" fill="#7c3aed" text-anchor="middle" font-weight="700">Fase 4 — Semanas 10–12: Pliometría y gestos deportivos</text>
+        <defs><marker id="aprog" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker></defs>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11: PLIOMETRÍA -->
+<section class="slide" id="s11">
+  <div class="slide-label">Tratamiento · Fase Avanzada</div>
+  <h2 class="section-title">Pliometría: Bound y Hop</h2>
+  <p class="subtitle" style="font-size:.97rem;">Los ejercicios pliométricos se incorporan en fases avanzadas (semanas 10–12) para desarrollar <strong>potencia y estabilidad dinámica</strong>.</p>
+  <div class="plio-grid">
+    <!-- Bound -->
+    <div class="plio-card">
+      <div style="font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;">🦘 BOUND — Salto Bipodal Alternado</div>
+      <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif" style="width:100%;display:block;">
+        <line x1="10" y1="122" x2="270" y2="122" stroke="#e0d4c0" stroke-width="1.5"/>
+        <!-- Foot 1 (left) -->
+        <ellipse cx="40" cy="119" rx="22" ry="7" fill="#d1fae5" stroke="#4ade80" stroke-width="1.5"/>
+        <!-- Body 1 -->
+        <ellipse cx="40" cy="85" rx="10" ry="10" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+        <!-- Air phase -->
+        <ellipse cx="140" cy="48" rx="11" ry="11" fill="#fde68a" stroke="#d97706" stroke-width="2.5"/>
+        <path d="M50,82 Q95,30 130,45" fill="none" stroke="#92400e" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <!-- Land on opposite leg -->
+        <ellipse cx="240" cy="85" rx="10" ry="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+        <ellipse cx="240" cy="119" rx="22" ry="7" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+        <path d="M150,45 Q195,30 230,82" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <!-- Labels -->
+        <text x="40" y="108" font-size="8.5" fill="#059669" text-anchor="middle" font-weight="700">Pierna A</text>
+        <text x="140" y="35" font-size="8.5" fill="#d97706" text-anchor="middle" font-weight="700">Fase aérea</text>
+        <text x="240" y="108" font-size="8.5" fill="#1d4ed8" text-anchor="middle" font-weight="700">Pierna B</text>
+        <text x="140" y="115" font-size="8" fill="#92400e" text-anchor="middle">Salto de una pierna → recepción en la otra</text>
+      </svg>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:10px;">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Objetivo</span><span style="font-size:.88rem;color:var(--text-muted);">Potencia lateral y control de la recepción monopodal</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Musculatura</span><span style="font-size:.88rem;color:var(--text-muted);">Glúteo medio, glúteo mayor, cuádriceps, peroneos</span></div>
+      </div>
+    </div>
+    <!-- Hop -->
+    <div class="plio-card">
+      <div style="font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent2);margin-bottom:12px;">🏃 HOP — Salto y Recepción Monopodal</div>
+      <svg viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif" style="width:100%;display:block;">
+        <line x1="10" y1="122" x2="270" y2="122" stroke="#e0d4c0" stroke-width="1.5"/>
+        <!-- Same leg takeoff -->
+        <ellipse cx="50" cy="119" rx="20" ry="7" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+        <ellipse cx="50" cy="86" rx="10" ry="10" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+        <!-- Air -->
+        <ellipse cx="140" cy="45" rx="11" ry="11" fill="#fde68a" stroke="#d97706" stroke-width="2.5"/>
+        <path d="M60,83 Q100,28 128,42" fill="none" stroke="#c2410c" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <!-- Same leg landing -->
+        <ellipse cx="230" cy="86" rx="10" ry="10" fill="#fde68a" stroke="#d97706" stroke-width="2.5"/>
+        <ellipse cx="230" cy="119" rx="20" ry="7" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+        <path d="M152,42 Q190,28 220,83" fill="none" stroke="#c2410c" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <!-- Same leg indicator -->
+        <text x="50" y="108" font-size="8.5" fill="#d97706" text-anchor="middle" font-weight="700">Pierna A</text>
+        <text x="140" y="32" font-size="8.5" fill="#d97706" text-anchor="middle" font-weight="700">Fase aérea</text>
+        <text x="230" y="108" font-size="8.5" fill="#d97706" text-anchor="middle" font-weight="700">Pierna A</text>
+        <text x="140" y="115" font-size="8" fill="#c2410c" text-anchor="middle">Salto y recepción con la MISMA pierna</text>
+        <!-- Higher demand indicator -->
+        <rect x="100" y="55" width="80" height="18" rx="6" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.2"/>
+        <text x="140" y="67" font-size="8" fill="#b45309" text-anchor="middle" font-weight="700">↑ Mayor demanda estabilidad</text>
+      </svg>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:10px;">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Objetivo</span><span style="font-size:.88rem;color:var(--text-muted);">Mayor exigencia: estabilidad monopodal en recepción</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Progresión</span><span style="font-size:.88rem;color:var(--text-muted);">Se introduce después del Bound. Requiere control previo.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="highlight-box">
+    <div class="highlight-icon">⚡</div>
+    <div class="highlight-text">La pliometría no es solo "saltar". El foco debe estar en la <strong>calidad de la recepción</strong>: rodilla alineada sobre el 2° dedo, pelvis estable, sin valgo dinámico. La cantidad es secundaria a la calidad de ejecución.</div>
+  </div>
+</section>
+
+<!-- SLIDE 12: DIAGRAMA INTEGRADOR -->
+<section class="slide" id="s12">
+  <div class="slide-label">Síntesis · Cadena Funcional de la Cadera</div>
+  <h2 class="section-title">Integración: Ángulo → Control Motor → Tratamiento</h2>
+  <div class="diagram-box aa">
+    <h4>Cadena Diagnóstico–Terapéutica de la Cadera</h4>
+    <svg viewBox="0 0 720 170" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans,sans-serif">
+      <!-- Step 1: Morphology -->
+      <rect x="8" y="15" width="130" height="140" rx="10" fill="#fef3c7" stroke="#fcd34d" stroke-width="2"/>
+      <text x="73" y="33" font-size="10" fill="#78350f" text-anchor="middle" font-weight="700">1. Morfología</text>
+      <text x="73" y="50" font-size="8.5" fill="#92400e" text-anchor="middle">Ángulo cervico-</text>
+      <text x="73" y="62" font-size="8.5" fill="#92400e" text-anchor="middle">diafisario</text>
+      <rect x="20" y="72" width="106" height="20" rx="6" fill="rgba(146,64,14,.1)"/>
+      <text x="73" y="85" font-size="8.5" fill="#92400e" text-anchor="middle">Normal: 127°</text>
+      <text x="73" y="104" font-size="8.5" fill="#dc2626" text-anchor="middle">Coxa valga &gt;130°</text>
+      <text x="73" y="116" font-size="8.5" fill="#b45309" text-anchor="middle">Coxa vara &lt;125°</text>
+      <text x="73" y="128" font-size="8.5" fill="#1d4ed8" text-anchor="middle">Antev. 10–15°</text>
+      <path d="M138,85 L158,85" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#achain)"/>
+      <!-- Step 2: Evaluation -->
+      <rect x="162" y="15" width="130" height="140" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+      <text x="227" y="33" font-size="10" fill="#15803d" text-anchor="middle" font-weight="700">2. Evaluación</text>
+      <text x="227" y="52" font-size="8.5" fill="#166534" text-anchor="middle">Prueba de Craig</text>
+      <text x="227" y="64" font-size="8.5" fill="#166534" text-anchor="middle">Test de Janda</text>
+      <text x="227" y="76" font-size="8.5" fill="#166534" text-anchor="middle">Trendelenburg</text>
+      <text x="227" y="88" font-size="8.5" fill="#166534" text-anchor="middle">Single Leg Squat</text>
+      <text x="227" y="100" font-size="8.5" fill="#166534" text-anchor="middle">Compensación QL</text>
+      <path d="M292,85 L312,85" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#achain)"/>
+      <!-- Step 3: Local stability -->
+      <rect x="316" y="15" width="130" height="140" rx="10" fill="#f0f9ff" stroke="#bae6fd" stroke-width="2"/>
+      <text x="381" y="33" font-size="10" fill="#0369a1" text-anchor="middle" font-weight="700">3. Estabilidad</text>
+      <text x="381" y="52" font-size="8.5" fill="#1d4ed8" text-anchor="middle">Transverso abd.</text>
+      <text x="381" y="64" font-size="8.5" fill="#1d4ed8" text-anchor="middle">Multífidos</text>
+      <text x="381" y="76" font-size="8.5" fill="#1d4ed8" text-anchor="middle">Diafragma</text>
+      <text x="381" y="88" font-size="8.5" fill="#1d4ed8" text-anchor="middle">Suelo pélvico</text>
+      <text x="381" y="104" font-size="8" fill="#0891b2" text-anchor="middle" font-weight="700">Subsistema local</text>
+      <path d="M446,85 L466,85" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#achain)"/>
+      <!-- Step 4: Motor control -->
+      <rect x="470" y="15" width="130" height="140" rx="10" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="2"/>
+      <text x="535" y="33" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="700">4. Control Motor</text>
+      <text x="535" y="52" font-size="8.5" fill="#6d28d9" text-anchor="middle">Patrón Janda</text>
+      <text x="535" y="64" font-size="8.5" fill="#6d28d9" text-anchor="middle">Disociación LP</text>
+      <text x="535" y="76" font-size="8.5" fill="#6d28d9" text-anchor="middle">Glúteo mayor</text>
+      <text x="535" y="88" font-size="8.5" fill="#6d28d9" text-anchor="middle">Sentadilla 1P</text>
+      <path d="M600,85 L620,85" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#achain)"/>
+      <!-- Step 5: Plyometry -->
+      <rect x="624" y="15" width="90" height="140" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="2"/>
+      <text x="669" y="33" font-size="10" fill="#b45309" text-anchor="middle" font-weight="700">5. Plio.</text>
+      <text x="669" y="52" font-size="8.5" fill="#c2410c" text-anchor="middle">Bound</text>
+      <text x="669" y="64" font-size="8.5" fill="#c2410c" text-anchor="middle">Hop</text>
+      <text x="669" y="82" font-size="8.5" fill="#c2410c" text-anchor="middle" font-weight="700">10–12</text>
+      <text x="669" y="93" font-size="8.5" fill="#c2410c" text-anchor="middle" font-weight="700">semanas</text>
+      <text x="669" y="110" font-size="8.5" fill="#b45309" text-anchor="middle">Alta</text>
+      <defs><marker id="achain" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker></defs>
+    </svg>
+    <div class="diagram-caption">La evaluación morfológica orienta el diagnóstico; la evaluación funcional identifica los déficits; el tratamiento avanza de la estabilidad local al control motor y culmina en la pliometría.</div>
+  </div>
+  <div class="two-col">
+    <div class="highlight-box">
+      <div class="highlight-icon">🦴</div>
+      <div class="highlight-text"><strong>Coxa valga:</strong> Mayor inestabilidad, riesgo de artrosis. Prioridad: fortalecer abductores y centradores de cadera para compensar la menor cobertura acetabular.</div>
+    </div>
+    <div class="highlight-box" style="border-color:rgba(30,107,138,.2);background:linear-gradient(135deg,rgba(30,107,138,.05),rgba(146,64,14,.04));">
+      <div class="highlight-icon">📐</div>
+      <div class="highlight-text"><strong>Coxa vara:</strong> Acorta el brazo de palanca del glúteo medio. Requiere compensación con mayor entrenamiento en abducción y control de la basculación pélvica.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13: RESUMEN -->
+<section class="slide" id="s13">
+  <div class="slide-label">Resumen Final</div>
+  <h2 class="section-title">Conceptos Esenciales de la Lección</h2>
+  <div class="summary-grid">
+    <div class="summary-item"><div class="big-icon">📐</div><h4>Ángulo CervicoDiafisario</h4><p>Normal adulto: 127°. Nace en 150°. Consolida a los 8 años impulsado por el estímulo mecánico de la carga.</p></div>
+    <div class="summary-item"><div class="big-icon">🦴</div><h4>Coxa Valga / Vara</h4><p>Valga &gt;130°: ↓ cobertura acetabular, artrosis. Vara &lt;125°: asociada a genu varo + pie cavo.</p></div>
+    <div class="summary-item"><div class="big-icon">🔄</div><h4>Anteversión Femoral</h4><p>Normal 10–15°. Exceso → marcha intoeing. Prueba de Craig en decúbito prono con rodilla a 90°.</p></div>
+    <div class="summary-item"><div class="big-icon">🧠</div><h4>Test de Janda</h4><p>Orden: 1° Glúteo Mayor → 2° Isquiotibiales → 3° Paravertebrales. Inversión indica inhibición del glúteo.</p></div>
+    <div class="summary-item"><div class="big-icon">🔵</div><h4>Estabilidad Local</h4><p>Transverso + multífidos + diafragma + suelo pélvico. Co-contracción → cilindro presurizado → columna estable.</p></div>
+    <div class="summary-item"><div class="big-icon">⏱️</div><h4>10–12 Semanas</h4><p>Tiempo mínimo para cambios adaptativos en tejido blando. Progresión: analítico → funcional → pliométrico.</p></div>
+  </div>
+  <div class="highlight-box" style="margin-top:4px;">
+    <div class="highlight-icon">🎯</div>
+    <div class="highlight-text"><strong>Objetivo final:</strong> Disociación lumbopélvica. La pelvis no debe antevertirse prematuramente durante la extensión de cadera. Si lo hace, indica un patrón motor incorrecto que perpetúa el dolor lumbar y la inestabilidad.</div>
+  </div>
+</section>
+
+</div>
+<nav id="nav">
+  <button class="nav-btn" id="btn-prev" disabled>← Anterior</button>
+  <div id="slide-dots"></div>
+  <button class="nav-btn" id="btn-next">Siguiente →</button>
+</nav>
+<script>
+  const slides=Array.from(document.querySelectorAll('.slide'));
+  const total=slides.length;let current=0;
+  const progressBar=document.getElementById('progress-bar');
+  const counter=document.getElementById('slide-counter');
+  const btnPrev=document.getElementById('btn-prev');
+  const btnNext=document.getElementById('btn-next');
+  const dotsContainer=document.getElementById('slide-dots');
+  slides.forEach((_,i)=>{const d=document.createElement('button');d.className='dot'+(i===0?' active':'');d.addEventListener('click',()=>goTo(i));dotsContainer.appendChild(d);});
+  function updateUI(){progressBar.style.width=((current+1)/total*100)+'%';counter.textContent=(current+1)+' / '+total;btnPrev.disabled=current===0;btnNext.disabled=current===total-1;dotsContainer.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===current));}
+  function animateSlideIn(slide){['card','item','summary-item','diagram-box','angle-card','subsystem-card','plio-card'].forEach(cls=>{slide.querySelectorAll('.'+cls).forEach((el,i)=>{el.classList.remove('animate');setTimeout(()=>el.classList.add('animate'),80+i*75);});});}
+  function goTo(idx){if(idx===current)return;const prev=current;slides[prev].classList.add(idx>current?'exit-left':'exit-right');slides[prev].classList.remove('active');current=idx;slides[current].classList.remove('exit-left','exit-right');slides[current].classList.add('active');setTimeout(()=>slides[prev].classList.remove('exit-left','exit-right'),500);animateSlideIn(slides[current]);updateUI();}
+  btnNext.addEventListener('click',()=>{if(current<total-1)goTo(current+1);});
+  btnPrev.addEventListener('click',()=>{if(current>0)goTo(current-1);});
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'){if(current<total-1)goTo(current+1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){if(current>0)goTo(current-1);}});
+  updateUI();animateSlideIn(slides[0]);
+</script>
+</body>
+</html>

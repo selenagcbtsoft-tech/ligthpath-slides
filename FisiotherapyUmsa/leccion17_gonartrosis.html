@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lección 17 – Gonartrosis (Osteoartrosis de Rodilla)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f0f7ee;--surface:#fff;--surface2:#e2efe0;
+    --accent:#1a5c2a;--accent2:#7c2d12;--accent3:#1e40af;
+    --accent-amber:#92400e;--accent-teal:#0f766e;--accent-purple:#6b21a8;
+    --text:#0d1f0f;--text-muted:#3a5240;--border:#c5dcc0;
+    --shadow:0 2px 18px rgba(0,0,0,0.07);--slide-w:980px;--radius:14px;
+    --font-display:'Bitter',Georgia,serif;--font-body:'Source Sans 3',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font-body);overflow:hidden}
+  #progress-bar{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s;z-index:100}
+  #slide-counter{position:fixed;top:16px;right:22px;font-size:13px;font-weight:700;color:var(--text-muted);z-index:100}
+  #lesson-tag{position:fixed;top:10px;left:22px;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);z-index:100;background:rgba(26,92,42,.09);padding:5px 13px;border-radius:20px}
+  #slides-wrapper{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;padding:60px 24px 80px;overflow:hidden}
+  .slide{position:absolute;width:100%;max-width:var(--slide-w);display:flex;flex-direction:column;gap:20px;opacity:0;pointer-events:none;transform:translateX(70px);transition:opacity .4s ease,transform .4s cubic-bezier(.4,0,.2,1);max-height:calc(100vh - 140px);overflow-y:auto;padding-right:4px}
+  .slide::-webkit-scrollbar{width:4px}.slide::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+  .slide.active{opacity:1;pointer-events:all;transform:translateX(0)}
+  .slide.exit-left{opacity:0;transform:translateX(-70px)}
+  .slide-label{font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px}
+  .slide-label::before{content:'';display:inline-block;width:28px;height:3px;background:var(--accent);border-radius:2px}
+  h1.slide-title{font-family:var(--font-display);font-size:clamp(2rem,4.2vw,3.1rem);line-height:1.1;font-weight:700}
+  h1.slide-title em{font-style:italic;color:var(--accent);font-weight:400}
+  h2.section-title{font-family:var(--font-display);font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:700;line-height:1.2}
+  .subtitle{font-size:1.05rem;color:var(--text-muted);line-height:1.75;max-width:720px}
+  .divider{width:70px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;margin:-4px 0}
+  .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 22px;display:flex;flex-direction:column;gap:10px;opacity:0;transform:translateY(22px);box-shadow:var(--shadow);transition:opacity .4s ease,transform .4s ease}
+  .card.animate{opacity:1;transform:translateY(0)}
+  .card-icon{font-size:1.8rem;width:46px;height:46px;background:var(--surface2);border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .card-title{font-size:.83rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
+  .card-body{font-size:.95rem;color:var(--text-muted);line-height:1.65}
+  .item-list{display:flex;flex-direction:column;gap:12px}
+  .item{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow);opacity:0;transform:translateX(-22px);transition:opacity .35s ease,transform .35s ease}
+  .item.animate{opacity:1;transform:translateX(0)}
+  .item-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+  .item-content strong{display:block;font-size:.98rem;font-weight:700;color:var(--text);margin-bottom:4px}
+  .item-content span{font-size:.93rem;color:var(--text-muted);line-height:1.65}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr}}
+  .highlight-box{background:linear-gradient(135deg,rgba(26,92,42,.05),rgba(124,45,18,.05));border:1.5px solid rgba(26,92,42,.18);border-radius:var(--radius);padding:18px 22px;display:flex;gap:14px;align-items:flex-start}
+  .highlight-icon{font-size:1.6rem;flex-shrink:0;margin-top:1px}
+  .highlight-text{font-size:.95rem;line-height:1.7;color:var(--text-muted)}
+  .highlight-text strong{color:var(--accent)}
+  .warning-box{background:rgba(124,45,18,.04);border:1.5px solid rgba(124,45,18,.22);border-radius:var(--radius);padding:16px 20px;display:flex;gap:14px;align-items:flex-start}
+  .warning-text{font-size:.93rem;line-height:1.7;color:var(--text-muted)}
+  .warning-text strong{color:var(--accent2)}
+  .evidence-box{background:linear-gradient(135deg,rgba(30,64,175,.05),rgba(107,33,168,.04));border:1.5px solid rgba(30,64,175,.2);border-radius:var(--radius);padding:16px 20px;display:flex;gap:14px;align-items:flex-start}
+  .evidence-text{font-size:.93rem;line-height:1.7;color:var(--text-muted)}
+  .evidence-text strong{color:var(--accent3)}
+  .tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.78rem;font-weight:700}
+  .tag-green{background:rgba(26,92,42,.1);color:var(--accent)}
+  .tag-red{background:rgba(124,45,18,.1);color:var(--accent2)}
+  .tag-blue{background:rgba(30,64,175,.1);color:var(--accent3)}
+  .tag-amber{background:rgba(146,64,14,.1);color:var(--accent-amber)}
+  .tag-teal{background:rgba(15,118,110,.1);color:var(--accent-teal)}
+  .tag-purple{background:rgba(107,33,168,.1);color:var(--accent-purple)}
+  .diagram-box{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
+  .diagram-box.animate,.diagram-box.aa{opacity:1;transform:translateY(0)}
+  .diagram-box h4{font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}
+  .diagram-caption{font-size:.83rem;color:var(--text-muted);line-height:1.55;text-align:center}
+  .diagram-row{display:flex;gap:16px;align-items:stretch}
+  /* CURRIER CRITERIA */
+  .currier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:700px){.currier-grid{grid-template-columns:repeat(2,1fr)}}
+  .currier-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 14px;text-align:center;box-shadow:var(--shadow);opacity:0;transform:scale(.92);transition:opacity .4s ease,transform .4s ease}
+  .currier-card.animate{opacity:1;transform:scale(1)}
+  .currier-num{font-family:var(--font-display);font-size:2.4rem;font-weight:700;line-height:1;color:var(--accent)}
+  .currier-criterion{font-size:.85rem;color:var(--text-muted);line-height:1.5;margin-top:6px}
+  .currier-measure{font-size:.82rem;font-weight:700;margin-top:5px}
+  /* ATR CARDS */
+  .atr-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:700px){.atr-grid{grid-template-columns:1fr}}
+  .atr-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);opacity:0;transform:translateY(14px);transition:opacity .4s ease,transform .4s ease}
+  .atr-card.animate{opacity:1;transform:translateY(0)}
+  .atr-header{padding:12px 16px;font-size:.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:1.5px solid var(--border)}
+  .ah-pre{background:rgba(26,92,42,.07);color:var(--accent)}
+  .ah-intra{background:rgba(30,64,175,.07);color:var(--accent3)}
+  .ah-post{background:rgba(124,45,18,.07);color:var(--accent2)}
+  .atr-body{padding:13px 16px;font-size:.88rem;color:var(--text-muted);line-height:1.65;display:flex;flex-direction:column;gap:8px}
+  /* SUMMARY */
+  .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:600px){.summary-grid{grid-template-columns:1fr}}
+  .summary-item{text-align:center;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 14px;box-shadow:var(--shadow);opacity:0;transform:scale(.92);transition:opacity .4s ease,transform .4s ease}
+  .summary-item.animate{opacity:1;transform:scale(1)}
+  .summary-item .big-icon{font-size:2rem;margin-bottom:8px}
+  .summary-item h4{font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+  .summary-item p{font-size:.88rem;color:var(--text-muted);line-height:1.55}
+  .cover-module{font-size:.78rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent2);display:flex;align-items:center;gap:10px;margin-bottom:-4px}
+  .cover-module::before{content:'';display:inline-block;width:22px;height:3px;background:var(--accent2);border-radius:2px}
+  .cover-meta{display:flex;gap:12px;flex-wrap:wrap}
+  .cover-pill{display:flex;align-items:center;gap:7px;background:var(--surface);border:1.5px solid var(--border);border-radius:50px;padding:8px 16px;font-size:.88rem;color:var(--text-muted);box-shadow:var(--shadow);font-weight:600}
+  #nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;z-index:100;background:white;border:1.5px solid var(--border);border-radius:50px;padding:8px 12px;box-shadow:0 4px 24px rgba(0,0,0,.1)}
+  .nav-btn{background:var(--surface2);border:1.5px solid var(--border);color:var(--text);border-radius:50px;padding:9px 24px;font-family:var(--font-body);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+  .nav-btn:hover{background:var(--accent);color:white;border-color:var(--accent)}
+  .nav-btn:disabled{opacity:.3;cursor:not-allowed}
+  .nav-btn:disabled:hover{background:var(--surface2);color:var(--text);border-color:var(--border)}
+  #slide-dots{display:flex;gap:6px;align-items:center;padding:0 6px}
+  .dot{width:7px;height:7px;border-radius:50%;background:#d1d5db;transition:all .3s;cursor:pointer;border:none}
+  .dot.active{background:var(--accent);width:20px;border-radius:4px}
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="lesson-tag">PRÁCTICA 17</div>
+<div id="slide-counter">1 / 13</div>
+<div id="slides-wrapper">
+
+<!-- SLIDE 1: PORTADA -->
+<section class="slide active" id="s1">
+  <div class="cover-module">Fisioterapia y Kinesiología</div>
+  <h1 class="slide-title">Gonartrosis<br><em>Osteoartrosis de Rodilla</em></h1>
+  <p class="subtitle">Proceso degenerativo crónico del cartílago articular de la rodilla. Principal causa de discapacidad en adultos mayores. La rehabilitación moderna se enfoca en la gestión de cargas y el fortalecimiento muscular para restaurar la función y retrasar la cirugía.</p>
+  <div class="divider"></div>
+  <div class="cover-meta">
+    <div class="cover-pill"><span>📊</span> Epidemiología</div>
+    <div class="cover-pill"><span>🔬</span> Evaluación Clínica</div>
+    <div class="cover-pill"><span>💪</span> Tratamiento Conservador</div>
+    <div class="cover-pill"><span>🧭</span> Regla de Currier</div>
+    <div class="cover-pill"><span>🦴</span> ATR y Post-Quirúrgico</div>
+  </div>
+</section>
+
+<!-- SLIDE 2: CONTENIDO -->
+<section class="slide" id="s2">
+  <div class="slide-label">Contenido de la Lección</div>
+  <h2 class="section-title">Estructura de la Práctica</h2>
+  <div class="cards-grid">
+    <div class="card"><div class="card-icon">📊</div><div class="card-title">01 · Epidemiología</div><div class="card-body">Compartimento medial en 80% de casos. Genu varo. Cuádriceps como amortiguador. Teoría de Ramsey.</div></div>
+    <div class="card"><div class="card-icon">🔬</div><div class="card-title">02 · Evaluación</div><div class="card-body">WOMAC (24 ítems: dolor, rigidez, función). KOOS (extensión del WOMAC). Pruebas funcionales.</div></div>
+    <div class="card"><div class="card-icon">💪</div><div class="card-title">03 · Tratamiento</div><div class="card-body">Gestión de cargas, sobre de función, hidroterapia, ejercicio aeróbico y viscosuplementación.</div></div>
+    <div class="card"><div class="card-icon">🧭</div><div class="card-title">04 · Currier</div><div class="card-body">4 criterios para predecir respuesta a movilización de cadera. Rot. interna &lt;17°, flexión &lt;122°, dolor ingle/muslo.</div></div>
+    <div class="card"><div class="card-icon">🦴</div><div class="card-title">05 · ATR</div><div class="card-body">Educación preop. (Vukomanovic), VMO + electro, sensibilización central y dolor post-quirúrgico.</div></div>
+  </div>
+</section>
+
+<!-- SLIDE 3: EPIDEMIOLOGÍA Y BIOMECÁNICA -->
+<section class="slide" id="s3">
+  <div class="slide-label">Epidemiología y Biomecánica</div>
+  <h2 class="section-title">Compartimento Medial y Papel del Cuádriceps</h2>
+  <div class="diagram-row">
+    <div class="diagram-box" style="flex:1.2;">
+      <h4>Compartimento Medial — 80% de los Casos</h4>
+      <svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+        <!-- Femur -->
+        <ellipse cx="160" cy="38" rx="55" ry="22" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+        <text x="160" y="42" font-size="9.5" fill="#065f46" text-anchor="middle" font-weight="700">Fémur distal</text>
+        <!-- Medial condyle (damaged) -->
+        <ellipse cx="118" cy="78" rx="30" ry="18" fill="#fca5a5" stroke="#ef4444" stroke-width="2.5"/>
+        <text x="118" y="82" font-size="8.5" fill="#991b1b" text-anchor="middle" font-weight="700">Medial ⚠</text>
+        <!-- Lateral condyle (intact) -->
+        <ellipse cx="202" cy="78" rx="30" ry="18" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
+        <text x="202" y="82" font-size="8.5" fill="#15803d" text-anchor="middle" font-weight="700">Lateral ✓</text>
+        <!-- Tibia -->
+        <rect x="90" y="130" width="140" height="38" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+        <text x="160" y="153" font-size="9" fill="#0369a1" text-anchor="middle" font-weight="700">Tibia proximal</text>
+        <!-- Medial cartilage loss -->
+        <rect x="93" y="106" width="55" height="24" rx="6" fill="#fca5a5" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="4,2"/>
+        <text x="120" y="122" font-size="8" fill="#b91c1c" text-anchor="middle">Cartílago</text>
+        <!-- Lateral cartilage intact -->
+        <rect x="172" y="106" width="55" height="24" rx="6" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
+        <text x="199" y="122" font-size="8" fill="#15803d" text-anchor="middle">Íntegro</text>
+        <!-- Varus deformity arrow -->
+        <path d="M58,80 Q45,145 70,175" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <text x="8" y="133" font-size="9" fill="#dc2626" font-weight="700" transform="rotate(-10,8,133)">Genu</text>
+        <text x="8" y="145" font-size="9" fill="#dc2626" font-weight="700">Varo</text>
+        <!-- 80% label -->
+        <rect x="220" y="48" width="92" height="30" rx="8" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="266" y="62" font-size="12" fill="#b91c1c" text-anchor="middle" font-weight="700">80%</text>
+        <text x="266" y="73" font-size="8.5" fill="#b91c1c" text-anchor="middle">compartimento medial</text>
+        <!-- Ground reaction force arrows -->
+        <path d="M160" y1="185" fill="none"/>
+        <path d="M118,168 L118,190" fill="none" stroke="#ef4444" stroke-width="3" marker-end="url(#aep1)"/>
+        <text x="80" y="200" font-size="8.5" fill="#b91c1c" font-weight="700">Carga</text>
+        <text x="80" y="210" font-size="8.5" fill="#b91c1c">medial ↑</text>
+        <defs><marker id="aep1" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
+      </svg>
+      <div class="diagram-caption">La degeneración asimétrica del compartimento medial genera el colapso progresivo y la deformidad en <strong>genu varo</strong>.</div>
+    </div>
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot"></div>
+        <div class="item-content">
+          <strong>💪 Cuádriceps como Amortiguador</strong>
+          <span>Un cuádriceps fuerte funciona como <strong>"amortiguador"</strong> que disipa las fuerzas de reacción articular (FRAFR). Un fortalecimiento adecuado tiene el potencial de <em>retrasar significativamente</em> la necesidad de cirugía de reemplazo.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent3)"></div>
+        <div class="item-content">
+          <strong>🔩 Teoría de Ramsey — Férulas de Alineación</strong>
+          <span>Ramsey et al. postulan que el beneficio de las férulas (incluso las de posición neutra) en la artrosis medial se debe más a la <strong>reducción de las cocontracciones musculares anómalas</strong> —que aumentan la compresión— que a la descarga mecánica directa.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>⚖️ Genu Varo — Consecuencia de la Degeneración Asimétrica</strong>
+          <span>La pérdida progresiva del cartílago medial hace que la tibia se incline hacia medial, generando la deformidad característica en <em>genu varo</em> ("piernas en O"). Esto a su vez aumenta la carga sobre el compartimento dañado, creando un círculo vicioso.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: WOMAC Y KOOS -->
+<section class="slide" id="s4">
+  <div class="slide-label">Evaluación Clínica · Cuestionarios</div>
+  <h2 class="section-title">WOMAC y KOOS: Instrumentos de Evaluación</h2>
+  <div class="two-col">
+    <!-- WOMAC -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);">
+      <div style="background:rgba(26,92,42,.08);padding:14px 18px;border-bottom:1.5px solid var(--border);font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);">📋 WOMAC — Western Ontario McMaster</div>
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:11px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-green" style="flex-shrink:0;">24 ítems</span><span style="font-size:.93rem;color:var(--text-muted);">El instrumento más utilizado en artrosis de rodilla</span></div>
+        <div style="background:var(--surface2);border-radius:10px;padding:13px 14px;display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:1.3rem;">🔴</span><span style="font-size:.92rem;color:var(--text-muted);"><strong>Dolor</strong> — 5 ítems. Intensidad en diversas actividades</span></div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:1.3rem;">🟡</span><span style="font-size:.92rem;color:var(--text-muted);"><strong>Rigidez</strong> — 2 ítems. Matutina y tras el reposo</span></div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:1.3rem;">🟢</span><span style="font-size:.92rem;color:var(--text-muted);"><strong>Función física</strong> — 17 ítems. AVD, marcha, escaleras</span></div>
+        </div>
+        <div class="highlight-box" style="margin-top:2px;">
+          <div class="highlight-icon" style="font-size:1.2rem;">📊</div>
+          <div class="highlight-text" style="font-size:.88rem;">Escala 0–100. Mayor puntuación = <strong>mayor deterioro</strong>. Validado y ampliamente usado en ensayos clínicos.</div>
+        </div>
+      </div>
+    </div>
+    <!-- KOOS -->
+    <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);">
+      <div style="background:rgba(30,64,175,.07);padding:14px 18px;border-bottom:1.5px solid var(--border);font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent3);">🏆 KOOS — Knee Injury and Osteoarthritis Outcome Score</div>
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:11px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Extensión</span><span style="font-size:.93rem;color:var(--text-muted);">Extensión validada del WOMAC. Incluye todo el WOMAC + dimensiones adicionales</span></div>
+        <div style="background:var(--surface2);border-radius:10px;padding:13px 14px;display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:1rem;">✅</span><span style="font-size:.92rem;color:var(--text-muted);">Dolor, rigidez y función (WOMAC)</span></div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:1rem;">🏃</span><span style="font-size:.92rem;color:var(--text-muted);"><strong>+ Actividades deportivas</strong> y recreativas</span></div>
+          <div style="display:flex;gap:10px;align-items:center;"><span style="font-size:1rem;">🌟</span><span style="font-size:.92rem;color:var(--text-muted);"><strong>+ Calidad de vida</strong> relacionada con la rodilla</span></div>
+        </div>
+        <div class="evidence-box" style="margin-top:2px;">
+          <div class="highlight-icon" style="font-size:1.2rem;">💡</div>
+          <div class="evidence-text" style="font-size:.88rem;">Más sensible que el WOMAC para captar el <strong>impacto en la vida activa</strong>. Útil en pacientes más jóvenes con gonartrosis.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="diagram-box aa">
+    <h4>Dimensiones WOMAC vs. KOOS — Comparativa</h4>
+    <svg viewBox="0 0 720 88" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+      <!-- WOMAC columns -->
+      <rect x="10" y="8" width="200" height="72" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+      <text x="110" y="26" font-size="10" fill="#15803d" text-anchor="middle" font-weight="700">WOMAC (24 ítems)</text>
+      <text x="60" y="46" font-size="9" fill="#334155" text-anchor="middle">🔴 Dolor</text>
+      <text x="110" y="46" font-size="9" fill="#334155" text-anchor="middle">🟡 Rigidez</text>
+      <text x="170" y="46" font-size="9" fill="#334155" text-anchor="middle">🟢 Función</text>
+      <text x="110" y="66" font-size="8.5" fill="#15803d" text-anchor="middle">3 subescalas</text>
+      <!-- Arrow -->
+      <path d="M215,44 L248,44" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#acmp)"/>
+      <text x="231" y="38" font-size="8.5" fill="#64748b" text-anchor="middle">+</text>
+      <!-- KOOS extra -->
+      <rect x="252" y="8" width="460" height="72" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="2"/>
+      <text x="482" y="26" font-size="10" fill="#1d4ed8" text-anchor="middle" font-weight="700">KOOS = WOMAC + 2 dimensiones adicionales</text>
+      <text x="310" y="46" font-size="9" fill="#334155" text-anchor="middle">🔴 Dolor</text>
+      <text x="380" y="46" font-size="9" fill="#334155" text-anchor="middle">🟡 Rigidez</text>
+      <text x="450" y="46" font-size="9" fill="#334155" text-anchor="middle">🟢 Función</text>
+      <rect x="506" y="34" width="90" height="20" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+      <text x="551" y="47" font-size="9" fill="#1d4ed8" text-anchor="middle" font-weight="700">🏃 Deporte</text>
+      <rect x="604" y="34" width="100" height="20" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+      <text x="654" y="47" font-size="9" fill="#1d4ed8" text-anchor="middle" font-weight="700">🌟 Calidad vida</text>
+      <text x="482" y="68" font-size="8.5" fill="#1d4ed8" text-anchor="middle">5 subescalas — Más completo para pacientes activos</text>
+      <defs><marker id="acmp" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker></defs>
+    </svg>
+    <div class="diagram-caption">El KOOS contiene todo el WOMAC más las subescalas de actividad deportiva y calidad de vida, siendo la evolución natural del instrumento.</div>
+  </div>
+</section>
+
+<!-- SLIDE 5: SOBRE DE FUNCIÓN Y GESTIÓN DE CARGAS -->
+<section class="slide" id="s5">
+  <div class="slide-label">Tratamiento Conservador · Gestión de Cargas</div>
+  <h2 class="section-title">El "Sobre de Función" en la Gonartrosis</h2>
+  <div class="two-col">
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot"></div>
+        <div class="item-content">
+          <strong>🎯 Principio Central: Homeostasis Tisular</strong>
+          <span>Es vital mantener las actividades dentro del <strong>"sobre de función"</strong> (límite de homeostasis tisular). Las cargas que superan este límite perpetúan el daño del cartílago articular ya comprometido.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>🚫 Sentadillas Profundas — Contraindicadas en Fase Aguda</strong>
+          <span>Se deben evitar en presencia de <strong>irritabilidad femororrotuliana aguda</strong>. Las sentadillas profundas aumentan drásticamente las fuerzas de reacción articular femoropatelar (FRAFR), superando el sobre de función.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent3)"></div>
+        <div class="item-content">
+          <strong>📐 Extensión: Últimos 20° de Arco</strong>
+          <span>Si el paciente presenta dolor femororrotuliano marcado, los ejercicios de extensión deben <strong>limitarse a los últimos 20° de extensión</strong>, donde la presión articular suele ser mejor tolerada y el cartílago menos comprometido.</span>
+        </div>
+      </div>
+    </div>
+    <div class="diagram-box aa">
+      <h4>Carga Articular en la Rodilla según Actividad</h4>
+      <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+        <!-- Y axis -->
+        <line x1="40" y1="10" x2="40" y2="185" stroke="#94a3b8" stroke-width="1.5"/>
+        <!-- X axis -->
+        <line x1="40" y1="185" x2="265" y2="185" stroke="#94a3b8" stroke-width="1.5"/>
+        <!-- Sobre de funcion line -->
+        <line x1="40" y1="100" x2="265" y2="100" stroke="#ef4444" stroke-width="2" stroke-dasharray="6,3"/>
+        <text x="270" y="104" font-size="8.5" fill="#ef4444" font-weight="700">Límite</text>
+        <!-- Activity bars -->
+        <!-- Caminar -->
+        <rect x="55" y="140" width="32" height="45" rx="4" fill="#4ade80"/>
+        <text x="71" y="200" font-size="8.5" fill="#374151" text-anchor="middle">Caminar</text>
+        <text x="71" y="135" font-size="9" fill="#15803d" text-anchor="middle" font-weight="700">×1,5</text>
+        <!-- Bicicleta -->
+        <rect x="100" y="130" width="32" height="55" rx="4" fill="#a3e635"/>
+        <text x="116" y="200" font-size="8.5" fill="#374151" text-anchor="middle">Bicicleta</text>
+        <text x="116" y="125" font-size="9" fill="#4d7c0f" text-anchor="middle" font-weight="700">×2</text>
+        <!-- Escaleras -->
+        <rect x="145" y="115" width="32" height="70" rx="4" fill="#fbbf24"/>
+        <text x="161" y="200" font-size="8.5" fill="#374151" text-anchor="middle">Escaleras</text>
+        <text x="161" y="110" font-size="9" fill="#b45309" text-anchor="middle" font-weight="700">×3,3</text>
+        <!-- Sentadilla parcial -->
+        <rect x="190" y="88" width="32" height="97" rx="4" fill="#f97316"/>
+        <text x="206" y="200" font-size="8" fill="#374151" text-anchor="middle">Sent. parcial</text>
+        <text x="206" y="83" font-size="9" fill="#c2410c" text-anchor="middle" font-weight="700">×4</text>
+        <!-- Sentadilla profunda -->
+        <rect x="232" y="30" width="32" height="155" rx="4" fill="#ef4444"/>
+        <text x="248" y="200" font-size="8" fill="#374151" text-anchor="middle">Sent. profunda</text>
+        <text x="248" y="25" font-size="9" fill="#b91c1c" text-anchor="middle" font-weight="700">×7</text>
+        <!-- Y axis labels -->
+        <text x="32" y="188" font-size="8" fill="#64748b" text-anchor="end">0</text>
+        <text x="32" y="104" font-size="8" fill="#ef4444" text-anchor="end">Límite</text>
+        <text x="32" y="14" font-size="8" fill="#64748b" text-anchor="end">Alto</text>
+        <!-- Y axis title -->
+        <text x="8" y="110" font-size="8.5" fill="#374151" font-weight="700" transform="rotate(-90,8,110)">Carga articular (× peso corporal)</text>
+        <!-- Safe zone -->
+        <rect x="40" y="100" width="225" height="85" fill="rgba(74,222,128,0.07)"/>
+        <text x="152" y="120" font-size="8.5" fill="#15803d" text-anchor="middle">← Zona segura ("sobre de función")</text>
+      </svg>
+      <div class="diagram-caption">La sentadilla profunda puede multiplicar por 7 la carga articular, superando ampliamente el sobre de función en la artrosis activa.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: HIDROTERAPIA Y EJERCICIO AERÓBICO -->
+<section class="slide" id="s6">
+  <div class="slide-label">Tratamiento Conservador · Modalidades</div>
+  <h2 class="section-title">Hidroterapia, Ejercicio Aeróbico y Viscosuplementación</h2>
+  <div class="item-list">
+    <div class="item">
+      <div class="item-dot" style="background:var(--accent-teal)"></div>
+      <div class="item-content">
+        <strong>💧 Hidrocinesiterapia — Excelente Modalidad</strong>
+        <span>La flotabilidad del agua reduce el impacto y la carga en las articulaciones dolorosas, permitiendo ejercicios en <strong>cadena cinética cerrada</strong> (sentadilla, step) que no serían tolerados en tierra firme. La presión hidrostática también controla el edema.</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-dot" style="background:var(--accent3)"></div>
+      <div class="item-content">
+        <strong>🏃 Ejercicio Aeróbico — Manejo a Largo Plazo</strong>
+        <span>Fundamental para el control del <strong>peso corporal</strong>, cuya reducción disminuye la carga mecánica directa sobre la rodilla. Mejora la velocidad de la marcha, la función cardiorrespiratoria y reduce los marcadores inflamatorios sistémicos.</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-dot" style="background:var(--accent-amber)"></div>
+      <div class="item-content">
+        <strong>💉 Viscosuplementación (Ácido Hialurónico)</strong>
+        <span>Aunque se utiliza clínicamente, las fuentes señalan que sus resultados positivos pueden estar <strong>influenciados por un fuerte efecto placebo</strong>. Su uso debe integrarse en el contexto de un plan de tratamiento multimodal y no como solución aislada.</span>
+      </div>
+    </div>
+  </div>
+  <!-- Weight reduction impact SVG -->
+  <div class="diagram-box aa">
+    <h4>Impacto de la Reducción de Peso en la Carga de Rodilla</h4>
+    <svg viewBox="0 0 720 100" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+      <defs><linearGradient id="wgrd" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#ef4444"/><stop offset="100%" style="stop-color:#4ade80"/></linearGradient></defs>
+      <!-- Centers with arrows -->
+      <rect x="10" y="18" width="155" height="64" rx="10" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
+      <text x="87" y="36" font-size="10" fill="#b91c1c" text-anchor="middle" font-weight="700">Sobrepeso</text>
+      <text x="87" y="52" font-size="9" fill="#dc2626" text-anchor="middle">Carga articular ↑↑</text>
+      <text x="87" y="65" font-size="9" fill="#dc2626" text-anchor="middle">Inflamación sinovial ↑</text>
+      <text x="87" y="77" font-size="9" fill="#dc2626" text-anchor="middle">Velocidad marcha ↓</text>
+      <path d="M168,50 L210,50" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#acmp2)"/>
+      <text x="188" y="40" font-size="9" fill="#374151" text-anchor="middle" font-weight="700">Ejercicio</text>
+      <text x="188" y="52" font-size="9" fill="#374151" text-anchor="middle">aeróbico</text>
+      <text x="188" y="63" font-size="9" fill="#374151" text-anchor="middle">5–10% peso</text>
+      <!-- Center: kg reduction rule -->
+      <rect x="218" y="18" width="285" height="64" rx="10" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+      <text x="360" y="36" font-size="10" fill="#78350f" text-anchor="middle" font-weight="700">Regla de la Carga en Rodilla</text>
+      <text x="360" y="52" font-size="9.5" fill="#b45309" text-anchor="middle">Por cada 1 kg de peso perdido</text>
+      <text x="360" y="66" font-size="11" fill="#92400e" text-anchor="middle" font-weight="700">→ 4 kg menos de carga por paso en rodilla</text>
+      <text x="360" y="78" font-size="8.5" fill="#b45309" text-anchor="middle">(Estimación basada en biomecánica de la marcha)</text>
+      <path d="M505,50 L547,50" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#acmp2)"/>
+      <rect x="552" y="18" width="160" height="64" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+      <text x="632" y="36" font-size="10" fill="#15803d" text-anchor="middle" font-weight="700">Peso normalizado</text>
+      <text x="632" y="52" font-size="9" fill="#059669" text-anchor="middle">Carga articular ↓</text>
+      <text x="632" y="65" font-size="9" fill="#059669" text-anchor="middle">Síntomas ↓</text>
+      <text x="632" y="77" font-size="9" fill="#059669" text-anchor="middle" font-weight="700">Cirugía retrasada</text>
+      <defs><marker id="acmp2" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker></defs>
+    </svg>
+    <div class="diagram-caption">La reducción de peso es una de las intervenciones con mayor relación coste-beneficio en la gonartrosis. Por cada kilogramo perdido se reducen ~4 kg de carga por paso.</div>
+  </div>
+</section>
+
+<!-- SLIDE 7: REGLA DE CURRIER -->
+<section class="slide" id="s7">
+  <div class="slide-label">Regla de Predicción Clínica · Currier et al.</div>
+  <h2 class="section-title">Criterios de Currier para Movilización de Cadera</h2>
+  <p class="subtitle" style="font-size:.97rem;">Pacientes con gonartrosis tienen <strong>alta probabilidad de mejorar síntomas</strong> mediante movilizaciones de cadera si cumplen estos criterios:</p>
+  <div class="currier-grid">
+    <div class="currier-card">
+      <div class="currier-num">1°</div>
+      <div style="margin-top:6px;"><span class="tag tag-blue">Movilidad cadera</span></div>
+      <div class="currier-criterion">Rotación interna de cadera</div>
+      <div class="currier-measure" style="color:var(--accent3);">menor de 17°</div>
+      <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg" style="width:80px;margin:6px auto 0;" font-family="Source Sans 3,sans-serif">
+        <ellipse cx="40" cy="32" rx="28" ry="14" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+        <text x="40" y="36" font-size="9" fill="#1d4ed8" text-anchor="middle" font-weight="700">Fémur</text>
+        <path d="M40,18 Q25,12 22,5" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#acur)"/>
+        <text x="52" y="10" font-size="8.5" fill="#dc2626" font-weight="700">&lt;17°</text>
+        <defs><marker id="acur" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#ef4444"/></marker></defs>
+      </svg>
+    </div>
+    <div class="currier-card">
+      <div class="currier-num">2°</div>
+      <div style="margin-top:6px;"><span class="tag tag-amber">Flexión rodilla</span></div>
+      <div class="currier-criterion">Flexión pasiva de rodilla</div>
+      <div class="currier-measure" style="color:var(--accent-amber);">menor de 122°</div>
+      <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg" style="width:80px;margin:6px auto 0;" font-family="Source Sans 3,sans-serif">
+        <line x1="15" y1="35" x2="40" y2="35" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+        <path d="M40,35 L60,12" stroke="#92400e" stroke-width="3" stroke-linecap="round"/>
+        <path d="M40,25 A12,12 0 0,1 50,22" fill="none" stroke="#b45309" stroke-width="2"/>
+        <text x="55" y="30" font-size="8.5" fill="#b45309" font-weight="700">&lt;122°</text>
+      </svg>
+    </div>
+    <div class="currier-card">
+      <div class="currier-num">3°</div>
+      <div style="margin-top:6px;"><span class="tag tag-red">Síntoma referido</span></div>
+      <div class="currier-criterion">Dolor o parestesias en zona de</div>
+      <div class="currier-measure" style="color:var(--accent2);">cadera o ingle</div>
+      <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg" style="width:80px;margin:6px auto 0;" font-family="Source Sans 3,sans-serif">
+        <ellipse cx="40" cy="20" rx="26" ry="16" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+        <text x="40" y="24" font-size="9" fill="#b91c1c" text-anchor="middle" font-weight="700">Cadera/Ingle</text>
+        <text x="40" y="40" font-size="8.5" fill="#dc2626" text-anchor="middle">⚡ Dolor/Pareste.</text>
+      </svg>
+    </div>
+    <div class="currier-card">
+      <div class="currier-num">4°</div>
+      <div style="margin-top:6px;"><span class="tag tag-purple">Exploración</span></div>
+      <div class="currier-criterion">Dolor en muslo anterior con</div>
+      <div class="currier-measure" style="color:var(--accent-purple);">la exploración</div>
+      <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg" style="width:80px;margin:6px auto 0;" font-family="Source Sans 3,sans-serif">
+        <rect x="25" y="10" width="30" height="30" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="40" y="29" font-size="9" fill="#5b21b6" text-anchor="middle" font-weight="700">Ant.</text>
+        <path d="M18,30 L22,24" fill="none" stroke="#6d28d9" stroke-width="2" marker-end="url(#apurp)"/>
+        <text x="6" y="40" font-size="8.5" fill="#6d28d9">dolor</text>
+        <defs><marker id="apurp" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#6d28d9"/></marker></defs>
+      </svg>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="highlight-box">
+      <div class="highlight-icon">🧭</div>
+      <div class="highlight-text"><strong>Aplicación clínica:</strong> Cuando un paciente con gonartrosis cumple estos criterios, la movilización de cadera (y no solo de rodilla) puede producir una <em>mejora significativa</em> de los síntomas, sugiriendo que parte del dolor de rodilla tiene origen en la cadera.</div>
+    </div>
+    <div class="evidence-box">
+      <div class="highlight-icon">🔬</div>
+      <div class="evidence-text"><strong>Fundamento:</strong> La restricción de movilidad de cadera aumenta las demandas sobre la rodilla durante la marcha. Restablecer la movilidad coxofemoral <strong>redistribuye las cargas</strong> y reduce el estrés articular en la rodilla.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: CUÁDRICEPS Y EXTENSIÓN LIMITADA -->
+<section class="slide" id="s8">
+  <div class="slide-label">Tratamiento Conservador · Cuádriceps</div>
+  <h2 class="section-title">Fortalecimiento del Cuádriceps y Arco de Movimiento</h2>
+  <div class="diagram-row">
+    <div class="diagram-box">
+      <h4>💪 Cuádriceps como Amortiguador Articular</h4>
+      <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+        <!-- Without quad -->
+        <rect x="5" y="5" width="120" height="200" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="65" y="22" font-size="9.5" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ Cuádriceps Débil</text>
+        <!-- Femur -->
+        <rect x="45" y="35" width="40" height="60" rx="8" fill="#fee2e2" stroke="#f87171" stroke-width="2"/>
+        <!-- Joint space narrowed -->
+        <rect x="42" y="95" width="46" height="6" rx="2" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"/>
+        <text x="65" y="101" font-size="7" fill="#b91c1c" text-anchor="middle">Impacto</text>
+        <!-- Tibia -->
+        <rect x="42" y="101" width="46" height="50" rx="8" fill="#fee2e2" stroke="#f87171" stroke-width="2"/>
+        <!-- Impact force arrows -->
+        <path d="M65,25 L65,90" fill="none" stroke="#ef4444" stroke-width="3" marker-end="url(#aqi)"/>
+        <text x="85" y="50" font-size="8.5" fill="#dc2626" font-weight="700">Fuerza</text>
+        <text x="85" y="62" font-size="8.5" fill="#dc2626">directa</text>
+        <text x="85" y="74" font-size="8.5" fill="#dc2626">al cartílago</text>
+        <text x="65" y="170" font-size="8.5" fill="#b91c1c" text-anchor="middle">Degeneración ↑</text>
+        <text x="65" y="182" font-size="8.5" fill="#b91c1c" text-anchor="middle">FRAFR ↑↑</text>
+        <text x="65" y="194" font-size="8.5" fill="#b91c1c" text-anchor="middle" font-weight="700">→ Artrosis avanza</text>
+        <!-- With quad -->
+        <rect x="155" y="5" width="120" height="200" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <text x="215" y="22" font-size="9.5" fill="#15803d" text-anchor="middle" font-weight="700">✅ Cuádriceps Fuerte</text>
+        <!-- Femur -->
+        <rect x="195" y="35" width="40" height="60" rx="8" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
+        <!-- Healthy joint space -->
+        <rect x="192" y="95" width="46" height="10" rx="4" fill="#a7f3d0" stroke="#10b981" stroke-width="2"/>
+        <text x="215" y="104" font-size="7" fill="#065f46" text-anchor="middle">Cushion</text>
+        <!-- Tibia -->
+        <rect x="192" y="105" width="46" height="50" rx="8" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
+        <!-- Quad muscle absorbing force -->
+        <path d="M175,42 L192,68" fill="none" stroke="#059669" stroke-width="3.5" stroke-linecap="round"/>
+        <text x="145" y="40" font-size="8.5" fill="#059669" font-weight="700">Cuádr.</text>
+        <text x="145" y="50" font-size="8.5" fill="#059669">absorbe</text>
+        <text x="145" y="60" font-size="8.5" fill="#059669">el impacto</text>
+        <text x="215" y="170" font-size="8.5" fill="#15803d" text-anchor="middle">Degeneración ↓</text>
+        <text x="215" y="182" font-size="8.5" fill="#15803d" text-anchor="middle">FRAFR ↓</text>
+        <text x="215" y="194" font-size="8.5" fill="#15803d" text-anchor="middle" font-weight="700">→ Cirugía retrasada</text>
+        <defs><marker id="aqi" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
+      </svg>
+      <div class="diagram-caption">El cuádriceps actúa como amortiguador absorbiendo las fuerzas de impacto. Su debilidad transfiere las cargas directamente al cartílago articular.</div>
+    </div>
+    <!-- Safe extension arc SVG -->
+    <div class="diagram-box">
+      <h4>📐 Arco de Extensión Seguro — Últimos 20°</h4>
+      <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+        <!-- Knee arc diagram -->
+        <text x="140" y="18" font-size="10" fill="#1a5c2a" text-anchor="middle" font-weight="700">Arco de Flexión-Extensión de Rodilla</text>
+        <!-- Full arc background -->
+        <path d="M50,170 A120,120 0 0,1 230,170" fill="none" stroke="#e2e8f0" stroke-width="18" stroke-linecap="round"/>
+        <!-- Risky zone (0-90° from flex) -->
+        <path d="M50,170 A120,120 0 0,1 140,52" fill="none" stroke="#fca5a5" stroke-width="18" stroke-linecap="round" opacity=".5"/>
+        <!-- Safe zone: last 20° before extension -->
+        <path d="M205,85 A120,120 0 0,1 230,170" fill="none" stroke="#4ade80" stroke-width="20" stroke-linecap="round"/>
+        <!-- Labels around arc -->
+        <text x="36" y="175" font-size="9.5" fill="#374151" font-weight="700">135°</text>
+        <text x="125" y="40" font-size="9.5" fill="#374151" font-weight="700">90°</text>
+        <text x="215" y="175" font-size="9.5" fill="#374151" font-weight="700">0° ext.</text>
+        <!-- 20° mark -->
+        <line x1="206" y1="83" x2="220" y2="80" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <text x="222" y="78" font-size="9" fill="#059669" font-weight="700">20°</text>
+        <!-- Patella pressure zones -->
+        <rect x="14" y="70" width="112" height="28" rx="7" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="70" y="83" font-size="9" fill="#b91c1c" text-anchor="middle" font-weight="700">Alta presión rotuliana</text>
+        <text x="70" y="93" font-size="8.5" fill="#b91c1c" text-anchor="middle">Evitar en gonartrosis</text>
+        <rect x="155" y="150" width="120" height="28" rx="7" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <text x="215" y="163" font-size="9" fill="#15803d" text-anchor="middle" font-weight="700">✅ Zona segura</text>
+        <text x="215" y="173" font-size="8.5" fill="#15803d" text-anchor="middle">Últimos 20°</text>
+        <!-- Center knee -->
+        <circle cx="140" cy="170" r="14" fill="#d1fae5" stroke="#059669" stroke-width="2.5"/>
+        <text x="140" y="174" font-size="8" fill="#065f46" text-anchor="middle" font-weight="700">Rodilla</text>
+      </svg>
+      <div class="diagram-caption">Si hay dolor femororrotuliano, limitar la extensión activa a los <strong>últimos 20°</strong> (zona verde) donde la presión articular es menor y mejor tolerada.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: ATR - PREOPERATORIO -->
+<section class="slide" id="s9">
+  <div class="slide-label">Artroplastia Total de Rodilla · ATR</div>
+  <h2 class="section-title">Educación Preoperatoria y Abordaje Quirúrgico</h2>
+  <div class="atr-grid">
+    <div class="atr-card">
+      <div class="atr-header ah-pre">🎓 Educación Pre-Quirúrgica</div>
+      <div class="atr-body">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-green" style="flex-shrink:0;">Vukomanovic</span><span>La instrucción preoperatoria permite alcanzar hitos funcionales de forma mucho más <strong>precoz</strong>.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-green" style="flex-shrink:0;">Hito 1</span><span>Subir y bajar escaleras de forma autónoma y segura.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-green" style="flex-shrink:0;">Hito 2</span><span>Deambulación con dispositivo de ayuda (andador/bastón).</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-green" style="flex-shrink:0;">Mecanismo</span><span>El paciente informado tiene menor ansiedad, mejor adherencia y expectativas realistas.</span></div>
+      </div>
+    </div>
+    <div class="atr-card">
+      <div class="atr-header ah-intra">⚙️ Post-Quirúrgico Inmediato</div>
+      <div class="atr-body">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Inhibición</span><span>Frecuente inhibición del cuádriceps post-cirugía por dolor e inflamación (artrogénica).</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Electro</span><span><strong>Estimulación eléctrica</strong> del VMO para vencer la inhibición artrogénica y activar el cuádriceps.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Biofeedback</span><span><strong>Biorretroalimentación EMG</strong> específicamente sobre el vasto medial oblicuo (VMO) para recuperar la extensión activa completa.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Meta</span><span>Extensión activa completa de la rodilla = primer hito funcional post-ATR.</span></div>
+      </div>
+    </div>
+    <div class="atr-card">
+      <div class="atr-header ah-post">🧠 Sensibilización y Dolor Persistente</div>
+      <div class="atr-body">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Quevedo</span><span>Fenómenos de <strong>sensibilización central</strong> pueden explicar dolor persistente con prótesis radiológicamente perfecta.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Predictor</span><span>Altos niveles de dolor <strong>preoperatorio</strong> predicen mayor riesgo de dolor crónico postquirúrgico.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Implicación</span><span>El manejo del dolor crónico y la educación neurofisiológica son parte del tratamiento post-ATR.</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Principio</span><span>No todo dolor post-ATR es mecánico. Evaluar siempre la dimensión neurosensitiva.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="evidence-box">
+    <div class="highlight-icon">🔬</div>
+    <div class="evidence-text"><strong>Vukomanovic et al.:</strong> La educación preoperatoria permitió a los pacientes alcanzar hitos funcionales básicos (subir/bajar escaleras) de forma significativamente más precoz comparado con el grupo sin instrucción previa. El conocimiento previo actúa como "preacondicionamiento neuromuscular".</div>
+  </div>
+</section>
+
+<!-- SLIDE 10: SENSIBILIZACIÓN CENTRAL -->
+<section class="slide" id="s10">
+  <div class="slide-label">ATR · Sensibilización Central y Dolor</div>
+  <h2 class="section-title">Cuando la Prótesis es Perfecta pero el Dolor Persiste</h2>
+  <div class="two-col">
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent2)"></div>
+        <div class="item-content">
+          <strong>🧠 Sensibilización Central (Quevedo García)</strong>
+          <span>Fenómeno en el que el sistema nervioso central amplifica y perpetúa el dolor más allá de la lesión tisular original. El SNC queda en un estado de <strong>hiperexcitabilidad</strong> que mantiene el dolor incluso cuando la articulación ha sido reemplazada correctamente.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent3)"></div>
+        <div class="item-content">
+          <strong>🔮 Predictor Pre-Quirúrgico</strong>
+          <span>Los <strong>altos niveles de dolor preoperatorio</strong> son el predictor más importante de dolor crónico postquirúrgico. Un paciente con intenso dolor crónico antes de la ATR tiene mayor probabilidad de seguir con dolor después de la cirugía.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent-amber)"></div>
+        <div class="item-content">
+          <strong>💡 Implicación Terapéutica</strong>
+          <span>No todo dolor post-ATR es mecánico o técnico. El tratamiento debe incluir <strong>educación neurofisiológica del dolor</strong>, estrategias psicológicas (TCC) y reconocimiento de que la "corrección" quirúrgica no siempre resuelve la sensibilización central.</span>
+        </div>
+      </div>
+    </div>
+    <div class="diagram-box aa">
+      <h4>Espiral del Dolor: Gonartrosis → Sensibilización → ATR</h4>
+      <svg viewBox="0 0 285 220" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+        <!-- Step 1 -->
+        <rect x="10" y="10" width="265" height="36" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="142" y="26" font-size="9.5" fill="#b91c1c" text-anchor="middle" font-weight="700">1. Gonartrosis → Dolor nociceptivo crónico</text>
+        <text x="142" y="38" font-size="8.5" fill="#b91c1c" text-anchor="middle">Estimulación continua de nociceptores articulares</text>
+        <!-- Arrow -->
+        <path d="M142,46 L142,58" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#asp)"/>
+        <!-- Step 2 -->
+        <rect x="10" y="62" width="265" height="36" rx="8" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
+        <text x="142" y="78" font-size="9.5" fill="#b45309" text-anchor="middle" font-weight="700">2. Sensibilización Central</text>
+        <text x="142" y="90" font-size="8.5" fill="#b45309" text-anchor="middle">SNC hiperexcitable: wind-up, long term potentiation</text>
+        <path d="M142,98 L142,110" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#asp)"/>
+        <!-- Step 3 -->
+        <rect x="10" y="114" width="265" height="36" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+        <text x="142" y="130" font-size="9.5" fill="#1d4ed8" text-anchor="middle" font-weight="700">3. Artroplastia Total (ATR)</text>
+        <text x="142" y="142" font-size="8.5" fill="#1d4ed8" text-anchor="middle">Fuente nociceptiva articular eliminada</text>
+        <path d="M142,150 L142,162" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#asp)"/>
+        <!-- Step 4: two outcomes -->
+        <rect x="10" y="166" width="120" height="46" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <text x="70" y="183" font-size="9" fill="#15803d" text-anchor="middle" font-weight="700">Sin sensibil.</text>
+        <text x="70" y="195" font-size="8.5" fill="#15803d" text-anchor="middle">Dolor resuelto ✅</text>
+        <text x="70" y="206" font-size="8.5" fill="#15803d" text-anchor="middle">Resultado óptimo</text>
+        <rect x="155" y="166" width="120" height="46" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="215" y="183" font-size="9" fill="#b91c1c" text-anchor="middle" font-weight="700">Con sensibil. central</text>
+        <text x="215" y="195" font-size="8.5" fill="#b91c1c" text-anchor="middle">Dolor persiste ⚠</text>
+        <text x="215" y="206" font-size="8.5" fill="#b91c1c" text-anchor="middle">Prótesis OK, dolor NO</text>
+        <path d="M90,162 L65,164" fill="none" stroke="#15803d" stroke-width="1.5" marker-end="url(#aspg)"/>
+        <path d="M100,162 L218,164" fill="none" stroke="#ef4444" stroke-width="1.5" marker-end="url(#aspf)"/>
+        <defs>
+          <marker id="asp" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker>
+          <marker id="aspg" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#15803d"/></marker>
+          <marker id="aspf" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker>
+        </defs>
+      </svg>
+      <div class="diagram-caption">La sensibilización central explica por qué el resultado de la ATR no siempre es el esperado cuando existe un historial prolongado de dolor crónico.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11: EVALUACIÓN FUNCIONAL + RAMSEY INTEGRADO -->
+<section class="slide" id="s11">
+  <div class="slide-label">Evaluación y Teoría de Ramsey</div>
+  <h2 class="section-title">Pruebas Funcionales y Férulas de Alineación</h2>
+  <div class="two-col">
+    <div class="item-list">
+      <div class="item">
+        <div class="item-dot"></div>
+        <div class="item-content">
+          <strong>🏃 Sentadilla Bipodal y Monopodal</strong>
+          <span>Identificar el <strong>valgo dinámico</strong> (colapso en valgo de rodilla durante la carga) y los fallos en el control motor de la cadena cinética. La sentadilla monopodal es la prueba más exigente para detectar debilidad de glúteo medio y cuádriceps.</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent3)"></div>
+        <div class="item-content">
+          <strong>🚶 Análisis de Marcha</strong>
+          <span>Evaluar patrón de marcha: marcha de Trendelenburg, velocidad, longitud de paso, presencia de flexo de rodilla, activación del glúteo mayor (mec. Pollard) y control del pie (pronación dinámica).</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-dot" style="background:var(--accent-amber)"></div>
+        <div class="item-content">
+          <strong>🔩 Teoría de Ramsey — Mecanismo Real de las Férulas</strong>
+          <span>Ramsey et al. postulan que las férulas de alineación (incluso las neutras) benefician porque <strong>reducen las cocontracciones musculares anómalas</strong> (que comprimen la articulación), más que por crear una descarga mecánica directa del compartimento medial.</span>
+        </div>
+      </div>
+    </div>
+    <div class="diagram-box aa">
+      <h4>Mecanismo Ramsey: Cocontracciones vs. Descarga Mecánica</h4>
+      <svg viewBox="0 0 285 215" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+        <!-- Theory traditional -->
+        <rect x="5" y="5" width="128" height="200" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
+        <text x="69" y="22" font-size="9" fill="#b45309" text-anchor="middle" font-weight="700">Teoría Clásica</text>
+        <text x="69" y="34" font-size="8.5" fill="#b45309" text-anchor="middle">(Creencia previa)</text>
+        <!-- Knee valgus knee -->
+        <rect x="25" y="44" width="88" height="26" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+        <text x="69" y="60" font-size="9" fill="#78350f" text-anchor="middle" font-weight="700">Férula valgizante</text>
+        <path d="M69,70 L69,85" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#aram)"/>
+        <rect x="25" y="88" width="88" height="26" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+        <text x="69" y="104" font-size="9" fill="#78350f" text-anchor="middle" font-weight="700">↑ Valgo mecánico</text>
+        <path d="M69,114 L69,129" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#aram)"/>
+        <rect x="25" y="132" width="88" height="26" rx="6" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
+        <text x="69" y="148" font-size="8.5" fill="#92400e" text-anchor="middle">↓ Carga medial</text>
+        <text x="69" y="188" font-size="8" fill="#b45309" text-anchor="middle">Mecanismo: descarga</text>
+        <text x="69" y="198" font-size="8" fill="#b45309" text-anchor="middle">biomecánica directa</text>
+        <!-- Ramsey theory -->
+        <rect x="152" y="5" width="128" height="200" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <text x="216" y="22" font-size="9" fill="#15803d" text-anchor="middle" font-weight="700">Teoría Ramsey</text>
+        <text x="216" y="34" font-size="8.5" fill="#15803d" text-anchor="middle">(Propuesta actual)</text>
+        <rect x="168" y="44" width="98" height="26" rx="6" fill="#d1fae5" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="217" y="60" font-size="9" fill="#065f46" text-anchor="middle" font-weight="700">Cualquier férula</text>
+        <path d="M216" y1="70" fill="none"/>
+        <path d="M216,70 L216,85" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#aram)"/>
+        <rect x="168" y="88" width="98" height="26" rx="6" fill="#d1fae5" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="216" y="100" font-size="9" fill="#065f46" text-anchor="middle" font-weight="700">↓ Cocontracciones</text>
+        <text x="216" y="110" font-size="9" fill="#065f46" text-anchor="middle">musculares anómalas</text>
+        <path d="M216,114 L216,129" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#aram)"/>
+        <rect x="168" y="132" width="98" height="26" rx="6" fill="#a7f3d0" stroke="#10b981" stroke-width="1.5"/>
+        <text x="216" y="148" font-size="8.5" fill="#065f46" text-anchor="middle">↓ Compresión articular</text>
+        <text x="216" y="188" font-size="8" fill="#15803d" text-anchor="middle">Mecanismo: reducción</text>
+        <text x="216" y="198" font-size="8" fill="#15803d" text-anchor="middle">de compresión dinámica</text>
+        <defs><marker id="aram" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker></defs>
+      </svg>
+      <div class="diagram-caption">Ramsey sugiere que incluso las férulas de posición neutra son eficaces, lo que apoya que el mecanismo es neuromuscular, no solo biomecánico.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12: RESUMEN DIAGNÓSTICO-TERAPÉUTICO -->
+<section class="slide" id="s12">
+  <div class="slide-label">Síntesis · Cadena Diagnóstico–Terapéutica</div>
+  <h2 class="section-title">Protocolo Integrado de la Gonartrosis</h2>
+  <div class="diagram-box aa">
+    <h4>Abordaje por Fases: Conservador → ATR</h4>
+    <svg viewBox="0 0 720 155" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans 3,sans-serif">
+      <!-- Phase 1: Evaluation -->
+      <rect x="8" y="15" width="150" height="130" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
+      <text x="83" y="35" font-size="10" fill="#15803d" text-anchor="middle" font-weight="700">1. Evaluación</text>
+      <text x="83" y="52" font-size="8.5" fill="#334155" text-anchor="middle">WOMAC / KOOS</text>
+      <text x="83" y="65" font-size="8.5" fill="#334155" text-anchor="middle">Marcha + SLS</text>
+      <text x="83" y="78" font-size="8.5" fill="#334155" text-anchor="middle">Criterios Currier</text>
+      <text x="83" y="91" font-size="8.5" fill="#334155" text-anchor="middle">Fuerza cuádriceps</text>
+      <text x="83" y="104" font-size="8.5" fill="#334155" text-anchor="middle">Valgo dinámico</text>
+      <path d="M158,80 L175,80" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#aprot)"/>
+      <!-- Phase 2: Conservative -->
+      <rect x="178" y="15" width="155" height="130" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="2"/>
+      <text x="255" y="35" font-size="10" fill="#1d4ed8" text-anchor="middle" font-weight="700">2. Conservador</text>
+      <text x="255" y="52" font-size="8.5" fill="#334155" text-anchor="middle">Fortalec. cuádriceps</text>
+      <text x="255" y="65" font-size="8.5" fill="#334155" text-anchor="middle">Sobre de función</text>
+      <text x="255" y="78" font-size="8.5" fill="#334155" text-anchor="middle">Hidroterapia</text>
+      <text x="255" y="91" font-size="8.5" fill="#334155" text-anchor="middle">Ejercicio aeróbico</text>
+      <text x="255" y="104" font-size="8.5" fill="#334155" text-anchor="middle">Moviliz. cadera (Currier)</text>
+      <text x="255" y="117" font-size="8.5" fill="#334155" text-anchor="middle">Férula (Ramsey)</text>
+      <path d="M333,80 L350,80" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#aprot)"/>
+      <!-- Phase 3: Pre-ATR -->
+      <rect x="353" y="15" width="155" height="130" rx="10" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="2"/>
+      <text x="430" y="35" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="700">3. Pre-ATR</div>
+      <text x="430" y="35" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="700">3. Preoperatorio</text>
+      <text x="430" y="52" font-size="8.5" fill="#334155" text-anchor="middle">Educación (Vukomanovic)</text>
+      <text x="430" y="65" font-size="8.5" fill="#334155" text-anchor="middle">Hitos funcionales</text>
+      <text x="430" y="78" font-size="8.5" fill="#334155" text-anchor="middle">Fortalecer cuádriceps</text>
+      <text x="430" y="91" font-size="8.5" fill="#334155" text-anchor="middle">Dolor preop. &lt;= predictor</text>
+      <text x="430" y="104" font-size="8.5" fill="#334155" text-anchor="middle">Evaluación SNC</text>
+      <path d="M508,80 L525,80" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#aprot)"/>
+      <!-- Phase 4: Post-ATR -->
+      <rect x="528" y="15" width="185" height="130" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="2"/>
+      <text x="620" y="35" font-size="10" fill="#b45309" text-anchor="middle" font-weight="700">4. Post-ATR</text>
+      <text x="620" y="52" font-size="8.5" fill="#334155" text-anchor="middle">VMO: electro + biofeedback</text>
+      <text x="620" y="65" font-size="8.5" fill="#334155" text-anchor="middle">Extensión activa completa</text>
+      <text x="620" y="78" font-size="8.5" fill="#334155" text-anchor="middle">Escaleras (hito funcional)</text>
+      <text x="620" y="91" font-size="8.5" fill="#334155" text-anchor="middle">WOMAC / KOOS seguimiento</text>
+      <text x="620" y="104" font-size="8.5" fill="#334155" text-anchor="middle">Manejo sensibiliz. central</text>
+      <text x="620" y="117" font-size="8.5" fill="#334155" text-anchor="middle">Educación neurofisiológica</text>
+      <defs><marker id="aprot" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker></defs>
+    </svg>
+    <div class="diagram-caption">El abordaje es progresivo y la cirugía es el último escalón. El tratamiento conservador bien ejecutado puede evitar o retrasar significativamente la ATR.</div>
+  </div>
+  <div class="two-col">
+    <div class="highlight-box">
+      <div class="highlight-icon">💪</div>
+      <div class="highlight-text"><strong>Mensaje central:</strong> El cuádriceps fuerte + control del peso + ejercicio aeróbico es la tríada más poderosa para el manejo conservador de la gonartrosis. Puede retrasar la ATR años.</div>
+    </div>
+    <div class="warning-box">
+      <div class="highlight-icon">🧠</div>
+      <div class="warning-text"><strong>Pre-ATR:</strong> El dolor preoperatorio elevado predice peor resultado postquirúrgico. Optimizar el dolor y la función <em>antes</em> de la cirugía mejora los resultados <em>después</em>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13: RESUMEN -->
+<section class="slide" id="s13">
+  <div class="slide-label">Resumen Final</div>
+  <h2 class="section-title">Conceptos Esenciales de la Lección</h2>
+  <div class="summary-grid">
+    <div class="summary-item"><div class="big-icon">📊</div><h4>80% Medial</h4><p>Compartimento medial más afectado. Degeneración asimétrica → genu varo. Cuádriceps: amortiguador articular fundamental.</p></div>
+    <div class="summary-item"><div class="big-icon">📋</div><h4>WOMAC / KOOS</h4><p>WOMAC: 24 ítems (dolor, rigidez, función). KOOS: extensión del WOMAC + deporte + calidad de vida.</p></div>
+    <div class="summary-item"><div class="big-icon">🧭</div><h4>Currier (4 Criterios)</h4><p>Rot. interna cadera &lt;17° + Flex. rodilla &lt;122° + dolor ingle + dolor muslo anterior → responde a movilización de cadera.</p></div>
+    <div class="summary-item"><div class="big-icon">⚖️</div><h4>Gestión de Cargas</h4><p>Sobre de función. Sentadilla profunda contraindicada en fase aguda. Extensión: últimos 20° si dolor femoropatelar.</p></div>
+    <div class="summary-item"><div class="big-icon">🔩</div><h4>Ramsey</h4><p>Férulas benefician por reducción de cocontracciones musculares anómalas (↓ compresión), no por descarga mecánica directa.</p></div>
+    <div class="summary-item"><div class="big-icon">🧠</div><h4>Sensibilización Central</h4><p>Dolor post-ATR puede ser neurosensitivo. Alto dolor preop. = mayor riesgo crónico. VMO + electro + biofeedback en rehabilitación.</p></div>
+  </div>
+  <div class="highlight-box" style="margin-top:4px;">
+    <div class="highlight-icon">🎯</div>
+    <div class="highlight-text"><strong>Principio rector:</strong> La rehabilitación de la gonartrosis es un continuo que va desde la gestión de cargas conservadora hasta la reeducación post-ATR. En cada etapa, el <strong>cuádriceps es el músculo protagonista</strong> y el <strong>dolor preoperatorio el predictor clave</strong> del resultado quirúrgico.</div>
+  </div>
+</section>
+
+</div>
+<nav id="nav">
+  <button class="nav-btn" id="btn-prev" disabled>← Anterior</button>
+  <div id="slide-dots"></div>
+  <button class="nav-btn" id="btn-next">Siguiente →</button>
+</nav>
+<script>
+  const slides=Array.from(document.querySelectorAll('.slide'));
+  const total=slides.length;let current=0;
+  const progressBar=document.getElementById('progress-bar');
+  const counter=document.getElementById('slide-counter');
+  const btnPrev=document.getElementById('btn-prev');
+  const btnNext=document.getElementById('btn-next');
+  const dotsContainer=document.getElementById('slide-dots');
+  slides.forEach((_,i)=>{const d=document.createElement('button');d.className='dot'+(i===0?' active':'');d.addEventListener('click',()=>goTo(i));dotsContainer.appendChild(d);});
+  function updateUI(){progressBar.style.width=((current+1)/total*100)+'%';counter.textContent=(current+1)+' / '+total;btnPrev.disabled=current===0;btnNext.disabled=current===total-1;dotsContainer.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===current));}
+  function animateSlideIn(slide){['card','item','summary-item','diagram-box','currier-card','atr-card'].forEach(cls=>{slide.querySelectorAll('.'+cls).forEach((el,i)=>{el.classList.remove('animate');setTimeout(()=>el.classList.add('animate'),80+i*75);});});}
+  function goTo(idx){if(idx===current)return;const prev=current;slides[prev].classList.add(idx>current?'exit-left':'exit-right');slides[prev].classList.remove('active');current=idx;slides[current].classList.remove('exit-left','exit-right');slides[current].classList.add('active');setTimeout(()=>slides[prev].classList.remove('exit-left','exit-right'),500);animateSlideIn(slides[current]);updateUI();}
+  btnNext.addEventListener('click',()=>{if(current<total-1)goTo(current+1);});
+  btnPrev.addEventListener('click',()=>{if(current>0)goTo(current-1);});
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown'){if(current<total-1)goTo(current+1);}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){if(current>0)goTo(current-1);}});
+  updateUI();animateSlideIn(slides[0]);
+</script>
+</body>
+</html>
