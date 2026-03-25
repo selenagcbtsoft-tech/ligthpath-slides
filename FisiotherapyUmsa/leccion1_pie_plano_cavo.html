@@ -146,7 +146,7 @@
   .diagram-row { display:flex; gap:18px; align-items:stretch; }
   .diagram-box {
     flex:1; background:var(--surface); border:1.5px solid var(--border);
-    border-radius:var(--radius); padding:18px; display:flex; flex-direction:column; gap:10px;
+    border-radius:var(--radius); padding:18px 22px; display:flex; flex-direction:column; gap:10px;
     box-shadow:var(--shadow);
     opacity:0; transform:translateY(16px);
     transition: opacity 0.4s ease, transform 0.4s ease;
@@ -159,7 +159,6 @@
   /* IMG TEXT */
   .img-text-row { display:grid; grid-template-columns:210px 1fr; gap:20px; align-items:start; }
   .img-block { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
-  .img-block img { width:100%; height:185px; object-fit:cover; display:block; }
   .img-cap { font-size:0.76rem; color:var(--text-muted); padding:7px 10px; background:var(--surface2); text-align:center; font-weight:600; }
   @media(max-width:620px) { .img-text-row { grid-template-columns:1fr; } }
 
@@ -262,11 +261,7 @@
   <section class="slide" id="s3">
     <div class="slide-label">Biomecánica del Pie · 1 de 3</div>
     <h2 class="section-title">Arco Plantar y Mecanismo de Windlass</h2>
-    <div class="img-text-row">
-      <div class="img-block">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Arches_of_the_foot.png/320px-Arches_of_the_foot.png" alt="Arcos del pie" onerror="this.parentNode.innerHTML='<div style=\'height:185px;background:#eef1f8;display:flex;align-items:center;justify-content:center;font-size:2.5rem;\'>🦶</div>'">
-        <div class="img-cap">Arcos del pie (Wikimedia)</div>
-      </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
       <div class="item-list">
         <div class="item">
           <div class="item-dot"></div>
@@ -282,33 +277,11 @@
             <span>La dorsiflexión del hallux <strong>tensa la fascia plantar</strong> → provoca inversión del pie y elevación pasiva del arco → el pie se convierte en una <em>palanca rígida</em> para el despegue.</span>
           </div>
         </div>
-      </div>
     </div>
-    <!-- SVG Windlass -->
+    <!-- Windlass section -->
     <div class="diagram-box animate" style="opacity:1;transform:none;">
       <h4>Diagrama: Mecanismo de Windlass</h4>
-      <svg viewBox="0 0 700 115" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
-        <ellipse cx="175" cy="88" rx="148" ry="20" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
-        <path d="M55,88 Q175,38 320,88" fill="none" stroke="#2563eb" stroke-width="3" stroke-dasharray="6,3"/>
-        <line x1="55" y1="90" x2="320" y2="90" stroke="#ef4444" stroke-width="2.5"/>
-        <rect x="308" y="58" width="32" height="34" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
-        <text x="324" y="79" font-size="11" fill="#1d4ed8" text-anchor="middle" font-weight="700">Hallux</text>
-        <path d="M352,72 Q375,50 362,32" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#wg)"/>
-        <text x="378" y="30" font-size="11" fill="#059669" font-weight="700">Dorsiflexión</text>
-        <text x="175" y="30" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="700">Arco Longitudinal Medial</text>
-        <text x="175" y="106" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="600">Fascia Plantar (en tensión)</text>
-        <path d="M82,89 L60,89" stroke="#ef4444" stroke-width="1.5" marker-end="url(#wr)"/>
-        <path d="M286,89 L308,89" stroke="#ef4444" stroke-width="1.5" marker-end="url(#wr)"/>
-        <text x="520" y="42" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="700">Resultado:</text>
-        <text x="520" y="60" font-size="11" fill="#2563eb" text-anchor="middle">✔ Elevación del arco</text>
-        <text x="520" y="77" font-size="11" fill="#2563eb" text-anchor="middle">✔ Inversión del pie</text>
-        <text x="520" y="94" font-size="11" fill="#10b981" text-anchor="middle">✔ Propulsión eficiente</text>
-        <defs>
-          <marker id="wg" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#10b981"/></marker>
-          <marker id="wr" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ef4444"/></marker>
-        </defs>
-      </svg>
-      <div class="diagram-caption">Al dorsiflexionar el hallux, la fascia plantar actúa como un cabrestante (windlass) elevando el arco y creando una palanca rígida para el despegue.</div>
+<div class="diagram-caption">Al dorsiflexionar el hallux, la fascia plantar actúa como un cabrestante (windlass) elevando el arco y creando una palanca rígida para el despegue.</div>
     </div>
   </section>
 
@@ -319,31 +292,11 @@
     <div class="diagram-row">
       <div class="diagram-box">
         <h4>🔵 Eje Medializado → Pie Plano</h4>
-        <svg viewBox="0 0 250 155" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
-          <ellipse cx="125" cy="130" rx="105" ry="20" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
-          <path d="M28,130 Q70,124 125,126 Q180,128 222,130" fill="none" stroke="#2563eb" stroke-width="3"/>
-          <line x1="72" y1="8" x2="90" y2="148" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="5,3"/>
-          <text x="60" y="20" font-size="11" fill="#1d4ed8" font-weight="700">Eje Medial</text>
-          <path d="M148,75 Q178,100 172,126" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#km)"/>
-          <text x="158" y="95" font-size="11" fill="#ef4444" font-weight="700">Pronación</text>
-          <text x="20" y="152" font-size="10" fill="#4b5563">Arco colapsado → Pie Plano</text>
-          <defs><marker id="km" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
-        </svg>
-        <div class="diagram-caption">Momentos de fuerza que favorecen la <strong>pronación excesiva</strong> y el colapso del arco medial.</div>
+<div class="diagram-caption">Momentos de fuerza que favorecen la <strong>pronación excesiva</strong> y el colapso del arco medial.</div>
       </div>
       <div class="diagram-box">
         <h4>🟠 Eje Lateralizado → Pie Cavo</h4>
-        <svg viewBox="0 0 250 155" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
-          <ellipse cx="125" cy="130" rx="105" ry="20" fill="#fef3c7" stroke="#fcd34d" stroke-width="1.5"/>
-          <path d="M28,130 Q75,65 125,55 Q175,50 222,130" fill="none" stroke="#f59e0b" stroke-width="3"/>
-          <line x1="178" y1="8" x2="162" y2="148" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="5,3"/>
-          <text x="168" y="20" font-size="11" fill="#b45309" font-weight="700">Eje Lateral</text>
-          <path d="M95,80 Q64,104 68,127" fill="none" stroke="#d97706" stroke-width="2.5" marker-end="url(#kl)"/>
-          <text x="24" y="100" font-size="11" fill="#d97706" font-weight="700">Supinación</text>
-          <text x="20" y="152" font-size="10" fill="#4b5563">Arco elevado → Pie Cavo</text>
-          <defs><marker id="kl" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#d97706"/></marker></defs>
-        </svg>
-        <div class="diagram-caption">Favorece la <strong>supinación y rigidez</strong>. Mayor riesgo de esguinces de tobillo y metatarsalgia.</div>
+<div class="diagram-caption">Favorece la <strong>supinación y rigidez</strong>. Mayor riesgo de esguinces de tobillo y metatarsalgia.</div>
       </div>
     </div>
     <div class="highlight-box">
@@ -381,23 +334,7 @@
     <!-- SVG foot profiles -->
     <div class="diagram-box animate" style="opacity:1;transform:none;">
       <h4>Perfil del arco en apoyo bipodal</h4>
-      <svg viewBox="0 0 700 95" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
-        <line x1="10" y1="84" x2="690" y2="84" stroke="#e2e8f0" stroke-width="2"/>
-        <!-- Normal -->
-        <path d="M38,84 Q82,46 122,50 Q162,47 202,84" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
-        <text x="120" y="26" font-size="12" fill="#0284c7" text-anchor="middle" font-weight="700">Pie Normal</text>
-        <line x1="120" y1="30" x2="120" y2="50" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="3,2"/>
-        <!-- Plano -->
-        <path d="M268,84 Q308,78 348,79 Q388,78 428,84" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
-        <text x="348" y="26" font-size="12" fill="#2563eb" text-anchor="middle" font-weight="700">Pie Plano</text>
-        <line x1="348" y1="30" x2="348" y2="79" stroke="#2563eb" stroke-width="1.2" stroke-dasharray="3,2"/>
-        <text x="348" y="95" font-size="10" fill="#2563eb" text-anchor="middle">Arco disminuido</text>
-        <!-- Cavo -->
-        <path d="M490,84 Q530,28 570,22 Q612,18 650,84" fill="#fef3c7" stroke="#f59e0b" stroke-width="2.5"/>
-        <text x="570" y="10" font-size="12" fill="#d97706" text-anchor="middle" font-weight="700">Pie Cavo</text>
-        <text x="570" y="95" font-size="10" fill="#d97706" text-anchor="middle">Arco elevado / rígido</text>
-      </svg>
-    </div>
+</div>
   </section>
 
   <!-- ─── SLIDE 6: LÍNEA DE FEISS + NAVICULAR DROP ─── -->
@@ -407,46 +344,11 @@
     <div class="two-col">
       <div class="diagram-box">
         <h4>📏 Línea de Feiss</h4>
-        <svg viewBox="0 0 270 175" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
-          <ellipse cx="135" cy="148" rx="110" ry="20" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5"/>
-          <path d="M48,148 Q90,85 135,90 Q180,85 222,148" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,2"/>
-          <circle cx="48" cy="100" r="9" fill="#2563eb"/>
-          <text x="20" y="97" font-size="10" fill="#1d4ed8" font-weight="700">Maléolo</text>
-          <circle cx="228" cy="122" r="8" fill="#2563eb"/>
-          <text x="232" y="120" font-size="10" fill="#1d4ed8" font-weight="700">MTF1</text>
-          <line x1="48" y1="100" x2="228" y2="122" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="7,3"/>
-          <text x="133" y="98" font-size="10" fill="#ef4444" text-anchor="middle" font-weight="700">Línea de Feiss</text>
-          <circle cx="135" cy="80" r="7" fill="#10b981"/>
-          <text x="155" y="78" font-size="10" fill="#059669" font-weight="700">↑ Pie Cavo</text>
-          <circle cx="135" cy="112" r="7" fill="#f59e0b"/>
-          <text x="155" y="115" font-size="10" fill="#d97706" font-weight="700">→ Normal</text>
-          <circle cx="135" cy="134" r="7" fill="#ef4444"/>
-          <text x="155" y="137" font-size="10" fill="#dc2626" font-weight="700">↓ Pie Plano</text>
-          <text x="8" y="168" font-size="9" fill="#6b7280">Escafoides respecto a la línea maléolo–MTF1</text>
-        </svg>
-        <div class="diagram-caption">El escafoides <strong>sobre</strong> la línea = pie cavo · <strong>bajo</strong> la línea = pie plano.</div>
+<div class="diagram-caption">El escafoides <strong>sobre</strong> la línea = pie cavo · <strong>bajo</strong> la línea = pie plano.</div>
       </div>
       <div class="diagram-box">
         <h4>📉 Navicular Drop Test</h4>
-        <svg viewBox="0 0 270 175" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
-          <rect x="8" y="8" width="116" height="148" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
-          <text x="66" y="26" font-size="11" fill="#059669" text-anchor="middle" font-weight="700">Sin Carga</text>
-          <ellipse cx="66" cy="130" rx="48" ry="14" fill="#dcfce7" stroke="#86efac" stroke-width="1.5"/>
-          <circle cx="66" cy="82" r="12" fill="#10b981"/>
-          <text x="66" y="86" font-size="10" fill="white" text-anchor="middle" font-weight="700">E</text>
-          <text x="66" y="107" font-size="9" fill="#4b5563" text-anchor="middle">Escafoides alto</text>
-          <rect x="144" y="8" width="118" height="148" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
-          <text x="203" y="26" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="700">Con Carga</text>
-          <ellipse cx="203" cy="140" rx="48" ry="14" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
-          <circle cx="203" cy="100" r="12" fill="#ef4444"/>
-          <text x="203" y="104" font-size="10" fill="white" text-anchor="middle" font-weight="700">E</text>
-          <line x1="203" y1="82" x2="203" y2="118" stroke="#ef4444" stroke-width="3" marker-end="url(#nd)"/>
-          <text x="220" y="102" font-size="12" fill="#ef4444" font-weight="700">≥1cm</text>
-          <text x="203" y="58" font-size="10" fill="#dc2626" text-anchor="middle" font-weight="700">⚠ POSITIVO</text>
-          <text x="203" y="71" font-size="9" fill="#4b5563" text-anchor="middle">Tibial posterior insuf.</text>
-          <defs><marker id="nd" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ef4444"/></marker></defs>
-        </svg>
-        <div class="diagram-caption"><strong>Positivo si ≥ 1 cm</strong> de descenso. Indica insuficiencia del tibial posterior y debilidad del control motor del mediopié.</div>
+<div class="diagram-caption"><strong>Positivo si ≥ 1 cm</strong> de descenso. Indica insuficiencia del tibial posterior y debilidad del control motor del mediopié.</div>
       </div>
     </div>
   </section>
@@ -458,28 +360,7 @@
     <div class="img-text-row">
       <div class="img-block">
         <!-- SVG del test de lunge en vez de imagen externa -->
-        <svg viewBox="0 0 180 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:185px;background:#eef1f8;" font-family="Nunito,sans-serif">
-          <!-- Pared -->
-          <rect x="145" y="20" width="12" height="170" rx="3" fill="#d1d5db"/>
-          <text x="151" y="15" font-size="9" fill="#6b7280" text-anchor="middle">Pared</text>
-          <!-- Suelo -->
-          <rect x="10" y="178" width="145" height="8" rx="3" fill="#e5e7eb"/>
-          <!-- Tobillo/pie -->
-          <ellipse cx="55" cy="175" rx="32" ry="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
-          <!-- Tibia inclinada -->
-          <line x1="55" y1="175" x2="92" y2="60" stroke="#2563eb" stroke-width="6" stroke-linecap="round"/>
-          <!-- Rodilla -->
-          <circle cx="92" cy="58" r="9" fill="#93c5fd" stroke="#2563eb" stroke-width="2"/>
-          <!-- Muslo -->
-          <line x1="92" y1="58" x2="72" y2="22" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
-          <!-- Distancia flechas -->
-          <line x1="50" y1="172" x2="144" y2="172" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2"/>
-          <text x="96" y="165" font-size="11" fill="#ef4444" text-anchor="middle" font-weight="700">11-14 cm</text>
-          <!-- Angle arc -->
-          <path d="M55,145 A30,30 0 0,1 82,118" fill="none" stroke="#10b981" stroke-width="2"/>
-          <text x="28" y="128" font-size="10" fill="#059669" font-weight="700">30-50°</text>
-        </svg>
-        <div class="img-cap">Test de Lunge (diagrama)</div>
+<div class="img-cap">Test de Lunge (diagrama)</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px;">
         <div class="item" style="opacity:1;transform:none;">
@@ -562,52 +443,11 @@
     <div class="diagram-row">
       <div class="diagram-box">
         <h4>🦵 Valgo Dinámico — Single Leg Squat</h4>
-        <svg viewBox="0 0 270 195" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
-          <rect x="5" y="5" width="120" height="185" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
-          <text x="65" y="24" font-size="11" fill="#059669" text-anchor="middle" font-weight="700">✅ Normal</text>
-          <line x1="65" y1="40" x2="65" y2="168" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="65" cy="38" r="13" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
-          <text x="65" y="43" font-size="11" fill="#059669" text-anchor="middle">🍑</text>
-          <circle cx="65" cy="104" r="11" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
-          <text x="65" y="108" font-size="10" fill="#059669" text-anchor="middle">🦵</text>
-          <ellipse cx="65" cy="172" rx="30" ry="11" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
-          <rect x="140" y="5" width="124" height="185" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
-          <text x="202" y="24" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="700">⚠ Valgo Dinámico</text>
-          <line x1="202" y1="40" x2="178" y2="104" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
-          <line x1="178" y1="104" x2="202" y2="168" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="202" cy="38" r="13" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
-          <circle cx="178" cy="104" r="11" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
-          <text x="178" y="108" font-size="10" fill="#dc2626" text-anchor="middle">🦵</text>
-          <path d="M205,115 L172,112" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#vv)"/>
-          <text x="150" y="126" font-size="10" fill="#ef4444" font-weight="700">Caída medial</text>
-          <ellipse cx="202" cy="172" rx="30" ry="11" fill="#fee2e2" stroke="#fca5a5" stroke-width="2"/>
-          <defs><marker id="vv" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
-        </svg>
-        <div class="diagram-caption">Corregir manualmente el arco del pie alinea la rodilla → <strong>la inestabilidad del pie es el factor causal</strong>.</div>
+<div class="diagram-caption">Corregir manualmente el arco del pie alinea la rodilla → <strong>la inestabilidad del pie es el factor causal</strong>.</div>
       </div>
       <div class="diagram-box">
         <h4>🍑 Trendelenburg y Coxa Vara</h4>
-        <svg viewBox="0 0 270 195" xmlns="http://www.w3.org/2000/svg" font-family="Nunito,sans-serif">
-          <rect x="5" y="5" width="120" height="185" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
-          <text x="65" y="24" font-size="11" fill="#1d4ed8" text-anchor="middle" font-weight="700">Pelvis Normal</text>
-          <ellipse cx="65" cy="85" rx="42" ry="21" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <line x1="23" y1="85" x2="107" y2="85" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4,2"/>
-          <text x="65" y="100" font-size="9" fill="#3b82f6" text-anchor="middle">Horizontal</text>
-          <line x1="48" y1="103" x2="44" y2="172" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
-          <line x1="82" y1="103" x2="86" y2="172" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
-          <text x="65" y="185" font-size="9" fill="#4b5563" text-anchor="middle">✅ Glúteo Medio OK</text>
-          <rect x="140" y="5" width="124" height="185" rx="10" fill="#fffbeb" stroke="#fcd34d" stroke-width="1.5"/>
-          <text x="202" y="22" font-size="10" fill="#d97706" text-anchor="middle" font-weight="700">Signo Trendelenburg</text>
-          <ellipse cx="202" cy="87" rx="42" ry="21" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" transform="rotate(-14,202,87)"/>
-          <line x1="160" y1="74" x2="244" y2="98" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,2"/>
-          <path d="M162,72 L162,96" fill="none" stroke="#ef4444" stroke-width="3" marker-end="url(#tt)"/>
-          <text x="144" y="108" font-size="10" fill="#dc2626" font-weight="700">Caída</text>
-          <line x1="186" y1="102" x2="174" y2="172" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
-          <line x1="218" y1="106" x2="230" y2="172" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
-          <text x="202" y="185" font-size="9" fill="#dc2626" text-anchor="middle">⚠ Glúteo Medio débil</text>
-          <defs><marker id="tt" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
-        </svg>
-        <div class="diagram-caption"><span class="tag tag-red">Coxa Vara &lt;125°</span> → varo de rodilla + pie cavo. Debilidad del glúteo medio altera el apoyo plantar.</div>
+<div class="diagram-caption"><span class="tag tag-red">Coxa Vara &lt;125°</span> → varo de rodilla + pie cavo. Debilidad del glúteo medio altera el apoyo plantar.</div>
       </div>
     </div>
   </section>
@@ -647,40 +487,25 @@
     </div>
   </section>
 
-  <!-- ─── SLIDE 11: IMÁGENES ANATÓMICAS ─── -->
+  <!-- ─── SLIDE 11: ESTRUCTURAS CLAVE (sin imágenes externas) ─── -->
   <section class="slide" id="s11">
     <div class="slide-label">Referencia Anatómica Visual</div>
     <h2 class="section-title">Estructuras Clave del Pie</h2>
     <div class="cards-grid" style="grid-template-columns:repeat(3,1fr);">
-      <div class="card" style="padding:0;overflow:hidden;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Foot_bones_-_tarsus%2C_metatarsus_and_phalanges_-_lateral_view.jpg/320px-Foot_bones_-_tarsus%2C_metatarsus_and_phalanges_-_lateral_view.jpg"
-             alt="Huesos del pie vista lateral"
-             style="width:100%;height:155px;object-fit:cover;display:block;"
-             onerror="this.style.cssText='height:155px;width:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;font-size:2.5rem;'">
-        <div style="padding:14px;">
-          <div class="card-title">Huesos del Pie</div>
-          <div class="card-body">Tarso, metatarso y falanges. Vista lateral que muestra el perfil del arco longitudinal.</div>
-        </div>
+      <div class="card">
+        <div class="card-icon" style="width:100%;height:80px;font-size:3rem;border-radius:10px;">🦴</div>
+        <div class="card-title">Huesos del Pie</div>
+        <div class="card-body">Tarso, metatarso y falanges. Vista lateral que muestra el perfil del arco longitudinal.</div>
       </div>
-      <div class="card" style="padding:0;overflow:hidden;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Tibialis_posterior_muscle.PNG/220px-Tibialis_posterior_muscle.PNG"
-             alt="Músculo tibial posterior"
-             style="width:100%;height:155px;object-fit:cover;object-position:top;display:block;"
-             onerror="this.style.cssText='height:155px;width:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;font-size:2.5rem;'">
-        <div style="padding:14px;">
-          <div class="card-title">Tibial Posterior</div>
-          <div class="card-body">Principal estabilizador dinámico del arco medial. Su insuficiencia provoca pie plano adquirido.</div>
-        </div>
+      <div class="card">
+        <div class="card-icon" style="width:100%;height:80px;font-size:3rem;border-radius:10px;">💪</div>
+        <div class="card-title">Tibial Posterior</div>
+        <div class="card-body">Principal estabilizador dinámico del arco medial. Su insuficiencia provoca pie plano adquirido.</div>
       </div>
-      <div class="card" style="padding:0;overflow:hidden;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Plantar_fascia.jpg/320px-Plantar_fascia.jpg"
-             alt="Fascia plantar"
-             style="width:100%;height:155px;object-fit:cover;display:block;"
-             onerror="this.style.cssText='height:155px;width:100%;display:flex;align-items:center;justify-content:center;background:#f1f5f9;font-size:2.5rem;'">
-        <div style="padding:14px;">
-          <div class="card-title">Fascia Plantar</div>
-          <div class="card-body">Estructura central del mecanismo de Windlass. Su tensión sostiene el arco longitudinal medial.</div>
-        </div>
+      <div class="card">
+        <div class="card-icon" style="width:100%;height:80px;font-size:3rem;border-radius:10px;">🦶</div>
+        <div class="card-title">Fascia Plantar</div>
+        <div class="card-body">Estructura central del mecanismo de Windlass. Su tensión sostiene el arco longitudinal medial.</div>
       </div>
     </div>
     <div class="highlight-box">
