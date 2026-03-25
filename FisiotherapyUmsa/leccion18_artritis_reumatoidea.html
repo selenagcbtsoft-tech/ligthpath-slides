@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Práctica 18 – Artritis Reumatoidea: Tratamiento y Reeducación</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <style>
   :root {
     --w: #ffffff;
@@ -164,557 +165,406 @@
 </style>
 </head>
 <body>
-
 <div id="pw"><div id="pb"></div></div>
 <header id="hdr">
-  <span class="ltag">Práctica 18</span>
-  <span id="ctr">1 / 11</span>
+<span class="ltag">Práctica 18</span>
+<span id="ctr">1 / 11</span>
 </header>
-
 <div id="sc">
-
-  <!-- SLIDE 1: PORTADA -->
-  <section class="slide active" data-index="0">
-    <div class="slbl">Kinesiología — Enfermedades Reumáticas</div>
-    <h1 class="tit">Artritis Reumatoidea:<br><em>Tratamiento y Reeducación</em></h1>
-    <p class="intro">Enfermedad <strong>autoinmunitaria sistémica y crónica</strong>. El abordaje es delicado por la fragilidad tisular, el carácter astenizante de la patología y el riesgo constante de agravar el proceso inflamatorio.</p>
-    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px;">
-      <span style="background:var(--r-l);color:var(--r);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--r);">🔥 Fases Evolutivas</span>
-      <span style="background:var(--p-l);color:var(--p);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--p);">🤲 Economía Articular</span>
-      <span style="background:var(--teal-l);color:var(--teal);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--teal);">🧊 Crioterapia</span>
-      <span style="background:var(--pur-l);color:var(--pur);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--pur);">📍 Puntos Gatillo</span>
-    </div>
-    <!-- hand with RA SVG -->
-    <div style="display:flex;justify-content:center;">
-      <svg viewBox="0 0 380 155" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:460px;width:100%;">
-        <!-- hand outline right -->
-        <path d="M120 140 Q90 130 80 100 Q72 75 78 55 Q82 40 95 42 Q105 43 108 55 L110 72 Q112 45 115 32 Q118 20 130 22 Q142 24 140 40 L138 72 Q140 46 144 34 Q148 22 158 24 Q168 26 166 42 L164 72 Q165 50 170 38 Q175 27 184 30 Q192 34 188 50 L185 80 Q188 65 194 58 Q202 50 208 56 Q215 65 210 82 L200 112 Q194 128 182 138 Z" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-        <!-- inflamed joints - knuckles MCP -->
-        <circle cx="108" cy="80" r="6" fill="rgba(168,42,42,0.4)" stroke="var(--r)" stroke-width="1.5"/>
-        <circle cx="126" cy="76" r="6" fill="rgba(168,42,42,0.4)" stroke="var(--r)" stroke-width="1.5"/>
-        <circle cx="144" cy="76" r="6" fill="rgba(168,42,42,0.4)" stroke="var(--r)" stroke-width="1.5"/>
-        <circle cx="162" cy="78" r="5" fill="rgba(168,42,42,0.3)" stroke="var(--r)" stroke-width="1.5"/>
-        <!-- ulnar deviation arrow -->
-        <path d="M130 130 L100 122" stroke="var(--r)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#aRa)"/>
-        <defs>
-          <marker id="aRa" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--r)"/></marker>
-          <marker id="aGa" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--g)"/></marker>
-        </defs>
-        <text x="85" y="118" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">Ráfaga cubital</text>
-        <!-- wrist extension splint outline -->
-        <rect x="80" y="128" width="100" height="16" rx="8" fill="rgba(44,74,124,0.15)" stroke="var(--p)" stroke-width="1.5" stroke-dasharray="4 3"/>
-        <text x="130" y="139" text-anchor="middle" fill="var(--p)" font-size="7.5" font-family="Manrope,sans-serif" font-weight="700">Férula 20° ext. + desv. radial</text>
-        <!-- labels -->
-        <text x="60" y="80" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">MCF</text>
-        <text x="55" y="90" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif">inflamadas</text>
-        <!-- spine cervical right side -->
-        <path d="M260 25 L260 130" stroke="var(--bd)" stroke-width="1.5"/>
-        <text x="310" y="20" text-anchor="middle" fill="var(--mid)" font-size="9" font-family="Manrope,sans-serif" font-weight="700">Columna cervical</text>
-        <!-- vertebrae C1-C3 inflamed -->
-        <rect x="250" y="28" width="20" height="14" rx="4" fill="rgba(168,42,42,0.3)" stroke="var(--r)" stroke-width="1.5"/>
-        <text x="280" y="38" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">C1-C3 afectado</text>
-        <rect x="250" y="46" width="20" height="14" rx="4" fill="rgba(168,42,42,0.25)" stroke="var(--r)" stroke-width="1.5"/>
-        <!-- rest normal vertebrae -->
-        <rect x="252" y="64" width="16" height="11" rx="3" fill="var(--g-l)" stroke="var(--g)" stroke-width="1"/>
-        <rect x="252" y="79" width="16" height="11" rx="3" fill="var(--g-l)" stroke="var(--g)" stroke-width="1"/>
-        <rect x="252" y="94" width="16" height="11" rx="3" fill="var(--g-l)" stroke="var(--g)" stroke-width="1"/>
-        <rect x="252" y="109" width="16" height="11" rx="3" fill="var(--g-l)" stroke="var(--g)" stroke-width="1"/>
-        <text x="280" y="95" fill="var(--g)" font-size="8" font-family="Manrope,sans-serif">Resto: preservado</text>
-        <text x="280" y="52" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">Charnela</text>
-        <text x="280" y="62" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">cervicooccipital</text>
-      </svg>
-    </div>
-  </section>
-
-  <!-- SLIDE 2: FASES EVOLUTIVAS -->
-  <section class="slide" data-index="1">
-    <div class="slbl">Fases Evolutivas</div>
-    <h2 class="stit">Objetivos Terapéuticos por Fase</h2>
-    <p class="intro" style="margin-bottom:12px;">El tratamiento kinésico es <strong>dinámico</strong> y debe ajustarse estrictamente al estado actual de la enfermedad.</p>
-    <div class="phases">
-      <div class="phase-card agudo">
-        <div class="pc-num">1</div>
-        <div>
-          <h4>🔥 Período Inflamatorio Agudo</h4>
-          <p>Objetivo: <strong>luchar contra el dolor y la inflamación</strong>. Prevenir la aparición de actitudes viciosas o deformidades fijas. Tratamiento por debajo del umbral del dolor.</p>
-        </div>
-      </div>
-      <div class="phase-card remision">
-        <div class="pc-num">2</div>
-        <div>
-          <h4>🟡 Período de Remisión / Estacionario</h4>
-          <p>Objetivo: <strong>recuperar masa muscular y función global</strong> mediante trabajo isométrico e isotónico ligero. Progresión gradual y supervisada.</p>
-        </div>
-      </div>
-      <div class="phase-card cicatriz">
-        <div class="pc-num">3</div>
-        <div>
-          <h4>🟢 Cicatrización</h4>
-          <p>Los <strong>plazos están ampliados</strong> en pacientes reumáticos. El uso prolongado de cortisona genera fragilidad cutánea extrema y retrasa la recuperación tisular.</p>
-        </div>
-      </div>
-    </div>
-    <div class="hb r" style="margin-top:12px;">
-      <span class="hi">⚠️</span>
-      <div>
-        <h4>Principio Universal: Umbral del Dolor</h4>
-        <p>Por seguridad y eficacia, el tratamiento debe realizarse <strong>siempre por debajo del umbral del dolor</strong> para evitar disparar crisis inflamatorias que agraven el cuadro.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLIDE 3: CINESITERAPIA Y CRIOTERAPIA -->
-  <section class="slide" data-index="2">
-    <div class="slbl">Modalidades Terapéuticas</div>
-    <h2 class="stit">Cinesiterapia y Crioterapia</h2>
-    <div class="two">
-      <div>
-        <div class="hb b">
-          <span class="hi">🏋️</span>
-          <div>
-            <h4>Intensidad de la Reeducación</h4>
-            <p>Debe ser <strong>moderada</strong>. En la mano y muñeca operadas: trabajo inicial <strong>activo, sin resistencia y con fines funcionales globales</strong>.</p>
-          </div>
-        </div>
-        <div class="cryo">
-          <h4>🧊 Crioterapia — Protocolo</h4>
-          <p>Fundamental para la <strong>analgesia</strong>. Aplicaciones de <strong>20 minutos, 1–2 veces al día</strong>.</p>
-          <div style="margin-top:8px;font-size:.82rem;opacity:.92;line-height:1.65;">
-            <strong>Recomendación clave:</strong> realizar movimientos <strong>pasivos y lentos</strong> de la articulación simultáneamente a la aplicación de frío para mantener la elasticidad capsular.
-          </div>
-          <span class="highlight">🕐 20 min · 1-2×/día</span>
-        </div>
-      </div>
-      <div>
-        <div class="contra">
-          <div class="ci">🚫</div>
-          <div>
-            <h4>Contraindicación Absoluta</h4>
-            <p>El <strong>masaje transverso profundo (Cyriax)</strong> está formalmente contraindicado en la AR. Es demasiado agresivo para tejidos con inflamación activa y puede disparar una crisis.</p>
-          </div>
-        </div>
-        <!-- cryo + motion SVG -->
-        <div style="margin-top:12px;background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);">
-          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Crioterapia + Movimiento Pasivo</p>
-          <svg viewBox="0 0 220 90" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-            <!-- ice pack -->
-            <rect x="10" y="25" width="70" height="40" rx="12" fill="#d5eef7" stroke="#1a6b6b" stroke-width="1.5"/>
-            <text x="45" y="42" text-anchor="middle" fill="var(--teal)" font-size="10" font-family="Manrope,sans-serif" font-weight="700">🧊</text>
-            <text x="45" y="56" text-anchor="middle" fill="var(--teal)" font-size="8" font-family="Manrope,sans-serif">Frío 20 min</text>
-            <!-- plus -->
-            <text x="92" y="50" text-anchor="middle" fill="var(--mid)" font-size="18" font-family="Manrope,sans-serif" font-weight="700">+</text>
-            <!-- passive motion joint -->
-            <ellipse cx="152" cy="45" rx="28" ry="22" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-            <text x="152" y="42" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Manrope,sans-serif" font-weight="700">Mov. Pasivo</text>
-            <text x="152" y="53" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Manrope,sans-serif">lento y suave</text>
-            <!-- motion arc -->
-            <path d="M135 38 Q142 25 160 30" stroke="var(--p)" stroke-width="1.5" fill="none" marker-end="url(#aPa)"/>
-            <defs>
-              <marker id="aPa" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--p)"/></marker>
-            </defs>
-            <!-- result -->
-            <text x="110" y="82" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Manrope,sans-serif" font-weight="700">→ Mantiene elasticidad capsular</text>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLIDE 4: ECONOMÍA ARTICULAR -->
-  <section class="slide" data-index="3">
-    <div class="slbl">Educación al Paciente</div>
-    <h2 class="stit">Economía Articular y Gestual</h2>
-    <p class="intro" style="margin-bottom:12px;">El paciente aprende a <strong>proteger las pequeñas articulaciones</strong> de manos y pies distribuyendo cargas de forma más eficiente.</p>
-    <div class="two">
-      <div>
-        <div class="three" style="grid-template-columns:1fr;">
-          <div class="hb b">
-            <span class="hi">🔄</span>
-            <div>
-              <h4>Sustitución de Gestos</h4>
-              <p>Identificar y evitar movimientos de <strong>torsión</strong> o <strong>pinzas de fuerza</strong> con los dedos. Substituir por gestos menos agresivos.</p>
-            </div>
-          </div>
-          <div class="hb g">
-            <span class="hi">💪</span>
-            <div>
-              <h4>Uso de Palancas Largas</h4>
-              <p>Utilizar el <strong>antebrazo</strong> para levantar objetos pesados en lugar de la fuerza de los dedos. Distribuir la carga en articulaciones grandes.</p>
-            </div>
-          </div>
-          <div class="hb o">
-            <span class="hi">🤝</span>
-            <div>
-              <h4>Compensaciones Proximales</h4>
-              <p>Utilizar el <strong>codo y la muñeca</strong> para suplir déficits distales, suprimiendo movimientos de fuerza excesiva en dedos.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- hand economy SVG -->
-      <div class="region-wrap">
-        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Principio de Palanca Larga</p>
-        <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:240px;">
-          <!-- BAD: pinch grip -->
-          <text x="55" y="15" text-anchor="middle" fill="var(--r)" font-size="10" font-family="Manrope,sans-serif" font-weight="700">❌ Pinza de fuerza</text>
-          <path d="M35 35 Q45 30 55 35 Q60 45 55 50 Q45 55 35 50 Q30 40 35 35Z" fill="var(--r-l)" stroke="var(--r)" stroke-width="1.5"/>
-          <path d="M55 42 L85 42" stroke="var(--r)" stroke-width="3" stroke-linecap="round"/>
-          <ellipse cx="95" cy="42" rx="10" ry="7" fill="var(--r-l)" stroke="var(--r)" stroke-width="1.5"/>
-          <text x="95" y="62" text-anchor="middle" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif">carga → dedos</text>
-          <!-- divider -->
-          <line x1="10" y1="80" x2="210" y2="80" stroke="var(--bd)" stroke-width="1" stroke-dasharray="4 3"/>
-          <!-- GOOD: forearm lever -->
-          <text x="55" y="100" text-anchor="middle" fill="var(--g)" font-size="10" font-family="Manrope,sans-serif" font-weight="700">✅ Palanca larga</text>
-          <path d="M15 125 L80 125 Q90 125 95 130 L100 145" stroke="var(--p)" stroke-width="4" stroke-linecap="round" fill="none"/>
-          <!-- arm + forearm shape -->
-          <text x="48" y="120" fill="var(--mid)" font-size="8" font-family="Manrope,sans-serif">Antebrazo</text>
-          <ellipse cx="110" cy="142" rx="14" ry="10" fill="var(--g-l)" stroke="var(--g)" stroke-width="1.5"/>
-          <text x="110" y="165" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Manrope,sans-serif">carga distribuida</text>
-          <!-- arrow distribute -->
-          <path d="M95 130 L80 120" stroke="var(--g)" stroke-width="1.5" stroke-dasharray="3 2"/>
-          <path d="M100 142 L88 148" stroke="var(--g)" stroke-width="1.5" stroke-dasharray="3 2"/>
-          <path d="M105 150 L95 158" stroke="var(--g)" stroke-width="1.5" stroke-dasharray="3 2"/>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLIDE 5: MANO Y MUÑECA -->
-  <section class="slide" data-index="4">
-    <div class="slbl">Afectación Regional</div>
-    <h2 class="stit">Mano y Muñeca — >80% de los Casos</h2>
-    <div class="two">
-      <div>
-        <div class="stat" style="border-color:var(--r);margin-bottom:12px;">
-          <div class="n" style="color:var(--r);">80%+</div>
-          <div class="l">de los pacientes con AR presentan compromiso de <strong>mano y muñeca</strong></div>
-        </div>
-        <div class="hb b">
-          <span class="hi">⚙️</span>
-          <div>
-            <h4>Dinamización Capsular (J. Madden)</h4>
-            <p>Es la <strong>prioridad en la muñeca</strong>. Se centra en el plano de <strong>flexión-extensión</strong> para mantener y restaurar el rango articular funcional.</p>
-          </div>
-        </div>
-        <div class="hb v">
-          <span class="hi">🌙</span>
-          <div>
-            <h4>Posicionamiento Nocturno</h4>
-            <p>Férulas para ráfaga cubital: muñeca en <strong>20° de extensión</strong> y <strong>ligera desviación radial</strong>. Previene la progresión de la deformidad durante el reposo.</p>
-          </div>
-        </div>
-      </div>
-      <div class="region-wrap">
-        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Deformidades Típicas de la Mano AR</p>
-        <svg viewBox="0 0 220 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:240px;">
-          <!-- hand dorsal view with deformities -->
-          <path d="M100 185 Q75 175 65 145 Q57 120 62 95 Q67 75 80 78 Q92 80 94 95 L96 110 Q98 80 100 65 Q103 50 115 52 Q127 54 124 72 L122 110 Q124 82 128 68 Q132 55 142 57 Q152 60 150 78 L148 110 Q149 88 154 75 Q160 65 168 68 Q175 74 172 90 L168 120 Q172 100 178 92 Q185 84 190 90 Q196 100 192 118 L182 148 Q176 166 164 176 Z" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-          <!-- MCP joints inflamed -->
-          <ellipse cx="94" cy="112" rx="8" ry="6" fill="rgba(168,42,42,0.35)" stroke="var(--r)" stroke-width="1.5"/>
-          <ellipse cx="112" cy="108" rx="8" ry="6" fill="rgba(168,42,42,0.35)" stroke="var(--r)" stroke-width="1.5"/>
-          <ellipse cx="130" cy="108" rx="7" ry="6" fill="rgba(168,42,42,0.3)" stroke="var(--r)" stroke-width="1.5"/>
-          <ellipse cx="148" cy="110" rx="7" ry="6" fill="rgba(168,42,42,0.25)" stroke="var(--r)" stroke-width="1.5"/>
-          <!-- ulnar deviation arrow -->
-          <path d="M120 165 L88 155" stroke="var(--r)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#aRa2)"/>
-          <defs>
-            <marker id="aRa2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--r)"/></marker>
-          </defs>
-          <text x="75" y="152" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">Ráfaga cubital</text>
-          <!-- wrist zone -->
-          <rect x="72" y="175" width="100" height="18" rx="9" fill="rgba(94,45,138,0.15)" stroke="var(--pur)" stroke-width="1.5"/>
-          <text x="122" y="187" text-anchor="middle" fill="var(--pur)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">Muñeca: 20° ext. + desv. radial</text>
-          <!-- dynamization arrows -->
-          <path d="M100 60 L100 50" stroke="var(--p)" stroke-width="1.5" marker-end="url(#aPa2)"/>
-          <path d="M100 72 L100 82" stroke="var(--p)" stroke-width="1.5" marker-end="url(#aPa2)"/>
-          <defs>
-            <marker id="aPa2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--p)"/></marker>
-          </defs>
-          <text x="55" y="65" fill="var(--p)" font-size="7.5" font-family="Manrope,sans-serif" font-weight="700">Flexión-extensión</text>
-          <text x="55" y="75" fill="var(--p)" font-size="7.5" font-family="Manrope,sans-serif">(J. Madden)</text>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLIDE 6: RODILLA Y RAQUIS -->
-  <section class="slide" data-index="5">
-    <div class="slbl">Afectación Regional</div>
-    <h2 class="stit">Rodilla, Raquis y Codo</h2>
-    <div class="three">
-      <div class="card r">
-        <span class="ci">🦵</span>
-        <h3>Rodilla — Precaución Crítica</h3>
-        <p style="margin-bottom:8px;">Está <strong>terminantemente contraindicado</strong> colocar almohadas o soportes bajo la rodilla en bipedestación o reposo.</p>
-        <div style="background:rgba(168,42,42,0.15);border-radius:8px;padding:8px;margin-top:4px;">
-          <p style="font-size:.8rem;color:var(--r);font-weight:700;">⚠️ Favorece deformidad en flexum por retracción de isquiotibiales</p>
-        </div>
-      </div>
-      <div class="card b">
-        <span class="ci">🦴</span>
-        <h3>Raquis Cervical</h3>
-        <p style="margin-bottom:8px;">A diferencia de otras espondiloartropatías, la AR afecta <strong>únicamente</strong> la columna cervical alta:</p>
-        <div style="font-size:.82rem;font-weight:700;color:var(--r);margin-bottom:4px;">⚡ Charnela cervicooccipital (C0-C2)</div>
-        <div style="font-size:.82rem;font-weight:700;color:var(--g);">✅ Resto del raquis: generalmente preservado</div>
-      </div>
-      <div class="card t">
-        <span class="ci">💪</span>
-        <h3>Codo</h3>
-        <p style="margin-bottom:8px;">Se trabaja bajo los ejes funcionales:</p>
-        <ul class="sl" style="gap:5px;">
-          <li><span class="dot" style="background:var(--teal);width:6px;height:6px;"></span><span style="font-size:.8rem;">Flexión — Supinación</span></li>
-          <li><span class="dot" style="background:var(--teal);width:6px;height:6px;"></span><span style="font-size:.8rem;">Extensión — Pronación</span></li>
-          <li><span class="dot" style="background:var(--teal);width:6px;height:6px;"></span><span style="font-size:.8rem;"><strong>Isométricos</strong> en recorrido interno posible</span></li>
-        </ul>
-      </div>
-    </div>
-    <div style="margin-top:14px;background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);">
-      <svg viewBox="0 0 400 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-        <!-- spine comparison -->
-        <text x="80" y="14" text-anchor="middle" fill="var(--mid)" font-size="10" font-family="Manrope,sans-serif" font-weight="700">Columna cervical en AR</text>
-        <!-- C0-C2 inflamed -->
-        <rect x="20" y="22" width="40" height="14" rx="4" fill="var(--r-l)" stroke="var(--r)" stroke-width="1.5"/>
-        <text x="40" y="32" text-anchor="middle" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">C0–C2 ⚡</text>
-        <line x1="60" y1="29" x2="75" y2="29" stroke="var(--bd)" stroke-width="1"/>
-        <!-- C3-C7 ok -->
-        <rect x="75" y="22" width="40" height="14" rx="4" fill="var(--g-l)" stroke="var(--g)" stroke-width="1.5"/>
-        <text x="95" y="32" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">C3–C7 ✅</text>
-        <line x1="115" y1="29" x2="130" y2="29" stroke="var(--bd)" stroke-width="1"/>
-        <!-- dorsal ok -->
-        <rect x="130" y="22" width="40" height="14" rx="4" fill="var(--g-l)" stroke="var(--g)" stroke-width="1.5"/>
-        <text x="150" y="32" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">Dorsal ✅</text>
-        <line x1="170" y1="29" x2="185" y2="29" stroke="var(--bd)" stroke-width="1"/>
-        <!-- lumbar ok -->
-        <rect x="185" y="22" width="40" height="14" rx="4" fill="var(--g-l)" stroke="var(--g)" stroke-width="1.5"/>
-        <text x="205" y="32" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">Lumbar ✅</text>
-        <!-- legend -->
-        <text x="20" y="60" fill="var(--r)" font-size="9" font-family="Manrope,sans-serif" font-weight="700">⚡ AR solo afecta cervical alta</text>
-        <text x="200" y="60" fill="var(--g)" font-size="9" font-family="Manrope,sans-serif" font-weight="700">✅ Resto del raquis preservado (diferencial vs. espondiloartropatías)</text>
-      </svg>
-    </div>
-  </section>
-
-  <!-- SLIDE 7: RIGIDEZ MATUTINA -->
-  <section class="slide" data-index="6">
-    <div class="slbl">Hallazgos Clínicos</div>
-    <h2 class="stit">Rigidez Matutina y Síntomas Sistémicos</h2>
-    <div class="two">
-      <div>
-        <div class="dbox" style="background:linear-gradient(135deg,var(--p),#1a2e5a);">
-          <h3>🌅 Rigidez Matutina</h3>
-          <p>Síntoma <strong>característico</strong> de la AR. Dificultad para movilizar las articulaciones de <strong>larga duración</strong> tras el descanso nocturno. Puede durar horas. Mejora progresivamente con el movimiento.</p>
-        </div>
-        <div class="hb r" style="margin-top:10px;">
-          <span class="hi">😴</span>
-          <div>
-            <h4>Carácter Astenizante</h4>
-            <p>La AR produce un <strong>agotamiento generalizado</strong> que debe ser considerado en la planificación terapéutica. Las sesiones deben ser <strong>adaptadas a la capacidad energética</strong> del paciente ese día.</p>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="hb g">
-          <span class="hi">💊</span>
-          <div>
-            <h4>Cortisona y Cicatrización</h4>
-            <p>El uso prolongado de <strong>corticosteroides</strong> genera fragilidad cutánea extrema y retrasa la cicatrización. Los plazos postquirúrgicos deben <strong>ampliarse significativamente</strong> en estos pacientes.</p>
-          </div>
-        </div>
-        <div style="background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);margin-top:10px;">
-          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;">Síntomas Principales de la AR</p>
-          <div class="jrow">
-            <div class="jpill" style="border-color:var(--r);background:var(--r-l);color:var(--r);">🔥 Inflamación articular</div>
-            <div class="jpill" style="border-color:var(--o);background:var(--o-l);color:var(--o);">🌅 Rigidez matutina</div>
-            <div class="jpill" style="border-color:var(--r);background:var(--r-l);color:var(--r);">🦵 Ráfaga cubital</div>
-            <div class="jpill" style="border-color:var(--pur);background:var(--pur-l);color:var(--pur);">😴 Astenia crónica</div>
-            <div class="jpill" style="border-color:var(--p);background:var(--p-l);color:var(--p);">🦴 Deformidades</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLIDE 8: PUNTOS GATILLO MIOFASCIALES -->
-  <section class="slide" data-index="7">
-    <div class="slbl">Hallazgos Clínicos</div>
-    <h2 class="stit">Puntos Gatillo Miofasciales en AR</h2>
-    <div class="two">
-      <div>
-        <div class="dbox" style="background:linear-gradient(135deg,var(--pur),#3d1a60);">
-          <h3>📍 Prevalencia del 100%</h3>
-          <p>Los estudios indican que el <strong>100% de los pacientes</strong> con AR presentan puntos gatillo miofasciales (PGM). Pueden causar <strong>debilidad muscular percibida</strong> que se confunde con la patología articular.</p>
-        </div>
-        <div class="hb r" style="margin-top:10px;">
-          <span class="hi">🔍</span>
-          <div>
-            <h4>Confusión Diagnóstica</h4>
-            <p>La <strong>debilidad muscular percibida</strong> por los PGM frecuentemente se confunde con la debilidad real producida por la afectación articular de la AR, lo que puede subestimar el componente miofascial.</p>
-          </div>
-        </div>
-      </div>
-      <div>
-        <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;">Localización Prevalente de PGM</p>
-        <div class="tp-bar">
-          <span class="tp-label">Gastrocnemio medial</span>
-          <div class="tp-track"><div class="tp-fill" id="tp1" style="width:92%;background:linear-gradient(90deg,var(--r),#d44);"></div></div>
-          <span class="tp-pct" style="color:var(--r);">92%</span>
-        </div>
-        <div class="tp-bar">
-          <span class="tp-label">Vasto medial cuádriceps</span>
-          <div class="tp-track"><div class="tp-fill" id="tp2" style="width:67%;background:linear-gradient(90deg,var(--pur),#8040b0);"></div></div>
-          <span class="tp-pct" style="color:var(--pur);">67%</span>
-        </div>
-        <div style="background:var(--off);border-radius:12px;padding:12px;border:1.5px solid var(--bd);margin-top:12px;">
-          <svg viewBox="0 0 220 110" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-            <!-- lower leg outline -->
-            <path d="M70 10 Q60 40 58 70 Q56 90 62 105 L80 105 Q82 85 78 70 L85 30 Z" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-            <!-- gastrocnemius medial trigger point -->
-            <circle cx="68" cy="65" r="9" fill="rgba(168,42,42,0.4)" stroke="var(--r)" stroke-width="2"/>
-            <text x="68" y="69" text-anchor="middle" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">PG</text>
-            <text x="90" y="65" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">Gastrocnemio</text>
-            <text x="90" y="75" fill="var(--r)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">medial (92%)</text>
-            <!-- quad outline thigh -->
-            <path d="M140 8 Q128 40 125 80 L145 80 Q148 40 148 10 Z" fill="var(--pur-l)" stroke="var(--pur)" stroke-width="1.5"/>
-            <!-- vasto medial trigger -->
-            <circle cx="135" cy="62" r="8" fill="rgba(94,45,138,0.4)" stroke="var(--pur)" stroke-width="2"/>
-            <text x="135" y="66" text-anchor="middle" fill="var(--pur)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">PG</text>
-            <text x="152" y="62" fill="var(--pur)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">Vasto medial</text>
-            <text x="152" y="72" fill="var(--pur)" font-size="8" font-family="Manrope,sans-serif" font-weight="700">(67%)</text>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLIDE 9: TABLA SÍNTESIS REGIONAL -->
-  <section class="slide" data-index="8">
-    <div class="slbl">Síntesis Clínica</div>
-    <h2 class="stit">Resumen de Afectación por Regiones</h2>
-    <table class="tbl">
-      <thead><tr><th>Región</th><th>Frecuencia / Hallazgo</th><th>Intervención Específica</th><th>Precaución</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong style="color:var(--r);">Mano y Muñeca</strong></td>
-          <td style="color:var(--r);font-weight:700;">&gt;80% de los casos</td>
-          <td>Dinamización capsular (Madden): flex-ext</td>
-          <td>Trabajo activo sin resistencia inicial</td>
-        </tr>
-        <tr>
-          <td><strong style="color:var(--pur);">Posicionamiento nocturno</strong></td>
-          <td>Ráfaga cubital</td>
-          <td>Férula: 20° extensión + desviación radial</td>
-          <td>Uso nocturno obligatorio en fase aguda</td>
-        </tr>
-        <tr>
-          <td><strong style="color:var(--r);">Rodilla</strong></td>
-          <td>Riesgo de flexum</td>
-          <td>Extensión activa, isométricos de cuádriceps</td>
-          <td style="color:var(--r);font-weight:700;">⚠️ Nunca almohada bajo la rodilla</td>
-        </tr>
-        <tr>
-          <td><strong style="color:var(--p);">Raquis</strong></td>
-          <td>Solo cervical alta (C0-C2)</td>
-          <td>Precaución en manipulación cervical</td>
-          <td>Diferencial con otras espondiloartropatías</td>
-        </tr>
-        <tr>
-          <td><strong style="color:var(--teal);">Codo</strong></td>
-          <td>Variable</td>
-          <td>Ejes flex-supinación / ext-pronación</td>
-          <td>Isométricos en recorrido interno</td>
-        </tr>
-        <tr>
-          <td><strong style="color:var(--pur);">PGM (miofasciales)</strong></td>
-          <td style="color:var(--pur);font-weight:700;">100% de los pacientes AR</td>
-          <td>Evaluación y tratamiento miofascial específico</td>
-          <td>No confundir con debilidad articular</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- SLIDE 10: CONTRAINDICACIONES Y PRINCIPIOS -->
-  <section class="slide" data-index="9">
-    <div class="slbl">Principios Globales</div>
-    <h2 class="stit">Reglas de Oro del Tratamiento en AR</h2>
-    <div class="two">
-      <div>
-        <div class="contra" style="margin-bottom:12px;">
-          <div class="ci">🚫</div>
-          <div>
-            <h4>Contraindicaciones Absolutas</h4>
-            <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:6px;">
-              <li style="font-size:.83rem;opacity:.92;">• <strong>Masaje transverso profundo (Cyriax)</strong> — agresivo para tejidos inflamados</li>
-              <li style="font-size:.83rem;opacity:.92;">• <strong>Almohada bajo rodilla</strong> en reposo o bipedestación</li>
-              <li style="font-size:.83rem;opacity:.92;">• <strong>Ejercicio sobre el umbral del dolor</strong> — riesgo de crisis inflamatoria</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="hb b">
-          <span class="hi">✅</span>
-          <div>
-            <h4>Principios de Buena Práctica</h4>
-            <ul class="sl">
-              <li><span class="dot"></span><span>Tratamiento <strong>siempre sub-umbral</strong> del dolor</span></li>
-              <li><span class="dot"></span><span>Crioterapia: <strong>20 min + mov. pasivos lentos</strong></span></li>
-              <li><span class="dot"></span><span>Intensidad moderada, inicio <strong>sin resistencia</strong></span></li>
-              <li><span class="dot"></span><span>Economía articular: palancas largas, evitar torsión</span></li>
-              <li><span class="dot"></span><span>Evaluar y tratar <strong>PGM asociados</strong> (100% prevalencia)</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
-      <div style="background:var(--r-l);border-radius:10px;padding:12px;text-align:center;border:1.5px solid var(--r);">
-        <div style="font-size:1.3rem;margin-bottom:4px;">🧊</div>
-        <div style="font-size:.78rem;font-weight:700;color:var(--r);">Crioterapia</div>
-        <div style="font-size:.72rem;color:var(--mid);">20 min · 1-2×/día</div>
-      </div>
-      <div style="background:var(--p-l);border-radius:10px;padding:12px;text-align:center;border:1.5px solid var(--p);">
-        <div style="font-size:1.3rem;margin-bottom:4px;">🤲</div>
-        <div style="font-size:.78rem;font-weight:700;color:var(--p);">Economía articular</div>
-        <div style="font-size:.72rem;color:var(--mid);">Palancas largas</div>
-      </div>
-      <div style="background:var(--pur-l);border-radius:10px;padding:12px;text-align:center;border:1.5px solid var(--pur);">
-        <div style="font-size:1.3rem;margin-bottom:4px;">🌙</div>
-        <div style="font-size:.78rem;font-weight:700;color:var(--pur);">Férula nocturna</div>
-        <div style="font-size:.72rem;color:var(--mid);">20° ext + radial</div>
-      </div>
-      <div style="background:var(--g-l);border-radius:10px;padding:12px;text-align:center;border:1.5px solid var(--g);">
-        <div style="font-size:1.3rem;margin-bottom:4px;">⚙️</div>
-        <div style="font-size:.78rem;font-weight:700;color:var(--g);">Dinamización</div>
-        <div style="font-size:.72rem;color:var(--mid);">Flex-ext (Madden)</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLIDE 11: RESUMEN -->
-  <section class="slide" data-index="10">
-    <div class="slbl">Resumen Integral</div>
-    <h2 class="stit">Conceptos Clave — Práctica 18</h2>
-    <div class="sg">
-      <div class="si"><span class="ico">🔥</span><div><strong>3 Fases evolutivas</strong>Agudo (analgesia) → Remisión (fuerza) → Cicatrización (plazos ampliados).</div></div>
-      <div class="si"><span class="ico">⚠️</span><div><strong>Sub-umbral del dolor</strong>Principio universal: nunca superar el umbral para evitar crisis inflamatoria.</div></div>
-      <div class="si"><span class="ico">🧊</span><div><strong>Crioterapia</strong>20 min + movimientos pasivos lentos simultáneos. 1–2×/día.</div></div>
-      <div class="si"><span class="ico">🚫</span><div><strong>Cyriax contraindicado</strong>El masaje transverso profundo está formalmente prohibido en AR.</div></div>
-      <div class="si"><span class="ico">🤲</span><div><strong>Economía articular</strong>Palancas largas, evitar torsión y pinza de fuerza con los dedos.</div></div>
-      <div class="si"><span class="ico">🖐️</span><div><strong>Mano y muñeca &gt;80%</strong>Dinamización capsular (Madden): plano flexión-extensión como prioridad.</div></div>
-      <div class="si"><span class="ico">🌙</span><div><strong>Férula nocturna</strong>20° extensión + ligera desviación radial para ráfaga cubital.</div></div>
-      <div class="si"><span class="ico">🦵</span><div><strong>Rodilla: sin almohada</strong>Absolutamente contraindicado. Causa flexum por retracción isquiotibial.</div></div>
-      <div class="si"><span class="ico">🦴</span><div><strong>Raquis solo cervical alta</strong>Solo charnela cervicooccipital. Resto del raquis preservado (diferencial).</div></div>
-      <div class="si"><span class="ico">📍</span><div><strong>PGM: 100% prevalencia</strong>Gastrocnemio medial 92% · Vasto medial 67%. Simula debilidad articular.</div></div>
-    </div>
-  </section>
+<!-- SLIDE 1: PORTADA -->
+<section class="slide active" data-index="0">
+<div class="slbl">Kinesiología — Enfermedades Reumáticas</div>
+<h1 class="tit">Artritis Reumatoidea:<br/><em>Tratamiento y Reeducación</em></h1>
+<p class="intro">Enfermedad <strong>autoinmunitaria sistémica y crónica</strong>. El abordaje es delicado por la fragilidad tisular, el carácter astenizante de la patología y el riesgo constante de agravar el proceso inflamatorio.</p>
+<div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px;">
+<span style="background:var(--r-l);color:var(--r);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--r);">🔥 Fases Evolutivas</span>
+<span style="background:var(--p-l);color:var(--p);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--p);">🤲 Economía Articular</span>
+<span style="background:var(--teal-l);color:var(--teal);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--teal);">🧊 Crioterapia</span>
+<span style="background:var(--pur-l);color:var(--pur);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--pur);">📍 Puntos Gatillo</span>
+</div>
+<!-- hand with RA SVG -->
+<div style="display:flex;justify-content:center;">
 
 </div>
+</section>
+<!-- SLIDE 2: FASES EVOLUTIVAS -->
+<section class="slide" data-index="1">
+<div class="slbl">Fases Evolutivas</div>
+<h2 class="stit">Objetivos Terapéuticos por Fase</h2>
+<p class="intro" style="margin-bottom:12px;">El tratamiento kinésico es <strong>dinámico</strong> y debe ajustarse estrictamente al estado actual de la enfermedad.</p>
+<div class="phases">
+<div class="phase-card agudo">
+<div class="pc-num">1</div>
+<div>
+<h4>🔥 Período Inflamatorio Agudo</h4>
+<p>Objetivo: <strong>luchar contra el dolor y la inflamación</strong>. Prevenir la aparición de actitudes viciosas o deformidades fijas. Tratamiento por debajo del umbral del dolor.</p>
+</div>
+</div>
+<div class="phase-card remision">
+<div class="pc-num">2</div>
+<div>
+<h4>🟡 Período de Remisión / Estacionario</h4>
+<p>Objetivo: <strong>recuperar masa muscular y función global</strong> mediante trabajo isométrico e isotónico ligero. Progresión gradual y supervisada.</p>
+</div>
+</div>
+<div class="phase-card cicatriz">
+<div class="pc-num">3</div>
+<div>
+<h4>🟢 Cicatrización</h4>
+<p>Los <strong>plazos están ampliados</strong> en pacientes reumáticos. El uso prolongado de cortisona genera fragilidad cutánea extrema y retrasa la recuperación tisular.</p>
+</div>
+</div>
+</div>
+<div class="hb r" style="margin-top:12px;">
+<span class="hi">⚠️</span>
+<div>
+<h4>Principio Universal: Umbral del Dolor</h4>
+<p>Por seguridad y eficacia, el tratamiento debe realizarse <strong>siempre por debajo del umbral del dolor</strong> para evitar disparar crisis inflamatorias que agraven el cuadro.</p>
+</div>
+</div>
+</section>
+<!-- SLIDE 3: CINESITERAPIA Y CRIOTERAPIA -->
+<section class="slide" data-index="2">
+<div class="slbl">Modalidades Terapéuticas</div>
+<h2 class="stit">Cinesiterapia y Crioterapia</h2>
+<div class="two">
+<div>
+<div class="hb b">
+<span class="hi">🏋️</span>
+<div>
+<h4>Intensidad de la Reeducación</h4>
+<p>Debe ser <strong>moderada</strong>. En la mano y muñeca operadas: trabajo inicial <strong>activo, sin resistencia y con fines funcionales globales</strong>.</p>
+</div>
+</div>
+<div class="cryo">
+<h4>🧊 Crioterapia — Protocolo</h4>
+<p>Fundamental para la <strong>analgesia</strong>. Aplicaciones de <strong>20 minutos, 1–2 veces al día</strong>.</p>
+<div style="margin-top:8px;font-size:.82rem;opacity:.92;line-height:1.65;">
+<strong>Recomendación clave:</strong> realizar movimientos <strong>pasivos y lentos</strong> de la articulación simultáneamente a la aplicación de frío para mantener la elasticidad capsular.
+          </div>
+<span class="highlight">🕐 20 min · 1-2×/día</span>
+</div>
+</div>
+<div>
+<div class="contra">
+<div class="ci">🚫</div>
+<div>
+<h4>Contraindicación Absoluta</h4>
+<p>El <strong>masaje transverso profundo (Cyriax)</strong> está formalmente contraindicado en la AR. Es demasiado agresivo para tejidos con inflamación activa y puede disparar una crisis.</p>
+</div>
+</div>
+<!-- cryo + motion SVG -->
+<div style="margin-top:12px;background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);">
+<p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Crioterapia + Movimiento Pasivo</p>
 
+</div>
+</div>
+</div>
+</section>
+<!-- SLIDE 4: ECONOMÍA ARTICULAR -->
+<section class="slide" data-index="3">
+<div class="slbl">Educación al Paciente</div>
+<h2 class="stit">Economía Articular y Gestual</h2>
+<p class="intro" style="margin-bottom:12px;">El paciente aprende a <strong>proteger las pequeñas articulaciones</strong> de manos y pies distribuyendo cargas de forma más eficiente.</p>
+<div class="two">
+<div>
+<div class="three" style="grid-template-columns:1fr;">
+<div class="hb b">
+<span class="hi">🔄</span>
+<div>
+<h4>Sustitución de Gestos</h4>
+<p>Identificar y evitar movimientos de <strong>torsión</strong> o <strong>pinzas de fuerza</strong> con los dedos. Substituir por gestos menos agresivos.</p>
+</div>
+</div>
+<div class="hb g">
+<span class="hi">💪</span>
+<div>
+<h4>Uso de Palancas Largas</h4>
+<p>Utilizar el <strong>antebrazo</strong> para levantar objetos pesados en lugar de la fuerza de los dedos. Distribuir la carga en articulaciones grandes.</p>
+</div>
+</div>
+<div class="hb o">
+<span class="hi">🤝</span>
+<div>
+<h4>Compensaciones Proximales</h4>
+<p>Utilizar el <strong>codo y la muñeca</strong> para suplir déficits distales, suprimiendo movimientos de fuerza excesiva en dedos.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- hand economy SVG -->
+<div class="region-wrap">
+<p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Principio de Palanca Larga</p>
+
+</div>
+</div>
+</section>
+<!-- SLIDE 5: MANO Y MUÑECA -->
+<section class="slide" data-index="4">
+<div class="slbl">Afectación Regional</div>
+<h2 class="stit">Mano y Muñeca — &gt;80% de los Casos</h2>
+<div class="two">
+<div>
+<div class="stat" style="border-color:var(--r);margin-bottom:12px;">
+<div class="n" style="color:var(--r);">80%+</div>
+<div class="l">de los pacientes con AR presentan compromiso de <strong>mano y muñeca</strong></div>
+</div>
+<div class="hb b">
+<span class="hi">⚙️</span>
+<div>
+<h4>Dinamización Capsular (J. Madden)</h4>
+<p>Es la <strong>prioridad en la muñeca</strong>. Se centra en el plano de <strong>flexión-extensión</strong> para mantener y restaurar el rango articular funcional.</p>
+</div>
+</div>
+<div class="hb v">
+<span class="hi">🌙</span>
+<div>
+<h4>Posicionamiento Nocturno</h4>
+<p>Férulas para ráfaga cubital: muñeca en <strong>20° de extensión</strong> y <strong>ligera desviación radial</strong>. Previene la progresión de la deformidad durante el reposo.</p>
+</div>
+</div>
+</div>
+<div class="region-wrap">
+<p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Deformidades Típicas de la Mano AR</p>
+
+</div>
+</div>
+</section>
+<!-- SLIDE 6: RODILLA Y RAQUIS -->
+<section class="slide" data-index="5">
+<div class="slbl">Afectación Regional</div>
+<h2 class="stit">Rodilla, Raquis y Codo</h2>
+<div class="three">
+<div class="card r">
+<span class="ci">🦵</span>
+<h3>Rodilla — Precaución Crítica</h3>
+<p style="margin-bottom:8px;">Está <strong>terminantemente contraindicado</strong> colocar almohadas o soportes bajo la rodilla en bipedestación o reposo.</p>
+<div style="background:rgba(168,42,42,0.15);border-radius:8px;padding:8px;margin-top:4px;">
+<p style="font-size:.8rem;color:var(--r);font-weight:700;">⚠️ Favorece deformidad en flexum por retracción de isquiotibiales</p>
+</div>
+</div>
+<div class="card b">
+<span class="ci">🦴</span>
+<h3>Raquis Cervical</h3>
+<p style="margin-bottom:8px;">A diferencia de otras espondiloartropatías, la AR afecta <strong>únicamente</strong> la columna cervical alta:</p>
+<div style="font-size:.82rem;font-weight:700;color:var(--r);margin-bottom:4px;">⚡ Charnela cervicooccipital (C0-C2)</div>
+<div style="font-size:.82rem;font-weight:700;color:var(--g);">✅ Resto del raquis: generalmente preservado</div>
+</div>
+<div class="card t">
+<span class="ci">💪</span>
+<h3>Codo</h3>
+<p style="margin-bottom:8px;">Se trabaja bajo los ejes funcionales:</p>
+<ul class="sl" style="gap:5px;">
+<li><span class="dot" style="background:var(--teal);width:6px;height:6px;"></span><span style="font-size:.8rem;">Flexión — Supinación</span></li>
+<li><span class="dot" style="background:var(--teal);width:6px;height:6px;"></span><span style="font-size:.8rem;">Extensión — Pronación</span></li>
+<li><span class="dot" style="background:var(--teal);width:6px;height:6px;"></span><span style="font-size:.8rem;"><strong>Isométricos</strong> en recorrido interno posible</span></li>
+</ul>
+</div>
+</div>
+<div style="margin-top:14px;background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);">
+
+</div>
+</section>
+<!-- SLIDE 7: RIGIDEZ MATUTINA -->
+<section class="slide" data-index="6">
+<div class="slbl">Hallazgos Clínicos</div>
+<h2 class="stit">Rigidez Matutina y Síntomas Sistémicos</h2>
+<div class="two">
+<div>
+<div class="dbox" style="background:linear-gradient(135deg,var(--p),#1a2e5a);">
+<h3>🌅 Rigidez Matutina</h3>
+<p>Síntoma <strong>característico</strong> de la AR. Dificultad para movilizar las articulaciones de <strong>larga duración</strong> tras el descanso nocturno. Puede durar horas. Mejora progresivamente con el movimiento.</p>
+</div>
+<div class="hb r" style="margin-top:10px;">
+<span class="hi">😴</span>
+<div>
+<h4>Carácter Astenizante</h4>
+<p>La AR produce un <strong>agotamiento generalizado</strong> que debe ser considerado en la planificación terapéutica. Las sesiones deben ser <strong>adaptadas a la capacidad energética</strong> del paciente ese día.</p>
+</div>
+</div>
+</div>
+<div>
+<div class="hb g">
+<span class="hi">💊</span>
+<div>
+<h4>Cortisona y Cicatrización</h4>
+<p>El uso prolongado de <strong>corticosteroides</strong> genera fragilidad cutánea extrema y retrasa la cicatrización. Los plazos postquirúrgicos deben <strong>ampliarse significativamente</strong> en estos pacientes.</p>
+</div>
+</div>
+<div style="background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);margin-top:10px;">
+<p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;">Síntomas Principales de la AR</p>
+<div class="jrow">
+<div class="jpill" style="border-color:var(--r);background:var(--r-l);color:var(--r);">🔥 Inflamación articular</div>
+<div class="jpill" style="border-color:var(--o);background:var(--o-l);color:var(--o);">🌅 Rigidez matutina</div>
+<div class="jpill" style="border-color:var(--r);background:var(--r-l);color:var(--r);">🦵 Ráfaga cubital</div>
+<div class="jpill" style="border-color:var(--pur);background:var(--pur-l);color:var(--pur);">😴 Astenia crónica</div>
+<div class="jpill" style="border-color:var(--p);background:var(--p-l);color:var(--p);">🦴 Deformidades</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SLIDE 8: PUNTOS GATILLO MIOFASCIALES -->
+<section class="slide" data-index="7">
+<div class="slbl">Hallazgos Clínicos</div>
+<h2 class="stit">Puntos Gatillo Miofasciales en AR</h2>
+<div class="two">
+<div>
+<div class="dbox" style="background:linear-gradient(135deg,var(--pur),#3d1a60);">
+<h3>📍 Prevalencia del 100%</h3>
+<p>Los estudios indican que el <strong>100% de los pacientes</strong> con AR presentan puntos gatillo miofasciales (PGM). Pueden causar <strong>debilidad muscular percibida</strong> que se confunde con la patología articular.</p>
+</div>
+<div class="hb r" style="margin-top:10px;">
+<span class="hi">🔍</span>
+<div>
+<h4>Confusión Diagnóstica</h4>
+<p>La <strong>debilidad muscular percibida</strong> por los PGM frecuentemente se confunde con la debilidad real producida por la afectación articular de la AR, lo que puede subestimar el componente miofascial.</p>
+</div>
+</div>
+</div>
+<div>
+<p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;">Localización Prevalente de PGM</p>
+<div class="tp-bar">
+<span class="tp-label">Gastrocnemio medial</span>
+<div class="tp-track"><div class="tp-fill" id="tp1" style="width:92%;background:linear-gradient(90deg,var(--r),#d44);"></div></div>
+<span class="tp-pct" style="color:var(--r);">92%</span>
+</div>
+<div class="tp-bar">
+<span class="tp-label">Vasto medial cuádriceps</span>
+<div class="tp-track"><div class="tp-fill" id="tp2" style="width:67%;background:linear-gradient(90deg,var(--pur),#8040b0);"></div></div>
+<span class="tp-pct" style="color:var(--pur);">67%</span>
+</div>
+<div style="background:var(--off);border-radius:12px;padding:12px;border:1.5px solid var(--bd);margin-top:12px;">
+
+</div>
+</div>
+</div>
+</section>
+<!-- SLIDE 9: TABLA SÍNTESIS REGIONAL -->
+<section class="slide" data-index="8">
+<div class="slbl">Síntesis Clínica</div>
+<h2 class="stit">Resumen de Afectación por Regiones</h2>
+<table class="tbl">
+<thead><tr><th>Región</th><th>Frecuencia / Hallazgo</th><th>Intervención Específica</th><th>Precaución</th></tr></thead>
+<tbody>
+<tr>
+<td><strong style="color:var(--r);">Mano y Muñeca</strong></td>
+<td style="color:var(--r);font-weight:700;">&gt;80% de los casos</td>
+<td>Dinamización capsular (Madden): flex-ext</td>
+<td>Trabajo activo sin resistencia inicial</td>
+</tr>
+<tr>
+<td><strong style="color:var(--pur);">Posicionamiento nocturno</strong></td>
+<td>Ráfaga cubital</td>
+<td>Férula: 20° extensión + desviación radial</td>
+<td>Uso nocturno obligatorio en fase aguda</td>
+</tr>
+<tr>
+<td><strong style="color:var(--r);">Rodilla</strong></td>
+<td>Riesgo de flexum</td>
+<td>Extensión activa, isométricos de cuádriceps</td>
+<td style="color:var(--r);font-weight:700;">⚠️ Nunca almohada bajo la rodilla</td>
+</tr>
+<tr>
+<td><strong style="color:var(--p);">Raquis</strong></td>
+<td>Solo cervical alta (C0-C2)</td>
+<td>Precaución en manipulación cervical</td>
+<td>Diferencial con otras espondiloartropatías</td>
+</tr>
+<tr>
+<td><strong style="color:var(--teal);">Codo</strong></td>
+<td>Variable</td>
+<td>Ejes flex-supinación / ext-pronación</td>
+<td>Isométricos en recorrido interno</td>
+</tr>
+<tr>
+<td><strong style="color:var(--pur);">PGM (miofasciales)</strong></td>
+<td style="color:var(--pur);font-weight:700;">100% de los pacientes AR</td>
+<td>Evaluación y tratamiento miofascial específico</td>
+<td>No confundir con debilidad articular</td>
+</tr>
+</tbody>
+</table>
+</section>
+<!-- SLIDE 10: CONTRAINDICACIONES Y PRINCIPIOS -->
+<section class="slide" data-index="9">
+<div class="slbl">Principios Globales</div>
+<h2 class="stit">Reglas de Oro del Tratamiento en AR</h2>
+<div class="two">
+<div>
+<div class="contra" style="margin-bottom:12px;">
+<div class="ci">🚫</div>
+<div>
+<h4>Contraindicaciones Absolutas</h4>
+<ul style="list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+<li style="font-size:.83rem;opacity:.92;">• <strong>Masaje transverso profundo (Cyriax)</strong> — agresivo para tejidos inflamados</li>
+<li style="font-size:.83rem;opacity:.92;">• <strong>Almohada bajo rodilla</strong> en reposo o bipedestación</li>
+<li style="font-size:.83rem;opacity:.92;">• <strong>Ejercicio sobre el umbral del dolor</strong> — riesgo de crisis inflamatoria</li>
+</ul>
+</div>
+</div>
+</div>
+<div>
+<div class="hb b">
+<span class="hi">✅</span>
+<div>
+<h4>Principios de Buena Práctica</h4>
+<ul class="sl">
+<li><span class="dot"></span><span>Tratamiento <strong>siempre sub-umbral</strong> del dolor</span></li>
+<li><span class="dot"></span><span>Crioterapia: <strong>20 min + mov. pasivos lentos</strong></span></li>
+<li><span class="dot"></span><span>Intensidad moderada, inicio <strong>sin resistencia</strong></span></li>
+<li><span class="dot"></span><span>Economía articular: palancas largas, evitar torsión</span></li>
+<li><span class="dot"></span><span>Evaluar y tratar <strong>PGM asociados</strong> (100% prevalencia)</span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+<div style="background:var(--r-l);border-radius:10px;padding:12px;text-align:center;border:1.5px solid var(--r);">
+<div style="font-size:1.3rem;margin-bottom:4px;">🧊</div>
+<div style="font-size:.78rem;font-weight:700;color:var(--r);">Crioterapia</div>
+<div style="font-size:.72rem;color:var(--mid);">20 min · 1-2×/día</div>
+</div>
+<div style="background:var(--p-l);border-radius:10px;padding:12px;text-align:center;border:1.5px solid var(--p);">
+<div style="font-size:1.3rem;margin-bottom:4px;">🤲</div>
+<div style="font-size:.78rem;font-weight:700;color:var(--p);">Economía articular</div>
+<div style="font-size:.72rem;color:var(--mid);">Palancas largas</div>
+</div>
+<div style="background:var(--pur-l);border-radius:10px;padding:12px;text-align:center;border:1.5px solid var(--pur);">
+<div style="font-size:1.3rem;margin-bottom:4px;">🌙</div>
+<div style="font-size:.78rem;font-weight:700;color:var(--pur);">Férula nocturna</div>
+<div style="font-size:.72rem;color:var(--mid);">20° ext + radial</div>
+</div>
+<div style="background:var(--g-l);border-radius:10px;padding:12px;text-align:center;border:1.5px solid var(--g);">
+<div style="font-size:1.3rem;margin-bottom:4px;">⚙️</div>
+<div style="font-size:.78rem;font-weight:700;color:var(--g);">Dinamización</div>
+<div style="font-size:.72rem;color:var(--mid);">Flex-ext (Madden)</div>
+</div>
+</div>
+</section>
+<!-- SLIDE 11: RESUMEN -->
+<section class="slide" data-index="10">
+<div class="slbl">Resumen Integral</div>
+<h2 class="stit">Conceptos Clave — Práctica 18</h2>
+<div class="sg">
+<div class="si"><span class="ico">🔥</span><div><strong>3 Fases evolutivas</strong>Agudo (analgesia) → Remisión (fuerza) → Cicatrización (plazos ampliados).</div></div>
+<div class="si"><span class="ico">⚠️</span><div><strong>Sub-umbral del dolor</strong>Principio universal: nunca superar el umbral para evitar crisis inflamatoria.</div></div>
+<div class="si"><span class="ico">🧊</span><div><strong>Crioterapia</strong>20 min + movimientos pasivos lentos simultáneos. 1–2×/día.</div></div>
+<div class="si"><span class="ico">🚫</span><div><strong>Cyriax contraindicado</strong>El masaje transverso profundo está formalmente prohibido en AR.</div></div>
+<div class="si"><span class="ico">🤲</span><div><strong>Economía articular</strong>Palancas largas, evitar torsión y pinza de fuerza con los dedos.</div></div>
+<div class="si"><span class="ico">🖐️</span><div><strong>Mano y muñeca &gt;80%</strong>Dinamización capsular (Madden): plano flexión-extensión como prioridad.</div></div>
+<div class="si"><span class="ico">🌙</span><div><strong>Férula nocturna</strong>20° extensión + ligera desviación radial para ráfaga cubital.</div></div>
+<div class="si"><span class="ico">🦵</span><div><strong>Rodilla: sin almohada</strong>Absolutamente contraindicado. Causa flexum por retracción isquiotibial.</div></div>
+<div class="si"><span class="ico">🦴</span><div><strong>Raquis solo cervical alta</strong>Solo charnela cervicooccipital. Resto del raquis preservado (diferencial).</div></div>
+<div class="si"><span class="ico">📍</span><div><strong>PGM: 100% prevalencia</strong>Gastrocnemio medial 92% · Vasto medial 67%. Simula debilidad articular.</div></div>
+</div>
+</section>
+</div>
 <nav id="nav">
-  <button class="nb pv" id="pp" disabled>← Anterior</button>
-  <button class="nb" id="np">Siguiente →</button>
+<button class="nb pv" disabled="" id="pp">← Anterior</button>
+<button class="nb" id="np">Siguiente →</button>
 </nav>
-
 <script>
   const slides = document.querySelectorAll('.slide');
   const pb = document.getElementById('pb');

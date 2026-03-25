@@ -7,159 +7,109 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --w: #ffffff;
-    --off: #f5f6fa;
-    --p: #1f3d6e;       /* navy */
-    --p-l: #e3ecf7;
-    --teal: #1a6e6e;    /* teal */
-    --teal-l: #e0f2f2;
-    --r: #c0392b;
-    --r-l: #fbeaea;
-    --g: #276d45;
-    --g-l: #e4f5ec;
-    --v: #6a2fa0;
-    --v-l: #f2ebfa;
-    --o: #b85a0c;
-    --o-l: #fdf0e3;
-    --dark: #0f1b2d;
-    --mid: #485068;
-    --bd: #d9e2ef;
+    --w:#ffffff;--off:#f5f6fa;
+    --p:#1f3d6e;--p-l:#e3ecf7;
+    --teal:#1a6e6e;--teal-l:#e0f2f2;
+    --r:#c0392b;--r-l:#fbeaea;
+    --g:#276d45;--g-l:#e4f5ec;
+    --v:#6a2fa0;--v-l:#f2ebfa;
+    --o:#b85a0c;--o-l:#fdf0e3;
+    --dark:#0f1b2d;--mid:#485068;--bd:#d9e2ef;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--w); color: var(--dark); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-
-  #pw { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: var(--bd); z-index: 100; }
-  #pb { height: 100%; background: linear-gradient(90deg, var(--p), var(--teal)); transition: width .4s ease; border-radius: 0 3px 3px 0; }
-
-  #hdr { position: fixed; top: 4px; left: 0; right: 0; height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; border-bottom: 1px solid var(--bd); background: var(--w); z-index: 99; }
-  .ltag { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--p); background: var(--p-l); padding: 3px 12px; border-radius: 20px; }
-  #ctr { font-size: 13px; color: var(--mid); font-weight: 600; }
-
-  #sc { margin-top: 54px; margin-bottom: 60px; flex: 1; position: relative; overflow: hidden; }
-  .slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 26px 52px 20px; opacity: 0; transform: translateX(55px); transition: opacity .45s ease, transform .45s ease; pointer-events: none; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; }
-  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
-  .slide.exit-l { opacity: 0; transform: translateX(-55px); }
-
-  .slbl { font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--p); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-  .slbl::before { content: ''; display: inline-block; width: 18px; height: 2.5px; background: var(--p); border-radius: 2px; }
-
-  h1.tit { font-family: 'Fraunces', serif; font-size: clamp(1.9rem, 4vw, 2.8rem); line-height: 1.15; color: var(--dark); margin-bottom: 14px; }
-  h1.tit em { font-style: italic; color: var(--teal); }
-  h2.stit { font-family: 'Fraunces', serif; font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.2; color: var(--dark); margin-bottom: 14px; }
-  p.intro { font-size: .96rem; color: var(--mid); line-height: 1.78; max-width: 700px; margin-bottom: 16px; }
-
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
-  .three { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
-  @media(max-width:680px){ .two,.three { grid-template-columns: 1fr; } }
-
-  /* CARD */
-  .card { border-radius: 12px; padding: 16px 18px; border: 1.5px solid var(--bd); background: var(--off); transition: transform .2s, box-shadow .2s; }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.07); }
-  .card .ci { font-size: 1.6rem; margin-bottom: 8px; display: block; }
-  .card h3 { font-size: .88rem; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
-  .card p { font-size: .82rem; color: var(--mid); line-height: 1.6; }
-  .card.b { border-color: var(--p); background: var(--p-l); }
-  .card.t { border-color: var(--teal); background: var(--teal-l); }
-  .card.r { border-color: var(--r); background: var(--r-l); }
-  .card.g { border-color: var(--g); background: var(--g-l); }
-  .card.v { border-color: var(--v); background: var(--v-l); }
-  .card.o { border-color: var(--o); background: var(--o-l); }
-
-  /* HB */
-  .hb { border-radius: 11px; padding: 13px 17px; display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
-  .hb.b { background: var(--p-l); border-left: 4px solid var(--p); }
-  .hb.t { background: var(--teal-l); border-left: 4px solid var(--teal); }
-  .hb.r { background: var(--r-l); border-left: 4px solid var(--r); }
-  .hb.g { background: var(--g-l); border-left: 4px solid var(--g); }
-  .hb.v { background: var(--v-l); border-left: 4px solid var(--v); }
-  .hb.o { background: var(--o-l); border-left: 4px solid var(--o); }
-  .hb .hi { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
-  .hb h4 { font-size: .88rem; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
-  .hb p { font-size: .83rem; color: var(--mid); line-height: 1.62; }
-  .hb p strong { color: var(--dark); }
-
-  /* LIST */
-  .sl { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-top: 6px; }
-  .sl li { display: flex; align-items: flex-start; gap: 10px; font-size: .89rem; color: var(--mid); line-height: 1.65; opacity: 0; transform: translateY(9px); animation: fuA .4s forwards; }
-  .sl li:nth-child(1){animation-delay:.06s} .sl li:nth-child(2){animation-delay:.15s} .sl li:nth-child(3){animation-delay:.24s} .sl li:nth-child(4){animation-delay:.33s} .sl li:nth-child(5){animation-delay:.42s}
-  .sl li .dot { flex-shrink:0; width:7px; height:7px; border-radius:50%; background:var(--p); margin-top:8px; }
-  .sl li strong { color: var(--dark); font-weight: 700; }
-
-  /* DARK BOX */
-  .dbox { border-radius: 14px; padding: 20px 24px; color: white; position: relative; overflow: hidden; margin-bottom: 12px; }
-  .dbox h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; margin-bottom: 7px; }
-  .dbox p { font-size: .85rem; opacity: .9; line-height: 1.68; }
-
-  /* IMG PHASES — 3 step sequence */
-  .img-phases { display: flex; flex-direction: column; gap: 0; margin-top: 10px; }
-  .imgp { display: flex; gap: 14px; padding-bottom: 16px; position: relative; opacity: 0; transform: translateY(10px); animation: fuA .4s forwards; }
-  .imgp:nth-child(1){animation-delay:.08s} .imgp:nth-child(2){animation-delay:.22s} .imgp:nth-child(3){animation-delay:.36s}
-  .imgp::before { content:''; position:absolute; left:18px; top:38px; bottom:0; width:2px; background:var(--bd); }
-  .imgp:last-child::before { display:none; }
-  .ipnum { flex-shrink:0; width:38px; height:38px; border-radius:50%; color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.9rem; z-index:1; }
-  .ip1 { background:var(--p); }
-  .ip2 { background:var(--teal); }
-  .ip3 { background:var(--v); }
-  .imgp h4 { font-size:.92rem; font-weight:700; color:var(--dark); margin-bottom:3px; }
-  .imgp p { font-size:.84rem; color:var(--mid); line-height:1.6; }
-  .imgp .phase-tag { display:inline-block; font-size:.74rem; font-weight:700; padding:2px 9px; border-radius:20px; margin-bottom:5px; }
-  .pt1 { background:var(--p-l); color:var(--p); }
-  .pt2 { background:var(--teal-l); color:var(--teal); }
-  .pt3 { background:var(--v-l); color:var(--v); }
-
-  /* SWEET TRAINING BAND */
-  .sweet-band { border-radius: 12px; overflow: hidden; border: 1.5px solid var(--bd); margin-top: 12px; }
-  .sweet-row { display: flex; align-items: center; gap: 0; }
-  .sb-lbl { background: var(--p); color: white; padding: 10px 14px; font-size: .78rem; font-weight: 700; white-space: nowrap; }
-  .sb-wave { flex: 1; background: var(--off); padding: 6px 10px; }
-
-  /* TABLE */
-  .tbl { width:100%; border-collapse:collapse; font-size:.85rem; margin-top:10px; }
-  .tbl th { background:var(--p); color:white; padding:9px 13px; text-align:left; font-weight:700; font-size:.78rem; letter-spacing:.04em; }
-  .tbl th:first-child { border-radius:8px 0 0 0; } .tbl th:last-child { border-radius:0 8px 0 0; }
-  .tbl td { padding:9px 13px; border-bottom:1px solid var(--bd); vertical-align:top; line-height:1.55; }
-  .tbl tr:last-child td { border-bottom:none; }
-  .tbl tr:nth-child(even) td { background:var(--off); }
-
-  /* STAT */
-  .stat { text-align:center; padding:14px 10px; border-radius:11px; background:var(--off); border:1.5px solid var(--bd); }
-  .stat .n { font-family:'Fraunces',serif; font-size:clamp(2rem,4.5vw,3rem); color:var(--p); line-height:1; margin-bottom:4px; }
-  .stat .l { font-size:.78rem; color:var(--mid); font-weight:600; line-height:1.5; }
-
-  /* SUMMARY */
-  .sg { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
-  .si { display:flex; align-items:flex-start; gap:9px; background:var(--off); border-radius:9px; padding:10px 12px; border:1px solid var(--bd); font-size:.83rem; color:var(--mid); line-height:1.55; opacity:0; animation:fuA .4s forwards; }
-  .si:nth-child(1){animation-delay:.04s} .si:nth-child(2){animation-delay:.11s} .si:nth-child(3){animation-delay:.18s} .si:nth-child(4){animation-delay:.25s} .si:nth-child(5){animation-delay:.32s} .si:nth-child(6){animation-delay:.39s} .si:nth-child(7){animation-delay:.46s} .si:nth-child(8){animation-delay:.53s} .si:nth-child(9){animation-delay:.60s} .si:nth-child(10){animation-delay:.67s}
-  .si .ico { font-size:1.2rem; flex-shrink:0; }
-  .si strong { color:var(--dark); display:block; font-size:.77rem; margin-bottom:1px; }
-
-  /* CORTICAL MAP ANIM */
-  .cortex-wrap { background:var(--off); border-radius:12px; padding:14px; border:1.5px solid var(--bd); display:flex; flex-direction:column; align-items:center; }
-
-  @keyframes fuA { to { opacity:1; transform:translateY(0); } }
-  @keyframes frA { to { opacity:1; transform:translateX(0); } }
-  @keyframes smudge { 0%{filter:blur(0)} 50%{filter:blur(3px)} 100%{filter:blur(6px) opacity(.5)} }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-  #nav { position:fixed; bottom:0; left:0; right:0; height:60px; background:var(--w); border-top:1px solid var(--bd); display:flex; align-items:center; justify-content:center; gap:14px; z-index:99; }
-  .nb { display:flex; align-items:center; gap:6px; background:var(--dark); color:white; border:none; border-radius:8px; padding:9px 22px; font-size:.85rem; font-weight:700; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; transition:background .2s,transform .15s; }
-  .nb:hover { background:var(--p); transform:translateY(-1px); }
-  .nb:disabled { background:var(--bd); color:var(--mid); cursor:default; transform:none; }
-  .nb.pv { background:var(--off); color:var(--dark); border:1.5px solid var(--bd); }
-  .nb.pv:hover:not(:disabled) { background:var(--p-l); color:var(--p); border-color:var(--p); }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--w);color:var(--dark);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+  #pw{position:fixed;top:0;left:0;right:0;height:4px;background:var(--bd);z-index:100}
+  #pb{height:100%;background:linear-gradient(90deg,var(--p),var(--teal));transition:width .4s ease;border-radius:0 3px 3px 0}
+  #hdr{position:fixed;top:4px;left:0;right:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid var(--bd);background:var(--w);z-index:99}
+  .ltag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--p);background:var(--p-l);padding:3px 12px;border-radius:20px}
+  #ctr{font-size:13px;color:var(--mid);font-weight:600}
+  #sc{margin-top:54px;margin-bottom:60px;flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;top:0;left:0;right:0;bottom:0;padding:26px 52px 20px;opacity:0;transform:translateX(55px);transition:opacity .45s ease,transform .45s ease;pointer-events:none;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
+  .slide.active{opacity:1;transform:translateX(0);pointer-events:all}
+  .slide.exit-l{opacity:0;transform:translateX(-55px)}
+  .slbl{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--p);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .slbl::before{content:'';display:inline-block;width:18px;height:2.5px;background:var(--p);border-radius:2px}
+  h1.tit{font-family:'Fraunces',serif;font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.15;color:var(--dark);margin-bottom:14px}
+  h1.tit em{font-style:italic;color:var(--teal)}
+  h2.stit{font-family:'Fraunces',serif;font-size:clamp(1.4rem,2.6vw,1.9rem);line-height:1.2;color:var(--dark);margin-bottom:14px}
+  p.intro{font-size:.96rem;color:var(--mid);line-height:1.78;max-width:700px;margin-bottom:16px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:680px){.two,.three{grid-template-columns:1fr}}
+  .card{border-radius:12px;padding:16px 18px;border:1.5px solid var(--bd);background:var(--off);transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.07)}
+  .card .ci{font-size:1.6rem;margin-bottom:8px;display:block}
+  .card h3{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:5px}
+  .card p{font-size:.82rem;color:var(--mid);line-height:1.6}
+  .card.b{border-color:var(--p);background:var(--p-l)}
+  .card.t{border-color:var(--teal);background:var(--teal-l)}
+  .card.r{border-color:var(--r);background:var(--r-l)}
+  .card.g{border-color:var(--g);background:var(--g-l)}
+  .card.v{border-color:var(--v);background:var(--v-l)}
+  .card.o{border-color:var(--o);background:var(--o-l)}
+  .hb{border-radius:11px;padding:13px 17px;display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+  .hb.b{background:var(--p-l);border-left:4px solid var(--p)}
+  .hb.t{background:var(--teal-l);border-left:4px solid var(--teal)}
+  .hb.r{background:var(--r-l);border-left:4px solid var(--r)}
+  .hb.g{background:var(--g-l);border-left:4px solid var(--g)}
+  .hb.v{background:var(--v-l);border-left:4px solid var(--v)}
+  .hb.o{background:var(--o-l);border-left:4px solid var(--o)}
+  .hb .hi{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+  .hb h4{font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:3px}
+  .hb p{font-size:.83rem;color:var(--mid);line-height:1.62}
+  .hb p strong{color:var(--dark)}
+  .sl{list-style:none;display:flex;flex-direction:column;gap:7px;margin-top:6px}
+  .sl li{display:flex;align-items:flex-start;gap:10px;font-size:.89rem;color:var(--mid);line-height:1.65;opacity:0;transform:translateY(9px);animation:fuA .4s forwards}
+  .sl li:nth-child(1){animation-delay:.06s}.sl li:nth-child(2){animation-delay:.15s}.sl li:nth-child(3){animation-delay:.24s}.sl li:nth-child(4){animation-delay:.33s}.sl li:nth-child(5){animation-delay:.42s}
+  .sl li .dot{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:var(--p);margin-top:8px}
+  .sl li strong{color:var(--dark);font-weight:700}
+  .dbox{border-radius:14px;padding:20px 24px;color:white;position:relative;overflow:hidden;margin-bottom:12px}
+  .dbox h3{font-family:'Fraunces',serif;font-size:1.1rem;margin-bottom:7px}
+  .dbox p{font-size:.85rem;opacity:.9;line-height:1.68}
+  .img-phases{display:flex;flex-direction:column;gap:0;margin-top:10px}
+  .imgp{display:flex;gap:14px;padding-bottom:16px;position:relative;opacity:0;transform:translateY(10px);animation:fuA .4s forwards}
+  .imgp:nth-child(1){animation-delay:.08s}.imgp:nth-child(2){animation-delay:.22s}.imgp:nth-child(3){animation-delay:.36s}
+  .imgp::before{content:'';position:absolute;left:18px;top:38px;bottom:0;width:2px;background:var(--bd)}
+  .imgp:last-child::before{display:none}
+  .ipnum{flex-shrink:0;width:38px;height:38px;border-radius:50%;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;z-index:1}
+  .ip1{background:var(--p)}.ip2{background:var(--teal)}.ip3{background:var(--v)}
+  .imgp h4{font-size:.92rem;font-weight:700;color:var(--dark);margin-bottom:3px}
+  .imgp p{font-size:.84rem;color:var(--mid);line-height:1.6}
+  .imgp .phase-tag{display:inline-block;font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:20px;margin-bottom:5px}
+  .pt1{background:var(--p-l);color:var(--p)}.pt2{background:var(--teal-l);color:var(--teal)}.pt3{background:var(--v-l);color:var(--v)}
+  .tbl{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:10px}
+  .tbl th{background:var(--p);color:white;padding:9px 13px;text-align:left;font-weight:700;font-size:.78rem;letter-spacing:.04em}
+  .tbl th:first-child{border-radius:8px 0 0 0}.tbl th:last-child{border-radius:0 8px 0 0}
+  .tbl td{padding:9px 13px;border-bottom:1px solid var(--bd);vertical-align:top;line-height:1.55}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl tr:nth-child(even) td{background:var(--off)}
+  .stat{text-align:center;padding:14px 10px;border-radius:11px;background:var(--off);border:1.5px solid var(--bd)}
+  .stat .n{font-family:'Fraunces',serif;font-size:clamp(2rem,4.5vw,3rem);color:var(--p);line-height:1;margin-bottom:4px}
+  .stat .l{font-size:.78rem;color:var(--mid);font-weight:600;line-height:1.5}
+  .sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .si{display:flex;align-items:flex-start;gap:9px;background:var(--off);border-radius:9px;padding:10px 12px;border:1px solid var(--bd);font-size:.83rem;color:var(--mid);line-height:1.55;opacity:0;animation:fuA .4s forwards}
+  .si:nth-child(1){animation-delay:.04s}.si:nth-child(2){animation-delay:.11s}.si:nth-child(3){animation-delay:.18s}.si:nth-child(4){animation-delay:.25s}.si:nth-child(5){animation-delay:.32s}.si:nth-child(6){animation-delay:.39s}.si:nth-child(7){animation-delay:.46s}.si:nth-child(8){animation-delay:.53s}.si:nth-child(9){animation-delay:.60s}.si:nth-child(10){animation-delay:.67s}
+  .si .ico{font-size:1.2rem;flex-shrink:0}
+  .si strong{color:var(--dark);display:block;font-size:.77rem;margin-bottom:1px}
+  @keyframes fuA{to{opacity:1;transform:translateY(0)}}
+  @keyframes frA{to{opacity:1;transform:translateX(0)}}
+  #nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--w);border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:center;gap:14px;z-index:99}
+  .nb{display:flex;align-items:center;gap:6px;background:var(--dark);color:white;border:none;border-radius:8px;padding:9px 22px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:background .2s,transform .15s}
+  .nb:hover{background:var(--p);transform:translateY(-1px)}
+  .nb:disabled{background:var(--bd);color:var(--mid);cursor:default;transform:none}
+  .nb.pv{background:var(--off);color:var(--dark);border:1.5px solid var(--bd)}
+  .nb.pv:hover:not(:disabled){background:var(--p-l);color:var(--p);border-color:var(--p)}
 </style>
 </head>
 <body>
-
 <div id="pw"><div id="pb"></div></div>
 <header id="hdr">
   <span class="ltag">Práctica 16</span>
   <span id="ctr">1 / 11</span>
 </header>
-
 <div id="sc">
 
-  <!-- SLIDE 1: PORTADA -->
+  <!-- SLIDE 1 -->
   <section class="slide active" data-index="0">
     <div class="slbl">Kinesiología y Neurorehabilitación</div>
     <h1 class="tit">Amputaciones:<br><em>Rehabilitación y Dolor Fantasma</em></h1>
@@ -170,43 +120,27 @@
       <span style="background:var(--g-l);color:var(--g);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--g);">🏋️ SWEETraining</span>
       <span style="background:var(--teal-l);color:var(--teal);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--teal);">🔄 Transfert</span>
     </div>
-    <!-- amputee + phantom limb SVG -->
-    <div style="display:flex;justify-content:center;">
-      <svg viewBox="0 0 380 165" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:440px;width:100%;">
-        <!-- body silhouette -->
-        <ellipse cx="130" cy="35" rx="22" ry="24" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-        <path d="M108 55 Q95 80 92 130 L130 140 L168 130 Q165 80 152 55 Z" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-        <!-- left arm ok -->
-        <path d="M108 65 Q88 90 85 118" stroke="var(--p)" stroke-width="3" stroke-linecap="round"/>
-        <!-- right arm ok -->
-        <path d="M152 65 Q172 90 175 118" stroke="var(--p)" stroke-width="3" stroke-linecap="round"/>
-        <!-- left leg ok -->
-        <path d="M112 138 Q108 158 105 175" stroke="var(--p)" stroke-width="3.5" stroke-linecap="round"/>
-        <!-- right leg amputated - stump -->
-        <path d="M148 138 Q152 154 152 162" stroke="var(--p)" stroke-width="3.5" stroke-linecap="round"/>
-        <ellipse cx="152" cy="165" rx="8" ry="5" fill="var(--r-l)" stroke="var(--r)" stroke-width="1.5"/>
-        <text x="163" y="168" fill="var(--r)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">muñón</text>
-        <!-- phantom limb dashed -->
-        <path d="M152 162 Q156 178 154 195" stroke="var(--v)" stroke-width="2.5" stroke-dasharray="5 4" stroke-linecap="round" opacity=".7"/>
-        <text x="163" y="192" fill="var(--v)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">fantasma</text>
-        <!-- brain with cortical map -->
-        <ellipse cx="290" cy="55" rx="55" ry="42" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-        <text x="290" y="40" text-anchor="middle" fill="var(--p)" font-size="10" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">🧠 Corteza</text>
-        <text x="290" y="55" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Plus Jakarta Sans,sans-serif">Somatosensorial</text>
-        <!-- invasion arrows -->
-        <ellipse cx="278" cy="67" rx="14" ry="10" fill="var(--v-l)" stroke="var(--v)" stroke-width="1.5" stroke-dasharray="3 2"/>
-        <text x="278" y="71" text-anchor="middle" fill="var(--v)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Invasión</text>
-        <!-- neural path body to brain -->
-        <path d="M155 120 Q220 90 236 70" stroke="var(--r)" stroke-width="1.5" stroke-dasharray="4 3" fill="none" opacity=".6"/>
-        <text x="195" y="88" fill="var(--r)" font-size="8" font-family="Plus Jakarta Sans,sans-serif">Desaferenciación</text>
-        <!-- smudging label -->
-        <text x="290" y="90" text-anchor="middle" fill="var(--v)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700" font-style="italic">Smudging</text>
-        <text x="290" y="108" text-anchor="middle" fill="var(--mid)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">pérdida de mapas somatotópicos</text>
-      </svg>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--r-l);border:1.5px solid var(--r);border-radius:10px;padding:14px;">
+        <strong style="color:var(--r);font-size:.85rem;display:block;margin-bottom:5px;">🦵 Muñón (Miembro Residual)</strong>
+        <p style="font-size:.82rem;color:var(--mid);line-height:1.55;">Tejido remanente tras la amputación. Requiere cuidados específicos para permitir la protetización precoz.</p>
+      </div>
+      <div style="background:var(--v-l);border:1.5px solid var(--v);border-radius:10px;padding:14px;">
+        <strong style="color:var(--v);font-size:.85rem;display:block;margin-bottom:5px;">👻 Miembro Fantasma</strong>
+        <p style="font-size:.82rem;color:var(--mid);line-height:1.55;">Experiencia de dolor neuropático central por desaferenciación. Origen en la reorganización cortical (smudging).</p>
+      </div>
+      <div style="background:var(--p-l);border:1.5px solid var(--p);border-radius:10px;padding:14px;">
+        <strong style="color:var(--p);font-size:.85rem;display:block;margin-bottom:5px;">🧠 Corteza Somatosensorial</strong>
+        <p style="font-size:.82rem;color:var(--mid);line-height:1.55;">Reorganización por desaferenciación: los mapas adyacentes invaden el área del miembro perdido.</p>
+      </div>
+      <div style="background:var(--teal-l);border:1.5px solid var(--teal);border-radius:10px;padding:14px;">
+        <strong style="color:var(--teal);font-size:.85rem;display:block;margin-bottom:5px;">🌫️ Smudging</strong>
+        <p style="font-size:.82rem;color:var(--mid);line-height:1.55;">Difuminación de los mapas somatotópicos. Pérdida de definición cortical que perpetúa el dolor fantasma.</p>
+      </div>
     </div>
   </section>
 
-  <!-- SLIDE 2: PERSPECTIVA QUIRÚRGICA -->
+  <!-- SLIDE 2 -->
   <section class="slide" data-index="1">
     <div class="slbl">Perspectiva Quirúrgica</div>
     <h2 class="stit">Amputación como Cirugía Reconstructiva</h2>
@@ -233,31 +167,19 @@
           </div>
         </div>
         <div style="margin-top:10px;background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);">
-          <svg viewBox="0 0 220 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-            <!-- timeline: amputación → rehab → prótesis → función -->
-            <circle cx="20" cy="50" r="14" fill="var(--r-l)" stroke="var(--r)" stroke-width="2"/>
-            <text x="20" y="54" text-anchor="middle" fill="var(--r)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">AMP</text>
-            <line x1="34" y1="50" x2="60" y2="50" stroke="var(--bd)" stroke-width="2"/>
-            <circle cx="74" cy="50" r="14" fill="var(--p-l)" stroke="var(--p)" stroke-width="2"/>
-            <text x="74" y="54" text-anchor="middle" fill="var(--p)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">REHAB</text>
-            <line x1="88" y1="50" x2="114" y2="50" stroke="var(--bd)" stroke-width="2"/>
-            <circle cx="128" cy="50" r="14" fill="var(--teal-l)" stroke="var(--teal)" stroke-width="2"/>
-            <text x="128" y="54" text-anchor="middle" fill="var(--teal)" font-size="6.5" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">PRÓT.</text>
-            <line x1="142" y1="50" x2="168" y2="50" stroke="var(--bd)" stroke-width="2"/>
-            <circle cx="182" cy="50" r="14" fill="var(--g-l)" stroke="var(--g)" stroke-width="2"/>
-            <text x="182" y="54" text-anchor="middle" fill="var(--g)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">FUNC.</text>
-            <!-- labels -->
-            <text x="20" y="75" text-anchor="middle" fill="var(--mid)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Cirugía</text>
-            <text x="74" y="75" text-anchor="middle" fill="var(--mid)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Muñón</text>
-            <text x="128" y="75" text-anchor="middle" fill="var(--mid)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Precoz</text>
-            <text x="182" y="75" text-anchor="middle" fill="var(--mid)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Independ.</text>
-          </svg>
+          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;">Secuencia del Proceso Rehabilitador</p>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;">
+            <div style="background:var(--r-l);border:1.5px solid var(--r);border-radius:8px;padding:8px;"><strong style="color:var(--r);font-size:.75rem;display:block;">AMP</strong><span style="font-size:.7rem;color:var(--mid);">Cirugía</span></div>
+            <div style="background:var(--p-l);border:1.5px solid var(--p);border-radius:8px;padding:8px;"><strong style="color:var(--p);font-size:.75rem;display:block;">REHAB</strong><span style="font-size:.7rem;color:var(--mid);">Muñón</span></div>
+            <div style="background:var(--teal-l);border:1.5px solid var(--teal);border-radius:8px;padding:8px;"><strong style="color:var(--teal);font-size:.75rem;display:block;">PRÓT.</strong><span style="font-size:.7rem;color:var(--mid);">Precoz</span></div>
+            <div style="background:var(--g-l);border:1.5px solid var(--g);border-radius:8px;padding:8px;"><strong style="color:var(--g);font-size:.75rem;display:block;">FUNC.</strong><span style="font-size:.7rem;color:var(--mid);">Independ.</span></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 3: DOLOR FANTASMA vs MUÑÓN -->
+  <!-- SLIDE 3 -->
   <section class="slide" data-index="2">
     <div class="slbl">Neurofisiología del Dolor</div>
     <h2 class="stit">Dolor del Muñón vs. Miembro Fantasma</h2>
@@ -292,7 +214,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 4: REORGANIZACIÓN CORTICAL Y SMUDGING -->
+  <!-- SLIDE 4 -->
   <section class="slide" data-index="3">
     <div class="slbl">Neuroplasticidad</div>
     <h2 class="stit">Reorganización Cortical y Fenómeno de Smudging</h2>
@@ -305,7 +227,7 @@
             <p>La falta de información sensorial del miembro amputado (<strong>desaferenciación</strong>) provoca que los mapas cerebrales de las <strong>regiones adyacentes invadan</strong> el área del miembro perdido en la corteza somatosensorial primaria.</p>
           </div>
         </div>
-        <div class="hb teal">
+        <div class="hb t">
           <span class="hi">🌫️</span>
           <div>
             <h4>Fenómeno de Smudging (Difuminación)</h4>
@@ -313,40 +235,27 @@
           </div>
         </div>
       </div>
-      <!-- cortical map SVG -->
-      <div class="cortex-wrap">
-        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Homúnculo Cortical — Invasión de Mapas</p>
-        <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:240px;">
-          <!-- brain outline -->
-          <ellipse cx="110" cy="75" rx="90" ry="65" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-          <!-- normal zone - face -->
-          <ellipse cx="75" cy="60" rx="22" ry="18" fill="#d5e8f5" stroke="var(--p)" stroke-width="1.5"/>
-          <text x="75" y="58" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Cara</text>
-          <text x="75" y="68" text-anchor="middle" fill="var(--p)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Labios</text>
-          <!-- normal zone - hand -->
-          <ellipse cx="110" cy="55" rx="20" ry="16" fill="#d5e8f5" stroke="var(--p)" stroke-width="1.5"/>
-          <text x="110" y="53" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Mano</text>
-          <text x="110" y="63" text-anchor="middle" fill="var(--p)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Dedos</text>
-          <!-- amputated leg zone — smudged/invaded -->
-          <ellipse cx="150" cy="65" rx="24" ry="20" fill="rgba(106,47,160,0.18)" stroke="var(--v)" stroke-width="2" stroke-dasharray="4 3"/>
-          <text x="150" y="60" text-anchor="middle" fill="var(--v)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Pierna</text>
-          <text x="150" y="71" text-anchor="middle" fill="var(--v)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-style="italic">difuminada</text>
-          <!-- invasion arrow from face zone -->
-          <path d="M95 65 L128 65" stroke="var(--r)" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#aR)"/>
-          <defs>
-            <marker id="aR" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--r)"/></marker>
-          </defs>
-          <text x="112" y="57" fill="var(--r)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">invasión</text>
-          <!-- trunk zone -->
-          <ellipse cx="110" cy="100" rx="25" ry="15" fill="#e4f5ec" stroke="var(--g)" stroke-width="1.5"/>
-          <text x="110" y="104" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Tronco</text>
-        </svg>
-        <p style="font-size:.73rem;color:var(--mid);text-align:center;margin-top:6px;line-height:1.5;">Las zonas adyacentes <span style="color:var(--r);font-weight:700;">invaden</span> el área del miembro perdido</p>
+      <div style="background:var(--off);border-radius:12px;padding:16px;border:1.5px solid var(--bd);">
+        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;text-align:center;">Homúnculo Cortical — Invasión de Mapas</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--p-l);border:1.5px solid var(--p);border-radius:8px;padding:10px;">
+            <strong style="color:var(--p);font-size:.82rem;display:block;margin-bottom:3px;">🔵 Zonas normales (Cara, Mano, Tronco)</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">Representación cortical intacta con límites somatotópicos claros y definidos.</p>
+          </div>
+          <div style="background:var(--v-l);border:2px dashed var(--v);border-radius:8px;padding:10px;">
+            <strong style="color:var(--v);font-size:.82rem;display:block;margin-bottom:3px;">🟣 Zona del miembro amputado (difuminada)</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">Representación borrosa e inexacta. Las zonas adyacentes (cara, mano) <strong style="color:var(--r);">invaden</strong> este espacio cortical vacante.</p>
+          </div>
+          <div style="background:var(--r-l);border:1.5px solid var(--r);border-radius:8px;padding:10px;">
+            <strong style="color:var(--r);font-size:.82rem;display:block;margin-bottom:3px;">🔴 Proceso de invasión</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">La plasticidad cortical maladaptativa genera hiperactividad en los mapas invadidos → <strong>dolor fantasma crónico</strong>.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 5: IMG — 3 FASES -->
+  <!-- SLIDE 5 -->
   <section class="slide" data-index="4">
     <div class="slbl">Tratamiento del Dolor Fantasma</div>
     <h2 class="stit">Imaginería Motora Graduada (IMG)</h2>
@@ -379,7 +288,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 6: MIRROR THERAPY -->
+  <!-- SLIDE 6 -->
   <section class="slide" data-index="5">
     <div class="slbl">Terapia de Espejo</div>
     <h2 class="stit">Mirror Therapy — Mecanismo de Acción</h2>
@@ -392,7 +301,7 @@
             <p>El espejo refleja el miembro sano hacia el lado amputado. El cerebro <strong>percibe visualmente</strong> que el miembro perdido se mueve normalmente y <strong>sin dolor</strong>.</p>
           </div>
         </div>
-        <div class="hb teal">
+        <div class="hb t">
           <span class="hi">🗺️</span>
           <div>
             <h4>Efecto Sobre los Mapas Corticales</h4>
@@ -407,36 +316,27 @@
           </div>
         </div>
       </div>
-      <!-- mirror therapy SVG -->
-      <div style="background:var(--off);border-radius:13px;padding:16px;border:1.5px solid var(--bd);display:flex;flex-direction:column;align-items:center;">
-        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Principio de la Terapia de Espejo</p>
-        <svg viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:260px;">
-          <!-- mirror vertical line -->
-          <line x1="120" y1="10" x2="120" y2="155" stroke="var(--v)" stroke-width="3" stroke-linecap="round"/>
-          <rect x="116" y="10" width="8" height="145" rx="4" fill="rgba(106,47,160,0.15)" stroke="var(--v)" stroke-width="1"/>
-          <text x="120" y="7" text-anchor="middle" fill="var(--v)" font-size="9" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">ESPEJO</text>
-          <!-- real leg left (healthy) -->
-          <path d="M80 50 L80 120" stroke="var(--g)" stroke-width="6" stroke-linecap="round"/>
-          <ellipse cx="80" cy="130" rx="12" ry="8" fill="var(--g-l)" stroke="var(--g)" stroke-width="2"/>
-          <text x="80" y="150" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Sano</text>
-          <!-- reflected/phantom right -->
-          <path d="M160 50 L160 120" stroke="var(--v)" stroke-width="6" stroke-linecap="round" stroke-dasharray="6 4" opacity=".7"/>
-          <ellipse cx="160" cy="130" rx="12" ry="8" fill="var(--v-l)" stroke="var(--v)" stroke-width="1.5" stroke-dasharray="4 3" opacity=".7"/>
-          <text x="160" y="150" text-anchor="middle" fill="var(--v)" font-size="9" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Ilusión</text>
-          <!-- reflection arrow -->
-          <path d="M95 90 Q108 84 115 90" stroke="var(--v)" stroke-width="1.5" fill="none" stroke-dasharray="3 2" marker-end="url(#aV)"/>
-          <defs>
-            <marker id="aV" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--v)"/></marker>
-          </defs>
-          <!-- brain receiving visual input -->
-          <ellipse cx="120" cy="28" rx="30" ry="16" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-          <text x="120" y="32" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">🧠 Ve movimiento normal</text>
-        </svg>
+      <div style="background:var(--off);border-radius:13px;padding:16px;border:1.5px solid var(--bd);">
+        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;text-align:center;">Principio de la Terapia de Espejo</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--g-l);border:1.5px solid var(--g);border-radius:8px;padding:11px;">
+            <strong style="color:var(--g);font-size:.82rem;display:block;margin-bottom:3px;">🟢 Lado sano (real)</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">El miembro sano se coloca frente al espejo y realiza movimientos activos.</p>
+          </div>
+          <div style="background:var(--v-l);border:2px dashed var(--v);border-radius:8px;padding:11px;">
+            <strong style="color:var(--v);font-size:.82rem;display:block;margin-bottom:3px;">🟣 Lado amputado (ilusión)</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">El reflejo en el espejo proyecta visualmente el movimiento hacia el lado amputado → ilusión de movimiento normal y sin dolor.</p>
+          </div>
+          <div style="background:var(--p-l);border:1.5px solid var(--p);border-radius:8px;padding:11px;">
+            <strong style="color:var(--p);font-size:.82rem;display:block;margin-bottom:3px;">🧠 Resultado cerebral</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">El cerebro recibe feedback visual de movimiento normal → normalización de mapas corticales → reducción del DMF.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 7: SWEET TRAINING -->
+  <!-- SLIDE 7 -->
   <section class="slide" data-index="6">
     <div class="slbl">Entrenamiento Físico</div>
     <h2 class="stit">SWEETraining y Entrenamiento en Silla de Ruedas</h2>
@@ -467,25 +367,18 @@
         </div>
       </div>
       <div>
-        <!-- SWEETraining wave SVG -->
         <div style="background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);margin-bottom:12px;">
           <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:8px;text-align:center;">Perfil de Intensidad — SWEETraining</p>
-          <svg viewBox="0 0 260 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-            <!-- base intensity line -->
-            <line x1="10" y1="60" x2="250" y2="60" stroke="var(--bd)" stroke-width="1" stroke-dasharray="4 3"/>
-            <text x="4" y="63" fill="var(--mid)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Base</text>
-            <!-- wave profile -->
-            <!-- base segment -->
-            <polyline points="10,60 40,60 40,30 70,30 70,60 100,60 100,25 130,25 130,60 160,60 160,28 190,28 190,60 220,60" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <!-- fill under wave -->
-            <polygon points="10,60 40,60 40,30 70,30 70,60 100,60 100,25 130,25 130,60 160,60 160,28 190,28 190,60 220,60 220,72 10,72" fill="rgba(26,110,110,0.1)"/>
-            <!-- peak labels -->
-            <text x="55" y="25" text-anchor="middle" fill="var(--teal)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Pico</text>
-            <text x="115" y="20" text-anchor="middle" fill="var(--r)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">↑ anaeróbico</text>
-            <!-- x labels -->
-            <text x="10" y="73" fill="var(--mid)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Inicio</text>
-            <text x="215" y="73" fill="var(--mid)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">Fin</text>
-          </svg>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="background:var(--teal-l);border:1.5px solid var(--teal);border-radius:8px;padding:10px;">
+              <strong style="color:var(--teal);font-size:.8rem;display:block;margin-bottom:3px;">🟢 Periodos Base (aeróbicos)</strong>
+              <p style="font-size:.75rem;color:var(--mid);line-height:1.5;">Intensidad moderada y sostenida. Desarrolla la capacidad aeróbica de fondo para la propulsión continua.</p>
+            </div>
+            <div style="background:var(--r-l);border:1.5px solid var(--r);border-radius:8px;padding:10px;">
+              <strong style="color:var(--r);font-size:.8rem;display:block;margin-bottom:3px;">🔺 Picos (anaeróbicos)</strong>
+              <p style="font-size:.75rem;color:var(--mid);line-height:1.5;">Breves intervalos de mayor intensidad. Mejoran la potencia para superar obstáculos y rampas.</p>
+            </div>
+          </div>
         </div>
         <div class="hb g">
           <span class="hi">💪</span>
@@ -498,7 +391,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 8: EFECTO TRANSFERT -->
+  <!-- SLIDE 8 -->
   <section class="slide" data-index="7">
     <div class="slbl">Entrenamiento Físico</div>
     <h2 class="stit">Efecto Transfert (Transferencia)</h2>
@@ -508,7 +401,7 @@
           <h3>🔄 Efecto Transfert</h3>
           <p>El entrenamiento aeróbico de un grupo de miembros produce una <strong>mejoría simultánea</strong> en la fuerza y endurance de los miembros <strong>no entrenados</strong>.</p>
         </div>
-        <div class="hb teal" style="margin-top:10px;">
+        <div class="hb t" style="margin-top:10px;">
           <span class="hi">🧠</span>
           <div>
             <h4>Base Neurológica</h4>
@@ -516,39 +409,27 @@
           </div>
         </div>
       </div>
-      <div style="background:var(--off);border-radius:13px;padding:16px;border:1.5px solid var(--bd);display:flex;flex-direction:column;align-items:center;">
-        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Ejemplo en Amputados de MMII</p>
-        <svg viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:240px;">
-          <!-- body in chair -->
-          <rect x="85" y="100" width="50" height="40" rx="8" fill="#e0e8f0" stroke="var(--p)" stroke-width="1.5"/>
-          <ellipse cx="110" cy="50" rx="18" ry="20" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-          <path d="M92 68 Q80 78 78 105" stroke="var(--p)" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M128 68 Q140 78 142 105" stroke="var(--p)" stroke-width="2.5" stroke-linecap="round"/>
-          <!-- wheels -->
-          <circle cx="82" cy="138" r="14" fill="none" stroke="var(--mid)" stroke-width="2"/>
-          <circle cx="138" cy="138" r="14" fill="none" stroke="var(--mid)" stroke-width="2"/>
-          <!-- arms training arrows (active) -->
-          <path d="M75 85 L55 95" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#aG3)"/>
-          <path d="M145 85 L165 95" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#aG3)"/>
-          <defs>
-            <marker id="aG3" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--g)"/></marker>
-            <marker id="aT2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--teal)"/></marker>
-          </defs>
-          <text x="38" y="104" fill="var(--g)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">MMSS</text>
-          <text x="32" y="114" fill="var(--g)" font-size="7" font-family="Plus Jakarta Sans,sans-serif">entrenados</text>
-          <text x="155" y="104" fill="var(--g)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">MMSS</text>
-          <!-- transfer arrow down to legs (phantom improvement) -->
-          <path d="M110 88 L110 125" stroke="var(--teal)" stroke-width="2" stroke-dasharray="4 3" stroke-linecap="round" marker-end="url(#aT2)"/>
-          <text x="115" y="110" fill="var(--teal)" font-size="7" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">Transfert</text>
-          <!-- result label -->
-          <rect x="50" y="148" width="120" height="16" rx="8" fill="var(--teal-l)" stroke="var(--teal)" stroke-width="1.5"/>
-          <text x="110" y="159" text-anchor="middle" fill="var(--teal)" font-size="8" font-family="Plus Jakarta Sans,sans-serif" font-weight="700">↑ Fuerza y endurance MMSS</text>
-        </svg>
+      <div style="background:var(--off);border-radius:13px;padding:16px;border:1.5px solid var(--bd);">
+        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;text-align:center;">Ejemplo en Amputados de MMII</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--g-l);border:1.5px solid var(--g);border-radius:8px;padding:11px;">
+            <strong style="color:var(--g);font-size:.82rem;display:block;margin-bottom:3px;">💪 MMSS entrenados activamente</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">Usuario de silla de ruedas entrena ambos brazos en propulsión. Adaptación neuromotora en MMSS.</p>
+          </div>
+          <div style="background:var(--teal-l);border:1.5px solid var(--teal);border-radius:8px;padding:11px;">
+            <strong style="color:var(--teal);font-size:.82rem;display:block;margin-bottom:3px;">🔄 Transferencia al SNC</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">La adaptación neuromotora se transfiere mediante circuitos del SNC al hemicuerpo contralateral y otros grupos musculares.</p>
+          </div>
+          <div style="background:var(--p-l);border:1.5px solid var(--p);border-radius:8px;padding:11px;">
+            <strong style="color:var(--p);font-size:.82rem;display:block;margin-bottom:3px;">📈 Resultado: ↑ Fuerza y endurance MMSS</strong>
+            <p style="font-size:.78rem;color:var(--mid);line-height:1.5;">Mejora del rendimiento en grupos no entrenados directamente. Base de la prescripción de ejercicio en amputados.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 9: PREVENCIÓN Y MUÑÓN -->
+  <!-- SLIDE 9 -->
   <section class="slide" data-index="8">
     <div class="slbl">Prevención y Seguimiento</div>
     <h2 class="stit">Higiene del Muñón y Factores de Riesgo</h2>
@@ -588,7 +469,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 10: TABLA COMPARATIVA IMG -->
+  <!-- SLIDE 10 -->
   <section class="slide" data-index="9">
     <div class="slbl">Síntesis Clínica</div>
     <h2 class="stit">IMG — Comparativa de Fases y Conceptos Clave</h2>
@@ -607,7 +488,7 @@
     </table>
   </section>
 
-  <!-- SLIDE 11: RESUMEN -->
+  <!-- SLIDE 11 -->
   <section class="slide" data-index="10">
     <div class="slbl">Resumen Integral</div>
     <h2 class="stit">Conceptos Clave — Práctica 16</h2>
@@ -633,40 +514,33 @@
 </nav>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
-  const pb = document.getElementById('pb');
-  const ctr = document.getElementById('ctr');
-  const pp = document.getElementById('pp');
-  const np = document.getElementById('np');
-  let cur = 0, tot = slides.length;
-
-  function goTo(i) {
-    if (i < 0 || i >= tot) return;
+  const slides=document.querySelectorAll('.slide');
+  const pb=document.getElementById('pb');
+  const ctr=document.getElementById('ctr');
+  const pp=document.getElementById('pp');
+  const np=document.getElementById('np');
+  let cur=0,tot=slides.length;
+  function goTo(i){
+    if(i<0||i>=tot)return;
     slides[cur].classList.remove('active');
     slides[cur].classList.add('exit-l');
-    const prev = cur;
-    setTimeout(() => slides[prev].classList.remove('exit-l'), 550);
-    cur = i;
-    slides[cur].classList.add('active');
-    slides[cur].querySelectorAll('.sl li,.imgp,.si').forEach(el => {
-      el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
-    });
+    const prev=cur;
+    setTimeout(()=>slides[prev].classList.remove('exit-l'),550);
+    cur=i;slides[cur].classList.add('active');
+    slides[cur].querySelectorAll('.sl li,.imgp,.si').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation='';});
     upd();
   }
-
-  function upd() {
-    pb.style.width = ((cur+1)/tot*100) + '%';
-    ctr.textContent = `${cur+1} / ${tot}`;
-    pp.disabled = cur === 0;
-    np.disabled = cur === tot-1;
-    np.textContent = cur === tot-1 ? '✓ Fin' : 'Siguiente →';
+  function upd(){
+    pb.style.width=((cur+1)/tot*100)+'%';
+    ctr.textContent=(cur+1)+' / '+tot;
+    pp.disabled=cur===0;np.disabled=cur===tot-1;
+    np.textContent=cur===tot-1?'✓ Fin':'Siguiente →';
   }
-
-  pp.addEventListener('click', () => goTo(cur-1));
-  np.addEventListener('click', () => goTo(cur+1));
-  document.addEventListener('keydown', e => {
-    if (e.key==='ArrowRight'||e.key==='ArrowDown') goTo(cur+1);
-    if (e.key==='ArrowLeft'||e.key==='ArrowUp') goTo(cur-1);
+  pp.addEventListener('click',()=>goTo(cur-1));
+  np.addEventListener('click',()=>goTo(cur+1));
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown')goTo(cur+1);
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp')goTo(cur-1);
   });
   upd();
 </script>
