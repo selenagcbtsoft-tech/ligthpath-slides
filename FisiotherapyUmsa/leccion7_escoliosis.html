@@ -7,446 +7,150 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --white: #ffffff;
-    --off-white: #f7f8fc;
-    --primary: #2d4a8a;
-    --primary-light: #e8edf8;
-    --secondary: #6b35a8;
-    --secondary-light: #f2ecfb;
-    --green: #1e7e5a;
-    --green-light: #e6f5ef;
-    --red: #b83232;
-    --red-light: #faeaea;
-    --amber: #c47d0e;
-    --amber-light: #fef5e4;
-    --dark: #1c1c2e;
-    --mid: #4a5270;
-    --border: #dde3f0;
-    --progress-h: 5px;
+    --white:#ffffff;--off-white:#f7f8fc;
+    --primary:#2d4a8a;--primary-light:#e8edf8;
+    --secondary:#6b35a8;--secondary-light:#f2ecfb;
+    --green:#1e7e5a;--green-light:#e6f5ef;
+    --red:#b83232;--red-light:#faeaea;
+    --amber:#c47d0e;--amber-light:#fef5e4;
+    --dark:#1c1c2e;--mid:#4a5270;--border:#dde3f0;
+    --progress-h:5px;
   }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--white);
-    color: var(--dark);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  #progress-bar-wrap {
-    position: fixed; top: 0; left: 0; right: 0;
-    height: var(--progress-h);
-    background: var(--border);
-    z-index: 100;
-  }
-  #progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    transition: width 0.4s ease;
-    border-radius: 0 3px 3px 0;
-  }
-
-  #header {
-    position: fixed;
-    top: var(--progress-h); left: 0; right: 0;
-    height: 50px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 28px;
-    border-bottom: 1px solid var(--border);
-    background: white;
-    z-index: 99;
-  }
-  .lesson-tag {
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--primary);
-    background: var(--primary-light);
-    padding: 3px 12px; border-radius: 20px;
-  }
-  #slide-counter { font-size: 13px; color: var(--mid); font-weight: 600; }
-
-  #slides-container {
-    margin-top: 55px;
-    margin-bottom: 60px;
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .slide {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    padding: 30px 56px 20px;
-    opacity: 0;
-    transform: translateX(50px);
-    transition: opacity 0.45s ease, transform 0.45s ease;
-    pointer-events: none;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
-  .slide.exit-left { opacity: 0; transform: translateX(-50px); }
-
-  /* TYPOGRAPHY */
-  .slide-label {
-    font-size: 10.5px; font-weight: 700;
-    letter-spacing: 0.13em; text-transform: uppercase;
-    color: var(--primary); margin-bottom: 10px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .slide-label::before {
-    content: ''; display: inline-block;
-    width: 20px; height: 2.5px;
-    background: var(--primary); border-radius: 2px;
-  }
-
-  h1.title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4.5vw, 3rem);
-    line-height: 1.15; color: var(--dark); margin-bottom: 16px;
-  }
-  h1.title em { font-style: italic; color: var(--primary); }
-
-  h2.slide-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.45rem, 2.8vw, 2rem);
-    line-height: 1.2; color: var(--dark); margin-bottom: 18px;
-  }
-
-  p.intro {
-    font-size: clamp(0.92rem, 1.5vw, 1.05rem);
-    color: var(--mid); line-height: 1.75; max-width: 720px; margin-bottom: 22px;
-  }
-
-  /* LAYOUT */
-  .two-col {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 22px; align-items: start; margin-top: 6px;
-  }
-  .three-col {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 16px; margin-top: 10px;
-  }
-  @media (max-width: 680px) {
-    .two-col, .three-col { grid-template-columns: 1fr; }
-  }
-
-  /* CARDS */
-  .card {
-    border-radius: 12px; padding: 18px 20px;
-    border: 1.5px solid var(--border);
-    background: var(--off-white);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.07); }
-  .card .card-icon { font-size: 1.7rem; margin-bottom: 9px; display: block; }
-  .card h3 { font-size: 0.92rem; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
-  .card p { font-size: 0.84rem; color: var(--mid); line-height: 1.6; }
-  .card.blue { border-color: var(--primary); background: var(--primary-light); }
-  .card.purple { border-color: var(--secondary); background: var(--secondary-light); }
-  .card.green { border-color: var(--green); background: var(--green-light); }
-  .card.red { border-color: var(--red); background: var(--red-light); }
-  .card.amber { border-color: var(--amber); background: var(--amber-light); }
-
-  /* HIGHLIGHT BOX */
-  .hbox {
-    border-radius: 12px; padding: 16px 20px;
-    display: flex; align-items: flex-start; gap: 13px;
-    margin-bottom: 12px;
-  }
-  .hbox.blue { background: var(--primary-light); border-left: 4px solid var(--primary); }
-  .hbox.purple { background: var(--secondary-light); border-left: 4px solid var(--secondary); }
-  .hbox.green { background: var(--green-light); border-left: 4px solid var(--green); }
-  .hbox.red { background: var(--red-light); border-left: 4px solid var(--red); }
-  .hbox.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
-  .hbox .hi { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
-  .hbox h4 { font-size: 0.9rem; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
-  .hbox p { font-size: 0.86rem; color: var(--mid); line-height: 1.62; }
-  .hbox p strong { color: var(--dark); }
-
-  /* STYLED LIST */
-  .slist { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-top: 8px; }
-  .slist li {
-    display: flex; align-items: flex-start; gap: 12px;
-    font-size: 0.93rem; color: var(--mid); line-height: 1.62;
-    opacity: 0; transform: translateY(10px);
-    animation: fadeUp 0.4s forwards;
-  }
-  .slist li:nth-child(1) { animation-delay: 0.06s; }
-  .slist li:nth-child(2) { animation-delay: 0.16s; }
-  .slist li:nth-child(3) { animation-delay: 0.26s; }
-  .slist li:nth-child(4) { animation-delay: 0.36s; }
-  .slist li:nth-child(5) { animation-delay: 0.46s; }
-  .slist li .dot {
-    flex-shrink: 0; width: 8px; height: 8px;
-    border-radius: 50%; background: var(--primary); margin-top: 7px;
-  }
-  .slist li strong { color: var(--dark); font-weight: 700; }
-
-  /* BIG STAT */
-  .big-stat {
-    text-align: center; padding: 18px 14px;
-    border-radius: 14px;
-    background: var(--off-white);
-    border: 1.5px solid var(--border);
-  }
-  .big-stat .num {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.2rem, 5vw, 3.6rem);
-    color: var(--primary); line-height: 1; margin-bottom: 6px;
-  }
-  .big-stat .lbl { font-size: 0.82rem; color: var(--mid); font-weight: 600; line-height: 1.5; }
-
-  /* TABLE */
-  .ctable { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 10px; }
-  .ctable th {
-    background: var(--primary); color: white;
-    padding: 10px 14px; text-align: left;
-    font-weight: 700; font-size: 0.8rem; letter-spacing: 0.04em;
-  }
-  .ctable th:first-child { border-radius: 8px 0 0 0; }
-  .ctable th:last-child { border-radius: 0 8px 0 0; }
-  .ctable td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  .ctable tr:last-child td { border-bottom: none; }
-  .ctable tr:nth-child(even) td { background: var(--off-white); }
-
-  /* BADGE */
-  .badge {
-    display: inline-block; font-size: 0.74rem; font-weight: 700;
-    padding: 2px 9px; border-radius: 20px; vertical-align: middle;
-    margin-left: 4px;
-  }
-  .badge.leve { background: var(--green-light); color: var(--green); border: 1px solid var(--green); }
-  .badge.mod { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber); }
-  .badge.grave { background: var(--red-light); color: var(--red); border: 1px solid var(--red); }
-
-  /* COBB VISUAL */
-  .cobb-bar {
-    height: 32px; border-radius: 8px; display: flex; overflow: hidden;
-    margin-top: 10px; margin-bottom: 6px;
-  }
-  .cobb-seg {
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.78rem; font-weight: 700; color: white;
-    transition: flex 0.6s ease;
-  }
-
-  /* RISSER PROGRESS */
-  .risser-track {
-    display: flex; gap: 6px; margin-top: 12px;
-  }
-  .risser-step {
-    flex: 1; text-align: center;
-    border-radius: 8px; padding: 10px 6px;
-    border: 2px solid var(--border);
-    font-size: 0.78rem; font-weight: 700;
-    background: var(--off-white);
-    transition: background 0.3s;
-  }
-  .risser-step.low { background: var(--red-light); border-color: var(--red); color: var(--red); }
-  .risser-step.mid { background: var(--amber-light); border-color: var(--amber); color: var(--amber); }
-  .risser-step.high { background: var(--green-light); border-color: var(--green); color: var(--green); }
-  .risser-step small { display: block; font-weight: 400; font-size: 0.7rem; margin-top: 4px; line-height: 1.3; color: var(--mid); }
-
-  /* TIMELINE */
-  .timeline { display: flex; flex-direction: column; gap: 0; margin-top: 8px; }
-  .titem {
-    display: flex; gap: 16px; padding-bottom: 18px;
-    position: relative;
-    opacity: 0; transform: translateX(-12px);
-    animation: fadeRight 0.4s forwards;
-  }
-  .titem:nth-child(1) { animation-delay: 0.08s; }
-  .titem:nth-child(2) { animation-delay: 0.22s; }
-  .titem:nth-child(3) { animation-delay: 0.36s; }
-  .titem:nth-child(4) { animation-delay: 0.50s; }
-  .titem::before {
-    content: ''; position: absolute; left: 17px; top: 36px; bottom: 0;
-    width: 2px; background: var(--border);
-  }
-  .titem:last-child::before { display: none; }
-  .tdot {
-    flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
-    background: var(--primary); color: white;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.85rem; z-index: 1;
-  }
-  .titem h4 { font-size: 0.93rem; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
-  .titem p { font-size: 0.86rem; color: var(--mid); line-height: 1.6; }
-
-  /* SUMMARY GRID */
-  .sgrid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 10px; margin-top: 10px;
-  }
-  .sitem {
-    display: flex; align-items: flex-start; gap: 10px;
-    background: var(--off-white); border-radius: 10px;
-    padding: 11px 13px; border: 1px solid var(--border);
-    font-size: 0.86rem; color: var(--mid); line-height: 1.55;
-    opacity: 0; animation: fadeUp 0.4s forwards;
-  }
-  .sitem:nth-child(1) { animation-delay: 0.05s; }
-  .sitem:nth-child(2) { animation-delay: 0.14s; }
-  .sitem:nth-child(3) { animation-delay: 0.23s; }
-  .sitem:nth-child(4) { animation-delay: 0.32s; }
-  .sitem:nth-child(5) { animation-delay: 0.41s; }
-  .sitem:nth-child(6) { animation-delay: 0.50s; }
-  .sitem:nth-child(7) { animation-delay: 0.59s; }
-  .sitem:nth-child(8) { animation-delay: 0.68s; }
-  .sitem .si { font-size: 1.25rem; flex-shrink: 0; }
-  .sitem strong { color: var(--dark); display: block; font-size: 0.8rem; margin-bottom: 2px; }
-
-  /* DARK CALLOUT */
-  .dark-callout {
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--primary), #1a2e6a);
-    color: white; padding: 22px 26px;
-    position: relative; overflow: hidden; margin-top: 14px;
-  }
-  .dark-callout::after {
-    content: '🧬'; position: absolute;
-    right: 16px; bottom: 6px;
-    font-size: 3.5rem; opacity: 0.1;
-  }
-  .dark-callout h3 {
-    font-family: 'Playfair Display', serif; font-size: 1.15rem;
-    margin-bottom: 7px;
-  }
-  .dark-callout p { font-size: 0.88rem; opacity: 0.88; line-height: 1.65; }
-
-  /* DEGREE SCALE */
-  .deg-scale {
-    display: flex; gap: 0; border-radius: 10px; overflow: hidden;
-    border: 1.5px solid var(--border); margin-top: 10px;
-  }
-  .deg-zone {
-    flex: 1; padding: 14px 10px; text-align: center;
-    border-right: 1px solid var(--border);
-  }
-  .deg-zone:last-child { border-right: none; }
-  .deg-zone .dz-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; font-weight: 700; line-height: 1;
-    margin-bottom: 4px;
-  }
-  .deg-zone .dz-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
-  .deg-zone .dz-desc { font-size: 0.75rem; color: var(--mid); margin-top: 4px; line-height: 1.4; }
-  .deg-zone.leve { background: var(--green-light); }
-  .deg-zone.leve .dz-num, .deg-zone.leve .dz-label { color: var(--green); }
-  .deg-zone.mod { background: var(--amber-light); }
-  .deg-zone.mod .dz-num, .deg-zone.mod .dz-label { color: var(--amber); }
-  .deg-zone.grave { background: var(--red-light); }
-  .deg-zone.grave .dz-num, .deg-zone.grave .dz-label { color: var(--red); }
-
-  /* INTERVENTION RANGE */
-  .interv-box {
-    border-radius: 12px; padding: 16px 20px;
-    background: var(--secondary-light);
-    border: 2px solid var(--secondary);
-    margin-top: 12px;
-  }
-  .interv-box h4 { font-size: 0.95rem; font-weight: 700; color: var(--secondary); margin-bottom: 6px; }
-  .interv-box p { font-size: 0.88rem; color: var(--mid); line-height: 1.65; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeRight { to { opacity: 1; transform: translateX(0); } }
-
-  /* NAV */
-  #nav {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    height: 60px; background: white;
-    border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center; gap: 14px;
-    z-index: 99;
-  }
-  .nav-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--dark); color: white;
-    border: none; border-radius: 8px;
-    padding: 9px 22px; font-size: 0.88rem; font-weight: 700;
-    cursor: pointer; font-family: 'Nunito', sans-serif;
-    transition: background 0.2s, transform 0.15s;
-    letter-spacing: 0.02em;
-  }
-  .nav-btn:hover { background: var(--primary); transform: translateY(-1px); }
-  .nav-btn:disabled { background: var(--border); color: var(--mid); cursor: default; transform: none; }
-  .nav-btn.prev {
-    background: var(--off-white); color: var(--dark);
-    border: 1.5px solid var(--border);
-  }
-  .nav-btn.prev:hover:not(:disabled) { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Nunito',sans-serif;background:var(--white);color:var(--dark);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+  #progress-bar-wrap{position:fixed;top:0;left:0;right:0;height:var(--progress-h);background:var(--border);z-index:100}
+  #progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));transition:width .4s ease;border-radius:0 3px 3px 0}
+  #header{position:fixed;top:var(--progress-h);left:0;right:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid var(--border);background:white;z-index:99}
+  .lesson-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);background:var(--primary-light);padding:3px 12px;border-radius:20px}
+  #slide-counter{font-size:13px;color:var(--mid);font-weight:600}
+  #slides-container{margin-top:55px;margin-bottom:60px;flex:1;position:relative;overflow:hidden}
+  .slide{position:absolute;top:0;left:0;right:0;bottom:0;padding:30px 56px 20px;opacity:0;transform:translateX(50px);transition:opacity .45s ease,transform .45s ease;pointer-events:none;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
+  .slide.active{opacity:1;transform:translateX(0);pointer-events:all}
+  .slide.exit-left{opacity:0;transform:translateX(-50px)}
+  .slide-label{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--primary);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .slide-label::before{content:'';display:inline-block;width:20px;height:2.5px;background:var(--primary);border-radius:2px}
+  h1.title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3rem);line-height:1.15;color:var(--dark);margin-bottom:16px}
+  h1.title em{font-style:italic;color:var(--primary)}
+  h2.slide-title{font-family:'Playfair Display',serif;font-size:clamp(1.45rem,2.8vw,2rem);line-height:1.2;color:var(--dark);margin-bottom:18px}
+  p.intro{font-size:clamp(.92rem,1.5vw,1.05rem);color:var(--mid);line-height:1.75;max-width:720px;margin-bottom:22px}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;margin-top:6px}
+  .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+  @media(max-width:680px){.two-col,.three-col{grid-template-columns:1fr}}
+  .card{border-radius:12px;padding:18px 20px;border:1.5px solid var(--border);background:var(--off-white);transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.07)}
+  .card .card-icon{font-size:1.7rem;margin-bottom:9px;display:block}
+  .card h3{font-size:.92rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+  .card p{font-size:.84rem;color:var(--mid);line-height:1.6}
+  .card.blue{border-color:var(--primary);background:var(--primary-light)}
+  .card.purple{border-color:var(--secondary);background:var(--secondary-light)}
+  .card.green{border-color:var(--green);background:var(--green-light)}
+  .card.red{border-color:var(--red);background:var(--red-light)}
+  .card.amber{border-color:var(--amber);background:var(--amber-light)}
+  .hbox{border-radius:12px;padding:16px 20px;display:flex;align-items:flex-start;gap:13px;margin-bottom:12px}
+  .hbox.blue{background:var(--primary-light);border-left:4px solid var(--primary)}
+  .hbox.purple{background:var(--secondary-light);border-left:4px solid var(--secondary)}
+  .hbox.green{background:var(--green-light);border-left:4px solid var(--green)}
+  .hbox.red{background:var(--red-light);border-left:4px solid var(--red)}
+  .hbox.amber{background:var(--amber-light);border-left:4px solid var(--amber)}
+  .hbox .hi{font-size:1.4rem;flex-shrink:0;margin-top:2px}
+  .hbox h4{font-size:.9rem;font-weight:700;color:var(--dark);margin-bottom:4px}
+  .hbox p{font-size:.86rem;color:var(--mid);line-height:1.62}
+  .hbox p strong{color:var(--dark)}
+  .slist{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:8px}
+  .slist li{display:flex;align-items:flex-start;gap:12px;font-size:.93rem;color:var(--mid);line-height:1.62;opacity:0;transform:translateY(10px);animation:fadeUp .4s forwards}
+  .slist li:nth-child(1){animation-delay:.06s}.slist li:nth-child(2){animation-delay:.16s}.slist li:nth-child(3){animation-delay:.26s}.slist li:nth-child(4){animation-delay:.36s}.slist li:nth-child(5){animation-delay:.46s}
+  .slist li .dot{flex-shrink:0;width:8px;height:8px;border-radius:50%;background:var(--primary);margin-top:7px}
+  .slist li strong{color:var(--dark);font-weight:700}
+  .big-stat{text-align:center;padding:18px 14px;border-radius:14px;background:var(--off-white);border:1.5px solid var(--border)}
+  .big-stat .num{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.6rem);color:var(--primary);line-height:1;margin-bottom:6px}
+  .big-stat .lbl{font-size:.82rem;color:var(--mid);font-weight:600;line-height:1.5}
+  .ctable{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:10px}
+  .ctable th{background:var(--primary);color:white;padding:10px 14px;text-align:left;font-weight:700;font-size:.8rem;letter-spacing:.04em}
+  .ctable th:first-child{border-radius:8px 0 0 0}.ctable th:last-child{border-radius:0 8px 0 0}
+  .ctable td{padding:9px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  .ctable tr:last-child td{border-bottom:none}
+  .ctable tr:nth-child(even) td{background:var(--off-white)}
+  .risser-track{display:flex;gap:6px;margin-top:12px}
+  .risser-step{flex:1;text-align:center;border-radius:8px;padding:10px 6px;border:2px solid var(--border);font-size:.78rem;font-weight:700;background:var(--off-white)}
+  .risser-step.low{background:var(--red-light);border-color:var(--red);color:var(--red)}
+  .risser-step.mid{background:var(--amber-light);border-color:var(--amber);color:var(--amber)}
+  .risser-step.high{background:var(--green-light);border-color:var(--green);color:var(--green)}
+  .risser-step small{display:block;font-weight:400;font-size:.7rem;margin-top:4px;line-height:1.3;color:var(--mid)}
+  .timeline{display:flex;flex-direction:column;gap:0;margin-top:8px}
+  .titem{display:flex;gap:16px;padding-bottom:18px;position:relative;opacity:0;transform:translateX(-12px);animation:fadeRight .4s forwards}
+  .titem:nth-child(1){animation-delay:.08s}.titem:nth-child(2){animation-delay:.22s}.titem:nth-child(3){animation-delay:.36s}.titem:nth-child(4){animation-delay:.50s}
+  .titem::before{content:'';position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--border)}
+  .titem:last-child::before{display:none}
+  .tdot{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;z-index:1}
+  .titem h4{font-size:.93rem;font-weight:700;color:var(--dark);margin-bottom:3px}
+  .titem p{font-size:.86rem;color:var(--mid);line-height:1.6}
+  .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .sitem{display:flex;align-items:flex-start;gap:10px;background:var(--off-white);border-radius:10px;padding:11px 13px;border:1px solid var(--border);font-size:.86rem;color:var(--mid);line-height:1.55;opacity:0;animation:fadeUp .4s forwards}
+  .sitem:nth-child(1){animation-delay:.05s}.sitem:nth-child(2){animation-delay:.14s}.sitem:nth-child(3){animation-delay:.23s}.sitem:nth-child(4){animation-delay:.32s}.sitem:nth-child(5){animation-delay:.41s}.sitem:nth-child(6){animation-delay:.50s}.sitem:nth-child(7){animation-delay:.59s}.sitem:nth-child(8){animation-delay:.68s}.sitem:nth-child(9){animation-delay:.77s}.sitem:nth-child(10){animation-delay:.86s}
+  .sitem .si{font-size:1.25rem;flex-shrink:0}
+  .sitem strong{color:var(--dark);display:block;font-size:.8rem;margin-bottom:2px}
+  .dark-callout{border-radius:14px;background:linear-gradient(135deg,var(--primary),#1a2e6a);color:white;padding:22px 26px;position:relative;overflow:hidden;margin-top:14px}
+  .dark-callout::after{content:'🧬';position:absolute;right:16px;bottom:6px;font-size:3.5rem;opacity:.1}
+  .dark-callout h3{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:7px}
+  .dark-callout p{font-size:.88rem;opacity:.88;line-height:1.65}
+  .deg-scale{display:flex;gap:0;border-radius:10px;overflow:hidden;border:1.5px solid var(--border);margin-top:10px}
+  .deg-zone{flex:1;padding:14px 10px;text-align:center;border-right:1px solid var(--border)}
+  .deg-zone:last-child{border-right:none}
+  .deg-zone .dz-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;line-height:1;margin-bottom:4px}
+  .deg-zone .dz-label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  .deg-zone .dz-desc{font-size:.75rem;color:var(--mid);margin-top:4px;line-height:1.4}
+  .deg-zone.leve{background:var(--green-light)}.deg-zone.leve .dz-num,.deg-zone.leve .dz-label{color:var(--green)}
+  .deg-zone.mod{background:var(--amber-light)}.deg-zone.mod .dz-num,.deg-zone.mod .dz-label{color:var(--amber)}
+  .deg-zone.grave{background:var(--red-light)}.deg-zone.grave .dz-num,.deg-zone.grave .dz-label{color:var(--red)}
+  .interv-box{border-radius:12px;padding:16px 20px;background:var(--secondary-light);border:2px solid var(--secondary);margin-top:12px}
+  .interv-box h4{font-size:.95rem;font-weight:700;color:var(--secondary);margin-bottom:6px}
+  .interv-box p{font-size:.88rem;color:var(--mid);line-height:1.65}
+  @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeRight{to{opacity:1;transform:translateX(0)}}
+  #nav{position:fixed;bottom:0;left:0;right:0;height:60px;background:white;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:14px;z-index:99}
+  .nav-btn{display:flex;align-items:center;gap:6px;background:var(--dark);color:white;border:none;border-radius:8px;padding:9px 22px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:background .2s,transform .15s;letter-spacing:.02em}
+  .nav-btn:hover{background:var(--primary);transform:translateY(-1px)}
+  .nav-btn:disabled{background:var(--border);color:var(--mid);cursor:default;transform:none}
+  .nav-btn.prev{background:var(--off-white);color:var(--dark);border:1.5px solid var(--border)}
+  .nav-btn.prev:hover:not(:disabled){background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
 </style>
 </head>
 <body>
-
 <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
 <header id="header">
   <span class="lesson-tag">Práctica 7</span>
   <span id="slide-counter">1 / 11</span>
 </header>
-
 <div id="slides-container">
 
-  <!-- SLIDE 1: PORTADA -->
+  <!-- SLIDE 1 -->
   <section class="slide active" data-index="0">
     <div class="slide-label">Kinesiología y Ortopedia</div>
     <h1 class="title"><em>Escoliosis</em><br>Tratamiento Kinésico</h1>
     <p class="intro">Deformidad <strong>tridimensional</strong> del raquis: desviación lateral (plano frontal), alteración de curvas sagitales y rotación vertebral (plano transversal).</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
-      <span style="background:var(--primary-light);color:var(--primary);padding:4px 14px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid var(--primary);">📐 Clasificación</span>
-      <span style="background:var(--secondary-light);color:var(--secondary);padding:4px 14px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid var(--secondary);">🔬 Evaluación</span>
-      <span style="background:var(--green-light);color:var(--green);padding:4px 14px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid var(--green);">🏋️ Tratamiento SOSORT</span>
-      <span style="background:var(--amber-light);color:var(--amber);padding:4px 14px;border-radius:20px;font-size:0.82rem;font-weight:700;border:1px solid var(--amber);">🔄 RPG</span>
+      <span style="background:var(--primary-light);color:var(--primary);padding:4px 14px;border-radius:20px;font-size:.82rem;font-weight:700;border:1px solid var(--primary);">📐 Clasificación</span>
+      <span style="background:var(--secondary-light);color:var(--secondary);padding:4px 14px;border-radius:20px;font-size:.82rem;font-weight:700;border:1px solid var(--secondary);">🔬 Evaluación</span>
+      <span style="background:var(--green-light);color:var(--green);padding:4px 14px;border-radius:20px;font-size:.82rem;font-weight:700;border:1px solid var(--green);">🏋️ Tratamiento SOSORT</span>
+      <span style="background:var(--amber-light);color:var(--amber);padding:4px 14px;border-radius:20px;font-size:.82rem;font-weight:700;border:1px solid var(--amber);">🔄 RPG</span>
     </div>
-    <!-- 3D spine SVG -->
-    <div style="display:flex;justify-content:center;">
-      <svg viewBox="0 0 300 190" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:380px;width:100%;">
-        <!-- grid lines -->
-        <line x1="60" y1="10" x2="60" y2="175" stroke="#dde3f0" stroke-width="1" stroke-dasharray="4 3"/>
-        <line x1="150" y1="10" x2="150" y2="175" stroke="#dde3f0" stroke-width="1" stroke-dasharray="4 3"/>
-        <line x1="240" y1="10" x2="240" y2="175" stroke="#dde3f0" stroke-width="1" stroke-dasharray="4 3"/>
-        <!-- normal spine ghost -->
-        <path d="M150 15 L150 170" stroke="#dde3f0" stroke-width="6" stroke-linecap="round"/>
-        <!-- scoliotic curve -->
-        <path d="M150 15 Q180 55 150 95 Q118 135 148 170" stroke="url(#scol)" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <defs>
-          <linearGradient id="scol" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#2d4a8a"/>
-            <stop offset="100%" stop-color="#6b35a8"/>
-          </linearGradient>
-        </defs>
-        <!-- vertebrae marks -->
-        <rect x="143" y="18" width="14" height="9" rx="3" fill="#2d4a8a" opacity="0.7"/>
-        <rect x="148" y="37" width="16" height="9" rx="3" fill="#2d4a8a" opacity="0.7"/>
-        <rect x="157" y="56" width="18" height="9" rx="3" fill="#6b35a8" opacity="0.8"/>
-        <rect x="162" y="75" width="17" height="9" rx="3" fill="#6b35a8" opacity="0.8"/>
-        <rect x="155" y="94" width="16" height="9" rx="3" fill="#b83232" opacity="0.7"/>
-        <rect x="141" y="113" width="17" height="9" rx="3" fill="#6b35a8" opacity="0.7"/>
-        <rect x="135" y="132" width="17" height="9" rx="3" fill="#2d4a8a" opacity="0.7"/>
-        <rect x="138" y="151" width="16" height="9" rx="3" fill="#2d4a8a" opacity="0.7"/>
-        <!-- rotation indicator -->
-        <path d="M172 79 Q180 75 180 83 Q180 91 172 87" stroke="#6b35a8" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-        <text x="185" y="86" fill="#6b35a8" font-size="8" font-family="Nunito,sans-serif" font-weight="700">rotación</text>
-        <!-- cobb angle -->
-        <line x1="148" y1="23" x2="168" y2="23" stroke="#c47d0e" stroke-width="1.5" stroke-dasharray="3 2"/>
-        <line x1="137" y1="157" x2="157" y2="157" stroke="#c47d0e" stroke-width="1.5" stroke-dasharray="3 2"/>
-        <text x="30" y="90" fill="#c47d0e" font-size="9" font-family="Nunito,sans-serif" font-weight="700">Cobb</text>
-        <!-- planes labels -->
-        <text x="8" y="185" fill="#4a5270" font-size="9" font-family="Nunito,sans-serif">Plano Frontal</text>
-        <text x="115" y="185" fill="#6b35a8" font-size="9" font-family="Nunito,sans-serif">Rotación vertebral</text>
-      </svg>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+      <div style="background:var(--primary-light);border:1.5px solid var(--primary);border-radius:10px;padding:14px;text-align:center;">
+        <strong style="color:var(--primary);font-size:.88rem;display:block;margin-bottom:4px;">Plano Frontal</strong>
+        <p style="font-size:.82rem;color:var(--mid);line-height:1.5;">Desviación lateral del raquis visible en la radiografía AP. Se mide con el ángulo de Cobb.</p>
+      </div>
+      <div style="background:var(--secondary-light);border:1.5px solid var(--secondary);border-radius:10px;padding:14px;text-align:center;">
+        <strong style="color:var(--secondary);font-size:.88rem;display:block;margin-bottom:4px;">Plano Sagital</strong>
+        <p style="font-size:.82rem;color:var(--mid);line-height:1.5;">Alteración de las curvas cifóticas y lordóticas fisiológicas. Hipercifosis o hiperlordosis asociadas.</p>
+      </div>
+      <div style="background:var(--amber-light);border:1.5px solid var(--amber);border-radius:10px;padding:14px;text-align:center;">
+        <strong style="color:var(--amber);font-size:.88rem;display:block;margin-bottom:4px;">Plano Transversal</strong>
+        <p style="font-size:.82rem;color:var(--mid);line-height:1.5;">Rotación vertebral que genera la giba costal visible en el Test de Adams.</p>
+      </div>
     </div>
   </section>
 
-  <!-- SLIDE 2: CLASIFICACIÓN -->
+  <!-- SLIDE 2 -->
   <section class="slide" data-index="1">
     <div class="slide-label">Clasificación</div>
     <h2 class="slide-title">Escoliosis Funcional vs. Estructural</h2>
@@ -477,7 +181,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 3: TEST DE ADAMS y ESCOLIÓMETRO -->
+  <!-- SLIDE 3 -->
   <section class="slide" data-index="2">
     <div class="slide-label">Evaluación Clínica</div>
     <h2 class="slide-title">Test de Adams y Escoliómetro</h2>
@@ -499,54 +203,35 @@
           </div>
         </div>
       </div>
-      <div style="background:var(--off-white);border-radius:14px;padding:20px;border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;">
-        <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--mid);margin-bottom:12px;">Vista posterior — Test de Adams</p>
-        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:220px;">
-          <!-- body outline from back, bent forward -->
-          <path d="M100 30 Q90 40 85 60 L78 130 Q80 140 100 145 Q120 140 122 130 L115 60 Q110 40 100 30Z" fill="#e8edf8" stroke="#2d4a8a" stroke-width="1.5"/>
-          <!-- rib hump (giba) -->
-          <path d="M100 75 Q125 68 130 80 Q132 92 118 90 Q104 88 100 75Z" fill="rgba(192,62,43,0.3)" stroke="#b83232" stroke-width="2"/>
-          <!-- spine rotated -->
-          <path d="M100 35 Q108 65 106 100 Q104 120 100 138" stroke="#6b35a8" stroke-width="3" stroke-linecap="round"/>
-          <!-- normal line -->
-          <line x1="100" y1="30" x2="100" y2="145" stroke="#dde3f0" stroke-width="2" stroke-dasharray="4 3"/>
-          <!-- label giba -->
-          <text x="134" y="80" fill="#b83232" font-size="9" font-family="Nunito,sans-serif" font-weight="700">Giba</text>
-          <text x="134" y="90" fill="#b83232" font-size="9" font-family="Nunito,sans-serif" font-weight="700">costal</text>
-          <!-- escoliómetro angle -->
-          <path d="M100 138 L88 155" stroke="#c47d0e" stroke-width="2" stroke-linecap="round"/>
-          <path d="M100 138 L112 155" stroke="#c47d0e" stroke-width="2" stroke-linecap="round"/>
-          <path d="M90 152 Q100 148 110 152" stroke="#c47d0e" stroke-width="1.5" fill="none"/>
-          <text x="95" y="170" fill="#c47d0e" font-size="9" font-family="Nunito,sans-serif" font-weight="700">ATR≥10°</text>
-          <!-- arms -->
-          <path d="M85 65 Q70 90 68 115" stroke="#2d4a8a" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M115 65 Q130 90 132 115" stroke="#2d4a8a" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
+      <div style="background:var(--off-white);border-radius:14px;padding:20px;border:1.5px solid var(--border);">
+        <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;">Vista posterior — Test de Adams</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--red-light);border:1.5px solid var(--red);border-radius:8px;padding:12px;">
+            <strong style="color:var(--red);font-size:.85rem;display:block;margin-bottom:3px;">🔴 Giba Costal (positivo dorsal)</strong>
+            <p style="font-size:.82rem;color:var(--mid);line-height:1.5;">Prominencia visible en la región dorsal al flexionar el tronco. Indica rotación vertebral de la curva. Evidencia deformidad estructural torácica.</p>
+          </div>
+          <div style="background:var(--amber-light);border:1.5px solid var(--amber);border-radius:8px;padding:12px;">
+            <strong style="color:var(--amber);font-size:.85rem;display:block;margin-bottom:3px;">🟡 Resalte Lumbar (positivo lumbar)</strong>
+            <p style="font-size:.82rem;color:var(--mid);line-height:1.5;">Elevación asimétrica en la región lumbar. Indica rotación vertebral lumbar. Se diferencia de la giba dorsal por su localización inferior.</p>
+          </div>
+          <div style="background:var(--primary-light);border:1.5px solid var(--primary);border-radius:8px;padding:12px;">
+            <strong style="color:var(--primary);font-size:.85rem;display:block;margin-bottom:3px;">📏 ATR ≥ 10° con Escoliómetro</strong>
+            <p style="font-size:.82rem;color:var(--mid);line-height:1.5;">Ángulo de Rotación del Tronco medido con escoliómetro. Si ≥ 10° → derivar a radiografía para medir Ángulo de Cobb.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 4: ÁNGULO DE COBB -->
+  <!-- SLIDE 4 -->
   <section class="slide" data-index="3">
     <div class="slide-label">Evaluación Radiológica</div>
     <h2 class="slide-title">Ángulo de Cobb</h2>
     <p class="intro" style="margin-bottom:12px;">Medida radiológica <strong>estándar</strong> para cuantificar la magnitud de la curva. Se trazan líneas en los platillos de las vértebras límite superior e inferior de la curva.</p>
     <div class="deg-scale">
-      <div class="deg-zone leve">
-        <div class="dz-num">&lt;20°</div>
-        <div class="dz-label">Leve</div>
-        <div class="dz-desc">Observación y ejercicio específico</div>
-      </div>
-      <div class="deg-zone mod">
-        <div class="dz-num">20–40°</div>
-        <div class="dz-label">Moderada</div>
-        <div class="dz-desc">Ejercicios + corsé ortopédico</div>
-      </div>
-      <div class="deg-zone grave">
-        <div class="dz-num">&gt;40°</div>
-        <div class="dz-label">Grave</div>
-        <div class="dz-desc">Considerar cirugía de fusión</div>
-      </div>
+      <div class="deg-zone leve"><div class="dz-num">&lt;20°</div><div class="dz-label">Leve</div><div class="dz-desc">Observación y ejercicio específico</div></div>
+      <div class="deg-zone mod"><div class="dz-num">20–40°</div><div class="dz-label">Moderada</div><div class="dz-desc">Ejercicios + corsé ortopédico</div></div>
+      <div class="deg-zone grave"><div class="dz-num">&gt;40°</div><div class="dz-label">Grave</div><div class="dz-desc">Considerar cirugía de fusión</div></div>
     </div>
     <div class="two-col" style="margin-top:16px;">
       <div class="hbox blue">
@@ -566,7 +251,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 5: TEST DE RISSER -->
+  <!-- SLIDE 5 -->
   <section class="slide" data-index="4">
     <div class="slide-label">Maduración Esquelética</div>
     <h2 class="slide-title">Test de Risser</h2>
@@ -579,7 +264,7 @@
       <div class="risser-step mid">4<small>100% osif.</small></div>
       <div class="risser-step high">5<small>Fusión completa</small></div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:8px;font-size:0.78rem;flex-wrap:wrap;">
+    <div style="display:flex;gap:10px;margin-top:8px;font-size:.78rem;flex-wrap:wrap;">
       <span style="color:var(--red);font-weight:700;">🔴 0–2: ALTO riesgo de progresión</span>
       <span style="color:var(--amber);font-weight:700;">🟡 3–4: Riesgo moderado</span>
       <span style="color:var(--green);font-weight:700;">🟢 5: Esqueleto maduro</span>
@@ -592,25 +277,18 @@
       </div>
     </div>
     <div style="background:var(--off-white);border-radius:12px;padding:14px 18px;border:1.5px solid var(--border);margin-top:12px;">
-      <svg viewBox="0 0 340 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-        <!-- iliac crest ossification progression -->
-        <rect x="10" y="20" width="320" height="20" rx="10" fill="#e8edf8"/>
-        <rect x="10" y="20" width="64" height="20" rx="10" fill="#faeaea"/>
-        <rect x="74" y="20" width="64" height="20" fill="#faeaea"/>
-        <rect x="138" y="20" width="64" height="20" fill="#fef5e4"/>
-        <rect x="202" y="20" width="64" height="20" fill="#fef5e4"/>
-        <rect x="266" y="20" width="64" height="20" rx="10" fill="#e6f5ef"/>
-        <text x="42" y="34" text-anchor="middle" font-size="10" fill="#b83232" font-family="Nunito,sans-serif" font-weight="700">0-1</text>
-        <text x="106" y="34" text-anchor="middle" font-size="10" fill="#b83232" font-family="Nunito,sans-serif" font-weight="700">1-2</text>
-        <text x="170" y="34" text-anchor="middle" font-size="10" fill="#c47d0e" font-family="Nunito,sans-serif" font-weight="700">2-3</text>
-        <text x="234" y="34" text-anchor="middle" font-size="10" fill="#c47d0e" font-family="Nunito,sans-serif" font-weight="700">3-4</text>
-        <text x="298" y="34" text-anchor="middle" font-size="10" fill="#1e7e5a" font-family="Nunito,sans-serif" font-weight="700">4-5</text>
-        <text x="170" y="58" text-anchor="middle" font-size="9" fill="#4a5270" font-family="Nunito,sans-serif">Progresión de la osificación de la cresta ilíaca</text>
-      </svg>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;">
+        <div style="background:var(--red-light);border:1px solid var(--red);border-radius:6px;padding:8px;text-align:center;font-size:.75rem;color:var(--red);font-weight:700;">0–1<br><span style="font-weight:400;color:var(--mid);">Crecimiento activo</span></div>
+        <div style="background:var(--red-light);border:1px solid var(--red);border-radius:6px;padding:8px;text-align:center;font-size:.75rem;color:var(--red);font-weight:700;">1–2<br><span style="font-weight:400;color:var(--mid);">Alto riesgo</span></div>
+        <div style="background:var(--amber-light);border:1px solid var(--amber);border-radius:6px;padding:8px;text-align:center;font-size:.75rem;color:var(--amber);font-weight:700;">2–3<br><span style="font-weight:400;color:var(--mid);">Riesgo mod.</span></div>
+        <div style="background:var(--amber-light);border:1px solid var(--amber);border-radius:6px;padding:8px;text-align:center;font-size:.75rem;color:var(--amber);font-weight:700;">3–4<br><span style="font-weight:400;color:var(--mid);">Riesgo bajo</span></div>
+        <div style="background:var(--green-light);border:1px solid var(--green);border-radius:6px;padding:8px;text-align:center;font-size:.75rem;color:var(--green);font-weight:700;">4–5<br><span style="font-weight:400;color:var(--mid);">Maduro</span></div>
+      </div>
+      <p style="font-size:.78rem;color:var(--mid);text-align:center;margin-top:8px;">Progresión de la osificación de la cresta ilíaca</p>
     </div>
   </section>
 
-  <!-- SLIDE 6: CONSENSO SOSORT 2018 -->
+  <!-- SLIDE 6 -->
   <section class="slide" data-index="5">
     <div class="slide-label">Consenso SOSORT 2018</div>
     <h2 class="slide-title">Guía de Tratamiento Conservador</h2>
@@ -641,27 +319,18 @@
           </div>
         </div>
         <div style="margin-top:12px;background:var(--off-white);border-radius:12px;padding:14px;border:1.5px solid var(--border);">
-          <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--mid);margin-bottom:10px;">Escala de Intervención</p>
-          <div style="display:flex;flex-direction:column;gap:7px;font-size:0.84rem;color:var(--mid);">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="background:var(--green-light);color:var(--green);border:1px solid var(--green);border-radius:6px;padding:2px 8px;font-weight:700;font-size:0.78rem;">&lt;25°</span>
-              <span>Observación + ejercicio preventivo</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="background:var(--amber-light);color:var(--amber);border:1px solid var(--amber);border-radius:6px;padding:2px 8px;font-weight:700;font-size:0.78rem;">25–45°</span>
-              <span>Ejercicios + <strong>corsé ortopédico</strong></span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="background:var(--red-light);color:var(--red);border:1px solid var(--red);border-radius:6px;padding:2px 8px;font-weight:700;font-size:0.78rem;">&gt;45°</span>
-              <span>Evaluación quirúrgica</span>
-            </div>
+          <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mid);margin-bottom:10px;">Escala de Intervención</p>
+          <div style="display:flex;flex-direction:column;gap:7px;font-size:.84rem;color:var(--mid);">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="background:var(--green-light);color:var(--green);border:1px solid var(--green);border-radius:6px;padding:2px 8px;font-weight:700;font-size:.78rem;">&lt;25°</span><span>Observación + ejercicio preventivo</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="background:var(--amber-light);color:var(--amber);border:1px solid var(--amber);border-radius:6px;padding:2px 8px;font-weight:700;font-size:.78rem;">25–45°</span><span>Ejercicios + <strong>corsé ortopédico</strong></span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="background:var(--red-light);color:var(--red);border:1px solid var(--red);border-radius:6px;padding:2px 8px;font-weight:700;font-size:.78rem;">&gt;45°</span><span>Evaluación quirúrgica</span></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 7: RPG - PRINCIPIOS SOUCHARD -->
+  <!-- SLIDE 7 -->
   <section class="slide" data-index="6">
     <div class="slide-label">Reeducación Postural Global</div>
     <h2 class="slide-title">RPG — Principios de Souchard</h2>
@@ -689,69 +358,55 @@
           </div>
         </div>
       </div>
-      <!-- Chain diagram -->
-      <div style="background:var(--off-white);border-radius:14px;padding:18px;border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;">
-        <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--mid);margin-bottom:12px;">Cadenas Musculares</p>
-        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:200px;">
-          <!-- body silhouette -->
-          <ellipse cx="100" cy="40" rx="18" ry="20" fill="#e8edf8" stroke="#2d4a8a" stroke-width="1.5"/>
-          <path d="M82 55 Q70 80 68 130 L100 140 L132 130 Q130 80 118 55 Z" fill="#e8edf8" stroke="#2d4a8a" stroke-width="1.5"/>
-          <path d="M68 60 Q52 70 48 100 Q46 115 55 118" stroke="#2d4a8a" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M132 60 Q148 70 152 100 Q154 115 145 118" stroke="#2d4a8a" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <path d="M85 138 Q82 165 80 185" stroke="#2d4a8a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <path d="M115 138 Q118 165 120 185" stroke="#2d4a8a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <!-- anterior chain -->
-          <path d="M100 30 Q105 55 102 90 Q100 118 100 138" stroke="#6b35a8" stroke-width="3" stroke-dasharray="5 3" stroke-linecap="round" fill="none"/>
-          <text x="118" y="100" fill="#6b35a8" font-size="8" font-family="Nunito,sans-serif" font-weight="700">Cadena</text>
-          <text x="118" y="110" fill="#6b35a8" font-size="8" font-family="Nunito,sans-serif" font-weight="700">Anterior</text>
-          <!-- posterior chain -->
-          <path d="M100 30 Q94 55 96 90 Q98 118 100 138" stroke="#2d4a8a" stroke-width="3" stroke-dasharray="5 3" stroke-linecap="round" fill="none"/>
-          <text x="22" y="100" fill="#2d4a8a" font-size="8" font-family="Nunito,sans-serif" font-weight="700">Cadena</text>
-          <text x="20" y="110" fill="#2d4a8a" font-size="8" font-family="Nunito,sans-serif" font-weight="700">Posterior</text>
-        </svg>
-        <div style="background:var(--secondary-light);border-radius:8px;padding:10px;margin-top:10px;width:100%;text-align:center;border:1px solid var(--secondary);">
-          <p style="font-size:0.8rem;color:var(--secondary);font-weight:700;">🐸 Rana en el suelo</p>
-          <p style="font-size:0.78rem;color:var(--mid);margin-top:4px;line-height:1.4;">Descarga gravitacional → corrección tridimensional progresiva</p>
+      <div style="background:var(--off-white);border-radius:14px;padding:18px;border:1.5px solid var(--border);">
+        <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;">Cadenas Musculares</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--secondary-light);border:1.5px solid var(--secondary);border-radius:8px;padding:12px;">
+            <strong style="color:var(--secondary);font-size:.85rem;display:block;margin-bottom:3px;">🟣 Cadena Anterior</strong>
+            <p style="font-size:.82rem;color:var(--mid);line-height:1.5;">Pectorales, flexores de cadera, músculos anteriores del cuello. Su acortamiento contribuye a la deformidad cifótica y al mantenimiento de la curva escoliótica.</p>
+          </div>
+          <div style="background:var(--primary-light);border:1.5px solid var(--primary);border-radius:8px;padding:12px;">
+            <strong style="color:var(--primary);font-size:.85rem;display:block;margin-bottom:3px;">🔵 Cadena Posterior</strong>
+            <p style="font-size:.82rem;color:var(--mid);line-height:1.5;">Paravertebrales, isquiotibiales, gemelos. Su tensión desequilibrada genera compensaciones posturales que agravan la curva.</p>
+          </div>
+          <div style="background:var(--secondary-light);border-radius:8px;padding:10px;margin-top:4px;text-align:center;border:1px solid var(--secondary);">
+            <p style="font-size:.8rem;color:var(--secondary);font-weight:700;">🐸 Rana en el suelo</p>
+            <p style="font-size:.78rem;color:var(--mid);margin-top:4px;line-height:1.4;">Descarga gravitacional → corrección tridimensional progresiva de la cadena anterior</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 8: CALIDAD DE VIDA -->
+  <!-- SLIDE 8 -->
   <section class="slide" data-index="7">
     <div class="slide-label">Calidad de Vida y Seguimiento</div>
     <h2 class="slide-title">Instrumentos de Medición</h2>
     <div class="three-col">
-      <div class="card purple" style="grid-column: span 1;">
+      <div class="card purple">
         <span class="card-icon">📋</span>
         <h3>SRS-22</h3>
-        <p style="font-size:0.82rem;margin-bottom:8px;"><strong>Estándar de oro</strong> para calidad de vida en escoliosis.</p>
+        <p style="font-size:.82rem;margin-bottom:8px;"><strong>Estándar de oro</strong> para calidad de vida en escoliosis.</p>
         <ul class="slist" style="gap:5px;">
-          <li><span class="dot" style="background:var(--secondary);width:6px;height:6px;"></span><span style="font-size:0.8rem;">Función física</span></li>
-          <li><span class="dot" style="background:var(--secondary);width:6px;height:6px;"></span><span style="font-size:0.8rem;">Dolor</span></li>
-          <li><span class="dot" style="background:var(--secondary);width:6px;height:6px;"></span><span style="font-size:0.8rem;">Salud mental</span></li>
-          <li><span class="dot" style="background:var(--secondary);width:6px;height:6px;"></span><span style="font-size:0.8rem;">Autopercepción de imagen</span></li>
+          <li><span class="dot" style="background:var(--secondary);width:6px;height:6px;"></span><span style="font-size:.8rem;">Función física</span></li>
+          <li><span class="dot" style="background:var(--secondary);width:6px;height:6px;"></span><span style="font-size:.8rem;">Dolor</span></li>
+          <li><span class="dot" style="background:var(--secondary);width:6px;height:6px;"></span><span style="font-size:.8rem;">Salud mental</span></li>
+          <li><span class="dot" style="background:var(--secondary);width:6px;height:6px;"></span><span style="font-size:.8rem;">Autopercepción de imagen</span></li>
         </ul>
       </div>
-      <div class="card amber" style="grid-column: span 1;">
+      <div class="card amber">
         <span class="card-icon">😟</span>
         <h3>BSSQ</h3>
-        <p style="font-size:0.82rem;"><em>Bad Sobernheim Stress Questionnaire</em></p>
-        <p style="font-size:0.82rem;margin-top:8px;">Mide el <strong>estrés psicológico</strong> derivado de:</p>
+        <p style="font-size:.82rem;"><em>Bad Sobernheim Stress Questionnaire</em></p>
+        <p style="font-size:.82rem;margin-top:8px;">Mide el <strong>estrés psicológico</strong> derivado de:</p>
         <ul class="slist" style="gap:5px;margin-top:6px;">
-          <li><span class="dot" style="background:var(--amber);width:6px;height:6px;"></span><span style="font-size:0.8rem;">La deformidad</span></li>
-          <li><span class="dot" style="background:var(--amber);width:6px;height:6px;"></span><span style="font-size:0.8rem;">Uso del corsé ortopédico</span></li>
+          <li><span class="dot" style="background:var(--amber);width:6px;height:6px;"></span><span style="font-size:.8rem;">La deformidad</span></li>
+          <li><span class="dot" style="background:var(--amber);width:6px;height:6px;"></span><span style="font-size:.8rem;">Uso del corsé ortopédico</span></li>
         </ul>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <div class="big-stat">
-          <div class="num">80–90%</div>
-          <div class="lbl">de los casos son <strong>idiopáticos</strong></div>
-        </div>
-        <div class="big-stat" style="background:var(--secondary-light);border-color:var(--secondary);">
-          <div class="num" style="color:var(--secondary);">25–45°</div>
-          <div class="lbl">Ventana de intervención <strong>ortésica + kinésica</strong></div>
-        </div>
+        <div class="big-stat"><div class="num">80–90%</div><div class="lbl">de los casos son <strong>idiopáticos</strong></div></div>
+        <div class="big-stat" style="background:var(--secondary-light);border-color:var(--secondary);"><div class="num" style="color:var(--secondary);">25–45°</div><div class="lbl">Ventana de intervención <strong>ortésica + kinésica</strong></div></div>
       </div>
     </div>
     <div class="hbox blue" style="margin-top:14px;">
@@ -763,147 +418,51 @@
     </div>
   </section>
 
-  <!-- SLIDE 9: TABLA COMPARATIVA EVALUACIONES -->
+  <!-- SLIDE 9 -->
   <section class="slide" data-index="8">
     <div class="slide-label">Síntesis Evaluativa</div>
     <h2 class="slide-title">Herramientas de Evaluación — Resumen</h2>
     <table class="ctable">
-      <thead>
-        <tr>
-          <th>Herramienta</th>
-          <th>Qué mide</th>
-          <th>Valor de corte</th>
-          <th>Implicación clínica</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Herramienta</th><th>Qué mide</th><th>Valor de corte</th><th>Implicación clínica</th></tr></thead>
       <tbody>
-        <tr>
-          <td><strong>Test de Adams</strong></td>
-          <td>Giba costal o resalte lumbar</td>
-          <td>Presencia = positivo</td>
-          <td>Sospecha de curva estructural</td>
-        </tr>
-        <tr>
-          <td><strong>Escoliómetro</strong></td>
-          <td>Ángulo de rotación del tronco (ATR)</td>
-          <td><span style="color:var(--amber);font-weight:700;">≥ 10°</span></td>
-          <td>Derivar a radiografía</td>
-        </tr>
-        <tr>
-          <td><strong>Ángulo de Cobb</strong></td>
-          <td>Magnitud de la curva (RX)</td>
-          <td>Leve &lt;20° / Mod 20–40° / Grave &gt;40°</td>
-          <td>Guía el nivel de intervención</td>
-        </tr>
-        <tr>
-          <td><strong>Nash y Moe</strong></td>
-          <td>Rotación vertebral (pedículos RX AP)</td>
-          <td>Grado 3: pedículo en centro</td>
-          <td>Gravedad estructural de la curva</td>
-        </tr>
-        <tr>
-          <td><strong>Test de Risser</strong></td>
-          <td>Maduración esquelética (cresta ilíaca)</td>
-          <td><span style="color:var(--red);font-weight:700;">0–2 = alto riesgo</span></td>
-          <td>Predice progresión en el estirón</td>
-        </tr>
-        <tr>
-          <td><strong>SRS-22</strong></td>
-          <td>Calidad de vida</td>
-          <td>Score global y por dimensión</td>
-          <td>Impacto funcional y psicológico</td>
-        </tr>
-        <tr>
-          <td><strong>BSSQ</strong></td>
-          <td>Estrés por deformidad/corsé</td>
-          <td>Score de estrés</td>
-          <td>Adherencia y bienestar del paciente</td>
-        </tr>
+        <tr><td><strong>Test de Adams</strong></td><td>Giba costal o resalte lumbar</td><td>Presencia = positivo</td><td>Sospecha de curva estructural</td></tr>
+        <tr><td><strong>Escoliómetro</strong></td><td>Ángulo de rotación del tronco (ATR)</td><td><span style="color:var(--amber);font-weight:700;">≥ 10°</span></td><td>Derivar a radiografía</td></tr>
+        <tr><td><strong>Ángulo de Cobb</strong></td><td>Magnitud de la curva (RX)</td><td>Leve &lt;20° / Mod 20–40° / Grave &gt;40°</td><td>Guía el nivel de intervención</td></tr>
+        <tr><td><strong>Nash y Moe</strong></td><td>Rotación vertebral (pedículos RX AP)</td><td>Grado 3: pedículo en centro</td><td>Gravedad estructural de la curva</td></tr>
+        <tr><td><strong>Test de Risser</strong></td><td>Maduración esquelética (cresta ilíaca)</td><td><span style="color:var(--red);font-weight:700;">0–2 = alto riesgo</span></td><td>Predice progresión en el estirón</td></tr>
+        <tr><td><strong>SRS-22</strong></td><td>Calidad de vida</td><td>Score global y por dimensión</td><td>Impacto funcional y psicológico</td></tr>
+        <tr><td><strong>BSSQ</strong></td><td>Estrés por deformidad/corsé</td><td>Score de estrés</td><td>Adherencia y bienestar del paciente</td></tr>
       </tbody>
     </table>
   </section>
 
-  <!-- SLIDE 10: FLUJO DE TRATAMIENTO -->
+  <!-- SLIDE 10 -->
   <section class="slide" data-index="9">
     <div class="slide-label">Protocolo de Tratamiento</div>
     <h2 class="slide-title">Algoritmo de Decisión Clínica</h2>
     <div class="timeline">
-      <div class="titem">
-        <div class="tdot">1</div>
-        <div class="tl-content" class="tl-content">
-          <h4>Detección y Diagnóstico</h4>
-          <p>Test de Adams + Escoliómetro → si ATR ≥ 10°: <strong>radiografía</strong> para medir ángulo de Cobb y evaluar rotación Nash-Moe.</p>
-        </div>
-      </div>
-      <div class="titem">
-        <div class="tdot">2</div>
-        <div class="tl-content">
-          <h4>Estratificación de Riesgo</h4>
-          <p>Evaluar <strong>Test de Risser</strong>: Risser 0–2 en adolescente con Cobb moderado → alto riesgo de progresión → tratamiento activo urgente.</p>
-        </div>
-      </div>
-      <div class="titem">
-        <div class="tdot">3</div>
-        <div class="tl-content">
-          <h4>Plan Terapéutico (SOSORT 2018)</h4>
-          <p>25–45° Cobb: <strong>ejercicios específicos (estiramiento + fortalecimiento) + corsé ortopédico</strong>. Incluir RPG y dinamización capsular si necesario.</p>
-        </div>
-      </div>
-      <div class="titem">
-        <div class="tdot">4</div>
-        <div class="tl-content">
-          <h4>Seguimiento y Calidad de Vida</h4>
-          <p>Monitorizar con <strong>SRS-22</strong> (calidad de vida) y <strong>BSSQ</strong> (estrés psicológico). Ajustar intervención según respuesta.</p>
-        </div>
-      </div>
+      <div class="titem"><div class="tdot">1</div><div><h4>Detección y Diagnóstico</h4><p>Test de Adams + Escoliómetro → si ATR ≥ 10°: <strong>radiografía</strong> para medir ángulo de Cobb y evaluar rotación Nash-Moe.</p></div></div>
+      <div class="titem"><div class="tdot">2</div><div><h4>Estratificación de Riesgo</h4><p>Evaluar <strong>Test de Risser</strong>: Risser 0–2 en adolescente con Cobb moderado → alto riesgo de progresión → tratamiento activo urgente.</p></div></div>
+      <div class="titem"><div class="tdot">3</div><div><h4>Plan Terapéutico (SOSORT 2018)</h4><p>25–45° Cobb: <strong>ejercicios específicos (estiramiento + fortalecimiento) + corsé ortopédico</strong>. Incluir RPG y dinamización capsular si necesario.</p></div></div>
+      <div class="titem"><div class="tdot">4</div><div><h4>Seguimiento y Calidad de Vida</h4><p>Monitorizar con <strong>SRS-22</strong> (calidad de vida) y <strong>BSSQ</strong> (estrés psicológico). Ajustar intervención según respuesta.</p></div></div>
     </div>
   </section>
 
-  <!-- SLIDE 11: RESUMEN -->
+  <!-- SLIDE 11 -->
   <section class="slide" data-index="10">
     <div class="slide-label">Resumen Integral</div>
     <h2 class="slide-title">Conceptos Clave de la Práctica 7</h2>
     <div class="sgrid">
-      <div class="sitem">
-        <span class="si">🔀</span>
-        <div><strong>Deformidad 3D</strong> Plano frontal + sagital + rotación transversal.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">✅❌</span>
-        <div><strong>Funcional vs. Estructural</strong> Funcional: corregible. Estructural: fija, con rotación y riesgo de progresión.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">🧬</span>
-        <div><strong>80–90% idiopática</strong> Sin causa mecánica ni biológica aparente.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">🙇</span>
-        <div><strong>Test de Adams</strong> Flexión anterior → giba costal = curva estructural positiva.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">📐</span>
-        <div><strong>Cobb: clasificación</strong> Leve &lt;20° / Moderada 20–40° / Grave &gt;40°.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">⚠️</span>
-        <div><strong>Risser 0–2</strong> Alto riesgo de progresión durante el estirón puberal.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">🏋️</span>
-        <div><strong>SOSORT 25–45°</strong> Ejercicios específicos (no solo estiramiento) + corsé.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">🐸</span>
-        <div><strong>RPG / Rana en suelo</strong> Estiramiento cadena anterior en descarga sin gravedad.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">⚙️</span>
-        <div><strong>Dinamización capsular</strong> Prioridad manual para restablecer deslizamiento facetario.</div>
-      </div>
-      <div class="sitem">
-        <span class="si">📋</span>
-        <div><strong>SRS-22 + BSSQ</strong> Estándar de oro para calidad de vida y estrés por corsé.</div>
-      </div>
+      <div class="sitem"><span class="si">🔀</span><div><strong>Deformidad 3D</strong> Plano frontal + sagital + rotación transversal.</div></div>
+      <div class="sitem"><span class="si">✅❌</span><div><strong>Funcional vs. Estructural</strong> Funcional: corregible. Estructural: fija, con rotación y riesgo de progresión.</div></div>
+      <div class="sitem"><span class="si">🧬</span><div><strong>80–90% idiopática</strong> Sin causa mecánica ni biológica aparente.</div></div>
+      <div class="sitem"><span class="si">🙇</span><div><strong>Test de Adams</strong> Flexión anterior → giba costal = curva estructural positiva.</div></div>
+      <div class="sitem"><span class="si">📐</span><div><strong>Cobb: clasificación</strong> Leve &lt;20° / Moderada 20–40° / Grave &gt;40°.</div></div>
+      <div class="sitem"><span class="si">⚠️</span><div><strong>Risser 0–2</strong> Alto riesgo de progresión durante el estirón puberal.</div></div>
+      <div class="sitem"><span class="si">🏋️</span><div><strong>SOSORT 25–45°</strong> Ejercicios específicos (no solo estiramiento) + corsé.</div></div>
+      <div class="sitem"><span class="si">🐸</span><div><strong>RPG / Rana en suelo</strong> Estiramiento cadena anterior en descarga sin gravedad.</div></div>
+      <div class="sitem"><span class="si">⚙️</span><div><strong>Dinamización capsular</strong> Prioridad manual para restablecer deslizamiento facetario.</div></div>
+      <div class="sitem"><span class="si">📋</span><div><strong>SRS-22 + BSSQ</strong> Estándar de oro para calidad de vida y estrés por corsé.</div></div>
     </div>
   </section>
 
@@ -915,47 +474,35 @@
 </nav>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
-  const progressBar = document.getElementById('progress-bar');
-  const counter = document.getElementById('slide-counter');
-  const btnPrev = document.getElementById('btn-prev');
-  const btnNext = document.getElementById('btn-next');
-  let current = 0;
-  const total = slides.length;
-
-  function goTo(index) {
-    if (index < 0 || index >= total) return;
+  const slides=document.querySelectorAll('.slide');
+  const progressBar=document.getElementById('progress-bar');
+  const counter=document.getElementById('slide-counter');
+  const btnPrev=document.getElementById('btn-prev');
+  const btnNext=document.getElementById('btn-next');
+  let current=0;const total=slides.length;
+  function goTo(index){
+    if(index<0||index>=total)return;
     slides[current].classList.remove('active');
     slides[current].classList.add('exit-left');
-    const prev = current;
-    setTimeout(() => slides[prev].classList.remove('exit-left'), 550);
-    current = index;
+    const prev=current;
+    setTimeout(()=>slides[prev].classList.remove('exit-left'),550);
+    current=index;
     slides[current].classList.add('active');
-
-    // re-trigger animations
-    slides[current].querySelectorAll('.slist li, .titem, .sitem').forEach(el => {
-      el.style.animation = 'none';
-      el.offsetHeight;
-      el.style.animation = '';
-    });
+    slides[current].querySelectorAll('.slist li,.titem,.sitem').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation='';});
     updateUI();
   }
-
-  function updateUI() {
-    progressBar.style.width = ((current + 1) / total * 100) + '%';
-    counter.textContent = `${current + 1} / ${total}`;
-    btnPrev.disabled = current === 0;
-    btnNext.disabled = current === total - 1;
-    btnNext.textContent = current === total - 1 ? '✓ Fin' : 'Siguiente →';
+  function updateUI(){
+    progressBar.style.width=((current+1)/total*100)+'%';
+    counter.textContent=(current+1)+' / '+total;
+    btnPrev.disabled=current===0;btnNext.disabled=current===total-1;
+    btnNext.textContent=current===total-1?'✓ Fin':'Siguiente →';
   }
-
-  btnPrev.addEventListener('click', () => goTo(current - 1));
-  btnNext.addEventListener('click', () => goTo(current + 1));
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+  btnPrev.addEventListener('click',()=>goTo(current-1));
+  btnNext.addEventListener('click',()=>goTo(current+1));
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown')goTo(current+1);
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp')goTo(current-1);
   });
-
   updateUI();
 </script>
 </body>
