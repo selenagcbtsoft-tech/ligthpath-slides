@@ -88,9 +88,6 @@
   .brain-box p { font-size:.86rem; opacity:.9; line-height:1.68; }
   .brain-box .tag { display:inline-block; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); border-radius:20px; padding:3px 12px; font-size:.78rem; font-weight:700; margin-top:10px; }
 
-  /* PAIN TRIANGLE */
-  .triangle-wrap { display:flex; justify-content:center; align-items:center; }
-
   /* MECHANISM PILLS */
   .mech-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
   .mpill { flex:1; min-width:150px; border-radius:12px; padding:14px 16px; text-align:center; border:2px solid; }
@@ -105,9 +102,6 @@
   .gauge-bar { height:24px; border-radius:20px; background:linear-gradient(90deg,#2a7a54,#c05c14,#b83230); margin:10px 0; position:relative; }
   .gauge-marker { position:absolute; top:-4px; width:3px; height:32px; background:var(--dark); border-radius:2px; left:calc(40% - 1.5px); }
   .gauge-marker::after { content:'40'; position:absolute; top:-16px; left:-6px; font-size:.72rem; font-weight:700; color:var(--dark); }
-
-  /* GATE CONTROL DIAGRAM */
-  .gate-diag { background:var(--off); border-radius:12px; padding:14px; border:1.5px solid var(--bd); }
 
   /* STEPS */
   .steps { display:flex; flex-direction:column; gap:0; margin-top:8px; }
@@ -189,29 +183,7 @@
       <span style="background:var(--g-l);color:var(--g);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--g);">🚪 Gate Control</span>
       <span style="background:var(--o-l);color:var(--o);padding:4px 13px;border-radius:20px;font-size:.8rem;font-weight:700;border:1px solid var(--o);">🚩 Factores Psicosociales</span>
     </div>
-    <!-- BPS triangle -->
-    <div class="triangle-wrap">
-      <svg viewBox="0 0 380 165" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width:460px;width:100%;">
-        <!-- triangle -->
-        <path d="M190 12 L340 150 L40 150 Z" fill="#f6f7fb" stroke="#1e3a5f" stroke-width="2"/>
-        <!-- inner zones -->
-        <path d="M190 45 L290 135 L90 135 Z" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-        <!-- labels -->
-        <text x="190" y="32" text-anchor="middle" fill="var(--p)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">BIOLÓGICO</text>
-        <text x="190" y="44" text-anchor="middle" fill="var(--mid)" font-size="9" font-family="Outfit,sans-serif">Tejidos · Sistema Nervioso</text>
-        <!-- left vertex -->
-        <text x="30" y="165" text-anchor="middle" fill="var(--t)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">PSICOLÓGICO</text>
-        <!-- right vertex -->
-        <text x="348" y="165" text-anchor="middle" fill="var(--g)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">SOCIAL</text>
-        <!-- center -->
-        <circle cx="190" cy="110" r="24" fill="var(--p)" opacity=".15" stroke="var(--p)" stroke-width="1.5"/>
-        <text x="190" y="107" text-anchor="middle" fill="var(--p)" font-size="10" font-family="Outfit,sans-serif" font-weight="700">DOLOR</text>
-        <text x="190" y="119" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif">experiencia</text>
-        <!-- connecting lines dashed -->
-        <line x1="40" y1="148" x2="166" y2="115" stroke="var(--t)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".5"/>
-        <line x1="340" y1="148" x2="214" y2="115" stroke="var(--g)" stroke-width="1.2" stroke-dasharray="4 3" opacity=".5"/>
-      </svg>
-    </div>
+    
   </section>
 
   <!-- SLIDE 2: DEFINICIÓN IASP -->
@@ -241,36 +213,7 @@
         </div>
       </div>
       <div>
-        <!-- input vs output diagram -->
-        <div style="background:var(--off);border-radius:13px;padding:16px;border:1.5px solid var(--bd);">
-          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:12px;text-align:center;">Modelo antiguo vs. actual</p>
-          <svg viewBox="0 0 200 130" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-            <!-- old model: tissue → pain -->
-            <rect x="5" y="10" width="75" height="45" rx="8" fill="#f0f0f0" stroke="#999" stroke-width="1.5"/>
-            <text x="42" y="29" text-anchor="middle" fill="#666" font-size="9" font-family="Outfit,sans-serif" font-weight="600">Modelo</text>
-            <text x="42" y="41" text-anchor="middle" fill="#666" font-size="9" font-family="Outfit,sans-serif" font-weight="600">Biomédico</text>
-            <text x="42" y="65" text-anchor="middle" fill="#999" font-size="8" font-family="Outfit,sans-serif">Daño → Dolor</text>
-            <line x1="80" y1="32" x2="95" y2="32" stroke="#999" stroke-width="1.5" marker-end="url(#aGr)"/>
-            <defs>
-              <marker id="aGr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="#999"/></marker>
-              <marker id="aBl" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--p)"/></marker>
-            </defs>
-            <line x1="80" y1="95" x2="95" y2="95" stroke="var(--p)" stroke-width="1.5" marker-end="url(#aBl)"/>
-            <!-- new model: SNC → pain -->
-            <rect x="5" y="73" width="75" height="45" rx="8" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-            <text x="42" y="92" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Modelo</text>
-            <text x="42" y="104" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Biopsicosocial</text>
-            <text x="42" y="128" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif">SNC → Protección</text>
-            <!-- brain -->
-            <ellipse cx="155" cy="63" rx="38" ry="30" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-            <text x="155" y="60" text-anchor="middle" fill="var(--p)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">🧠</text>
-            <text x="155" y="74" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif" font-weight="600">SNC</text>
-            <!-- old model arrow to brain grey -->
-            <path d="M83 32 Q120 48 118 55" stroke="#999" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
-            <!-- new model arrow to brain -->
-            <path d="M83 95 Q120 80 118 72" stroke="var(--p)" stroke-width="1.8" fill="none"/>
-          </svg>
-        </div>
+        
       </div>
     </div>
   </section>
@@ -352,33 +295,10 @@
             <p style="font-size:.78rem;color:var(--mid);text-align:center;margin-top:4px;">Punto de corte clínico según algoritmo de Nijs</p>
           </div>
         </div>
-        <!-- spinal cord SVG -->
-        <div style="margin-top:12px;background:var(--off);border-radius:11px;padding:12px;border:1.5px solid var(--bd);">
-          <svg viewBox="0 0 220 70" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-            <!-- peripheral signal -->
-            <path d="M10 35 L70 35" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#aG2)"/>
-            <defs>
-              <marker id="aG2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--g)"/></marker>
-              <marker id="aT" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--t)"/></marker>
-              <marker id="aBl2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7Z" fill="var(--p)"/></marker>
-            </defs>
-            <text x="40" y="28" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Outfit,sans-serif">Señal periférica</text>
-            <!-- spinal cord -->
-            <rect x="72" y="10" width="70" height="50" rx="6" fill="var(--t-l)" stroke="var(--t)" stroke-width="1.5"/>
-            <text x="107" y="30" text-anchor="middle" fill="var(--t)" font-size="8" font-family="Outfit,sans-serif" font-weight="700">Asta dorsal</text>
-            <text x="107" y="42" text-anchor="middle" fill="var(--t)" font-size="7" font-family="Outfit,sans-serif">Glutamato</text>
-            <text x="107" y="52" text-anchor="middle" fill="var(--t)" font-size="7" font-family="Outfit,sans-serif">NMDA ↑</text>
-            <!-- amplified signal to brain -->
-            <path d="M142 35 L205 35" stroke="var(--t)" stroke-width="3" stroke-linecap="round" marker-end="url(#aT)"/>
-            <text x="175" y="28" text-anchor="middle" fill="var(--t)" font-size="8" font-family="Outfit,sans-serif" font-weight="700">AMPLIFICADA</text>
-            <text x="210" y="38" fill="var(--p)" font-size="12" font-family="Outfit,sans-serif">🧠</text>
-          </svg>
-        </div>
+        
       </div>
     </div>
   </section>
-
-  <!-- SLIDE 5: GATE CONTROL -->
   <section class="slide" data-index="4">
     <div class="slbl">Modulación del Dolor</div>
     <h2 class="stit">Teoría de la Puerta (Gate Control)</h2>
@@ -406,39 +326,7 @@
           </div>
         </div>
       </div>
-      <!-- Gate control SVG diagram -->
-      <div class="gate-diag">
-        <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Teoría de la Puerta — Diagrama</p>
-        <svg viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-          <!-- pain fiber C/Ad -->
-          <path d="M10 60 L90 60" stroke="var(--r)" stroke-width="2.5" stroke-linecap="round"/>
-          <text x="50" y="52" text-anchor="middle" fill="var(--r)" font-size="9" font-family="Outfit,sans-serif" font-weight="600">Fibras C/Aδ</text>
-          <text x="50" y="74" text-anchor="middle" fill="var(--r)" font-size="8" font-family="Outfit,sans-serif">(dolor)</text>
-          <!-- tactile fiber A-beta -->
-          <path d="M10 120 L90 120" stroke="var(--g)" stroke-width="3" stroke-linecap="round"/>
-          <text x="50" y="112" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="600">Fibras A-beta</text>
-          <text x="50" y="134" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Outfit,sans-serif">(tacto · TENS)</text>
-          <!-- interneuron gate -->
-          <ellipse cx="110" cy="90" rx="22" ry="32" fill="var(--p-l)" stroke="var(--p)" stroke-width="2"/>
-          <text x="110" y="87" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Asta</text>
-          <text x="110" y="99" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Dorsal</text>
-          <!-- gate inhibition arrow -->
-          <path d="M90 120 Q100 106 95 92" stroke="var(--g)" stroke-width="1.8" stroke-dasharray="4 3" fill="none" marker-end="url(#aGI)"/>
-          <defs>
-            <marker id="aGI" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--g)"/></marker>
-            <marker id="aRB" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--r)"/></marker>
-            <marker id="aPB" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--p)"/></marker>
-          </defs>
-          <!-- block symbol -->
-          <text x="92" y="100" fill="var(--g)" font-size="14" font-family="Outfit,sans-serif" font-weight="700">⊗</text>
-          <!-- output to brain -->
-          <path d="M132 90 L195 90" stroke="var(--p)" stroke-width="2.5" stroke-linecap="round" marker-end="url(#aPB)"/>
-          <text x="165" y="82" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif" font-weight="600">Al cerebro</text>
-          <!-- labels bottom -->
-          <text x="110" y="152" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">TERAPIA MANUAL</text>
-          <text x="110" y="164" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">rítmica · TENS → cierra la puerta</text>
-        </svg>
-      </div>
+      
     </div>
   </section>
 
@@ -463,31 +351,7 @@
         <p>El tronco encefálico y la corteza modulan activamente las señales de dolor a través de vías inhibitorias descendentes hacia el asta dorsal.</p>
       </div>
     </div>
-    <div style="margin-top:14px;background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);">
-      <svg viewBox="0 0 400 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-        <!-- brain -->
-        <ellipse cx="60" cy="40" rx="48" ry="32" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-        <text x="60" y="36" text-anchor="middle" fill="var(--p)" font-size="11" font-family="Outfit,sans-serif" font-weight="700">🧠 Cerebro</text>
-        <text x="60" y="50" text-anchor="middle" fill="var(--p)" font-size="8" font-family="Outfit,sans-serif">+ tronco encef.</text>
-        <!-- descending path -->
-        <path d="M108 40 L175 40" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round"/>
-        <!-- descending label -->
-        <text x="140" y="32" text-anchor="middle" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">↓ Descendente</text>
-        <text x="140" y="55" text-anchor="middle" fill="var(--g)" font-size="8" font-family="Outfit,sans-serif">Endorfinas · Endocannab.</text>
-        <!-- spinal cord -->
-        <rect x="177" y="15" width="55" height="50" rx="8" fill="var(--c-l)" stroke="var(--c)" stroke-width="1.5"/>
-        <text x="204" y="38" text-anchor="middle" fill="var(--c)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Médula</text>
-        <text x="204" y="50" text-anchor="middle" fill="var(--c)" font-size="8" font-family="Outfit,sans-serif">Asta dorsal</text>
-        <!-- inhibition symbol -->
-        <text x="204" y="26" text-anchor="middle" fill="var(--g)" font-size="13" font-family="Outfit,sans-serif">⊖</text>
-        <!-- exercise icon -->
-        <path d="M240 40 L300 40" stroke="var(--o)" stroke-width="2" stroke-dasharray="4 3" stroke-linecap="round"/>
-        <text x="270" y="32" text-anchor="middle" fill="var(--o)" font-size="8" font-family="Outfit,sans-serif" font-weight="700">Ejercicio aeróbico</text>
-        <ellipse cx="340" cy="40" rx="55" ry="28" fill="var(--o-l)" stroke="var(--o)" stroke-width="1.5"/>
-        <text x="340" y="36" text-anchor="middle" fill="var(--o)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Beta-endorfinas</text>
-        <text x="340" y="49" text-anchor="middle" fill="var(--o)" font-size="8" font-family="Outfit,sans-serif">Revertido por naloxona</text>
-      </svg>
-    </div>
+    
     <div class="hb o" style="margin-top:12px;">
       <span class="hi">🧪</span>
       <div>
@@ -568,31 +432,7 @@
           </div>
         </div>
         <!-- fear avoidance model -->
-        <div style="background:var(--off);border-radius:12px;padding:14px;border:1.5px solid var(--bd);margin-top:12px;">
-          <p style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--mid);margin-bottom:10px;text-align:center;">Ciclo Miedo-Evitación</p>
-          <svg viewBox="0 0 220 110" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-            <!-- cycle nodes -->
-            <ellipse cx="110" cy="20" rx="45" ry="16" fill="var(--r-l)" stroke="var(--r)" stroke-width="1.5"/>
-            <text x="110" y="24" text-anchor="middle" fill="var(--r)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Dolor / Lesión</text>
-            <ellipse cx="190" cy="60" rx="28" ry="14" fill="var(--o-l)" stroke="var(--o)" stroke-width="1.5"/>
-            <text x="190" y="64" text-anchor="middle" fill="var(--o)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Catastrofismo</text>
-            <ellipse cx="110" cy="98" rx="40" ry="14" fill="var(--t-l)" stroke="var(--t)" stroke-width="1.5"/>
-            <text x="110" y="102" text-anchor="middle" fill="var(--t)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Evitación / Desuso</text>
-            <ellipse cx="30" cy="60" rx="28" ry="14" fill="var(--p-l)" stroke="var(--p)" stroke-width="1.5"/>
-            <text x="30" y="64" text-anchor="middle" fill="var(--p)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">Kinesiofobia</text>
-            <!-- arrows cycle -->
-            <path d="M150 28 L174 50" stroke="var(--r)" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aC)"/>
-            <path d="M165 70 L148 88" stroke="var(--o)" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aC)"/>
-            <path d="M72 92 L55 74" stroke="var(--t)" stroke-width="1.5" stroke-linecap="round" marker-end="url(#aC)"/>
-            <path d="M48 48 L70 28" stroke="var(--p)" stroke-width="1.5" stroke-linecap="round" marker-end="url(--r)"/>
-            <defs>
-              <marker id="aC" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6Z" fill="var(--mid)"/></marker>
-            </defs>
-            <!-- END break arrow -->
-            <path d="M110 55 L110 75" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3 2"/>
-            <text x="115" y="68" fill="var(--g)" font-size="9" font-family="Outfit,sans-serif" font-weight="700">END</text>
-          </svg>
-        </div>
+        
       </div>
     </div>
   </section>
