@@ -7,205 +7,42 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --white: #ffffff;
-    --off-white: #f8f7f4;
-    --accent: #1a5c8a;
-    --accent-light: #e8f2f9;
-    --accent2: #c0392b;
-    --accent2-light: #fdf0ef;
-    --dark: #1a1a2e;
-    --mid: #4a5568;
-    --light-border: #e2e8f0;
-    --green: #2e7d52;
-    --green-light: #eaf4ee;
-    --amber: #d97706;
-    --amber-light: #fef3c7;
-    --progress-h: 5px;
-    --slide-transition: 0.5s;
+    --white: #ffffff; --off-white: #f8f7f4;
+    --accent: #1a5c8a; --accent-light: #e8f2f9;
+    --accent2: #c0392b; --accent2-light: #fdf0ef;
+    --dark: #1a1a2e; --mid: #4a5568; --light-border: #e2e8f0;
+    --green: #2e7d52; --green-light: #eaf4ee;
+    --amber: #d97706; --amber-light: #fef3c7;
+    --progress-h: 5px; --slide-transition: 0.5s;
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--white);
-    color: var(--dark);
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* PROGRESS BAR */
-  #progress-bar-wrap {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: var(--progress-h);
-    background: var(--light-border);
-    z-index: 100;
-  }
-  #progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transition: width 0.4s ease;
-    border-radius: 0 3px 3px 0;
-  }
-
-  /* HEADER */
-  #header {
-    position: fixed;
-    top: var(--progress-h); left: 0; right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 28px;
-    border-bottom: 1px solid var(--light-border);
-    background: white;
-    z-index: 99;
-    height: 52px;
-  }
-  #header .lesson-tag {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    background: var(--accent-light);
-    padding: 3px 10px;
-    border-radius: 20px;
-  }
-  #slide-counter {
-    font-size: 13px;
-    color: var(--mid);
-    font-weight: 500;
-  }
-
-  /* SLIDES CONTAINER */
-  #slides-container {
-    margin-top: 57px;
-    margin-bottom: 60px;
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .slide {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    padding: 36px 60px 24px;
-    opacity: 0;
-    transform: translateX(60px);
-    transition: opacity var(--slide-transition) ease, transform var(--slide-transition) ease;
-    pointer-events: none;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .slide.active {
-    opacity: 1;
-    transform: translateX(0);
-    pointer-events: all;
-  }
-  .slide.exit-left {
-    opacity: 0;
-    transform: translateX(-60px);
-  }
-
-  /* TYPOGRAPHY */
-  .slide-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .slide-label::before {
-    content: '';
-    display: inline-block;
-    width: 22px;
-    height: 2px;
-    background: var(--accent);
-    border-radius: 2px;
-  }
-
-  h1.title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 4.5vw, 3.2rem);
-    line-height: 1.15;
-    color: var(--dark);
-    margin-bottom: 18px;
-  }
-  h1.title em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  h2.slide-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    line-height: 1.2;
-    color: var(--dark);
-    margin-bottom: 20px;
-  }
-
-  p.intro {
-    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-    color: var(--mid);
-    line-height: 1.7;
-    max-width: 700px;
-    margin-bottom: 28px;
-  }
-
-  /* CARDS GRID */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin-top: 8px;
-  }
-  .card {
-    border: 1.5px solid var(--light-border);
-    border-radius: 12px;
-    padding: 18px 20px;
-    background: var(--off-white);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--dark); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  #progress-bar-wrap { position: fixed; top: 0; left: 0; right: 0; height: var(--progress-h); background: var(--light-border); z-index: 100; }
+  #progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width 0.4s ease; border-radius: 0 3px 3px 0; }
+  #header { position: fixed; top: var(--progress-h); left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 10px 28px; border-bottom: 1px solid var(--light-border); background: white; z-index: 99; height: 52px; }
+  #header .lesson-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 3px 10px; border-radius: 20px; }
+  #slide-counter { font-size: 13px; color: var(--mid); font-weight: 500; }
+  #slides-container { margin-top: 57px; margin-bottom: 60px; flex: 1; position: relative; overflow: hidden; }
+  .slide { position: absolute; top: 0; left: 0; right: 0; bottom: 0; padding: 36px 60px 24px; opacity: 0; transform: translateX(60px); transition: opacity var(--slide-transition) ease, transform var(--slide-transition) ease; pointer-events: none; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; }
+  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+  .slide.exit-left { opacity: 0; transform: translateX(-60px); }
+  .slide-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .slide-label::before { content: ''; display: inline-block; width: 22px; height: 2px; background: var(--accent); border-radius: 2px; }
+  h1.title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.15; color: var(--dark); margin-bottom: 18px; }
+  h1.title em { font-style: italic; color: var(--accent); }
+  h2.slide-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.2; color: var(--dark); margin-bottom: 20px; }
+  p.intro { font-size: clamp(0.95rem, 1.6vw, 1.1rem); color: var(--mid); line-height: 1.7; max-width: 700px; margin-bottom: 28px; }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 8px; }
+  .card { border: 1.5px solid var(--light-border); border-radius: 12px; padding: 18px 20px; background: var(--off-white); transition: transform 0.2s, box-shadow 0.2s; }
   .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.07); }
-  .card .card-icon {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    display: block;
-  }
-  .card h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 6px;
-  }
-  .card p {
-    font-size: 0.85rem;
-    color: var(--mid);
-    line-height: 1.6;
-  }
+  .card .card-icon { font-size: 1.8rem; margin-bottom: 10px; display: block; }
+  .card h3 { font-size: 0.95rem; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+  .card p { font-size: 0.85rem; color: var(--mid); line-height: 1.6; }
   .card.blue { border-color: var(--accent); background: var(--accent-light); }
   .card.red { border-color: var(--accent2); background: var(--accent2-light); }
   .card.green { border-color: var(--green); background: var(--green-light); }
   .card.amber { border-color: var(--amber); background: var(--amber-light); }
-
-  /* HIGHLIGHT BOX */
-  .highlight-box {
-    border-radius: 12px;
-    padding: 18px 22px;
-    margin: 14px 0;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-  }
+  .highlight-box { border-radius: 12px; padding: 18px 22px; margin: 14px 0; display: flex; align-items: flex-start; gap: 14px; }
   .highlight-box.blue { background: var(--accent-light); border-left: 4px solid var(--accent); }
   .highlight-box.red { background: var(--accent2-light); border-left: 4px solid var(--accent2); }
   .highlight-box.green { background: var(--green-light); border-left: 4px solid var(--green); }
@@ -213,252 +50,67 @@
   .highlight-box .hb-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
   .highlight-box .hb-content h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
   .highlight-box .hb-content p { font-size: 0.88rem; color: var(--mid); line-height: 1.6; }
-
-  /* TWO COL */
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: start;
-    margin-top: 8px;
-  }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; margin-top: 8px; }
   @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
-
-  /* FACT PILL */
-  .fact-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent-light);
-    color: var(--accent);
-    border: 1.5px solid var(--accent);
-    border-radius: 30px;
-    padding: 6px 16px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    margin: 4px 4px 4px 0;
-  }
-
-  /* LIST ITEMS */
-  .styled-list {
-    list-style: none;
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .styled-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 0.95rem;
-    color: var(--mid);
-    line-height: 1.6;
-    opacity: 0;
-    transform: translateY(12px);
-    animation: fadeUp 0.4s forwards;
-  }
+  .fact-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-light); color: var(--accent); border: 1.5px solid var(--accent); border-radius: 30px; padding: 6px 16px; font-size: 0.88rem; font-weight: 600; margin: 4px 4px 4px 0; }
+  .styled-list { list-style: none; margin-top: 8px; display: flex; flex-direction: column; gap: 10px; }
+  .styled-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; color: var(--mid); line-height: 1.6; opacity: 0; transform: translateY(12px); animation: fadeUp 0.4s forwards; }
   .styled-list li:nth-child(1) { animation-delay: 0.05s; }
   .styled-list li:nth-child(2) { animation-delay: 0.15s; }
   .styled-list li:nth-child(3) { animation-delay: 0.25s; }
   .styled-list li:nth-child(4) { animation-delay: 0.35s; }
   .styled-list li:nth-child(5) { animation-delay: 0.45s; }
-  .styled-list li .li-dot {
-    flex-shrink: 0;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-top: 8px;
-  }
+  .styled-list li .li-dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 8px; }
   .styled-list li strong { color: var(--dark); font-weight: 600; }
-
-  /* STAT BIG */
-  .big-stat {
-    text-align: center;
-    padding: 20px;
-    border-radius: 16px;
-    background: var(--off-white);
-    border: 1.5px solid var(--light-border);
-  }
-  .big-stat .stat-number {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 6px;
-  }
+  .big-stat { text-align: center; padding: 20px; border-radius: 16px; background: var(--off-white); border: 1.5px solid var(--light-border); }
+  .big-stat .stat-number { font-family: 'DM Serif Display', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--accent); line-height: 1; margin-bottom: 6px; }
   .big-stat .stat-label { font-size: 0.85rem; color: var(--mid); font-weight: 500; }
-
-  /* COMPARISON TABLE */
   .comp-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.9rem; }
-  .comp-table th {
-    background: var(--accent);
-    color: white;
-    padding: 10px 14px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.82rem;
-    letter-spacing: 0.04em;
-  }
+  .comp-table th { background: var(--accent); color: white; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.04em; }
   .comp-table th:first-child { border-radius: 8px 0 0 0; }
   .comp-table th:last-child { border-radius: 0 8px 0 0; }
   .comp-table td { padding: 10px 14px; border-bottom: 1px solid var(--light-border); vertical-align: top; }
   .comp-table tr:last-child td { border-bottom: none; }
   .comp-table tr:nth-child(even) td { background: var(--off-white); }
   .comp-table td strong { color: var(--dark); }
-
-  /* SVG ILLUSTRATION */
-  .svg-wrap { display: flex; justify-content: center; align-items: center; }
-  svg.diagram { max-width: 320px; width: 100%; }
-
-  /* TIMELINE */
   .timeline { display: flex; flex-direction: column; gap: 0; margin-top: 10px; }
-  .timeline-item {
-    display: flex;
-    gap: 18px;
-    padding-bottom: 20px;
-    position: relative;
-    opacity: 0;
-    transform: translateX(-15px);
-    animation: fadeRight 0.4s forwards;
-  }
+  .timeline-item { display: flex; gap: 18px; padding-bottom: 20px; position: relative; opacity: 0; transform: translateX(-15px); animation: fadeRight 0.4s forwards; }
   .timeline-item:nth-child(1) { animation-delay: 0.1s; }
   .timeline-item:nth-child(2) { animation-delay: 0.25s; }
   .timeline-item:nth-child(3) { animation-delay: 0.4s; }
   .timeline-item:nth-child(4) { animation-delay: 0.55s; }
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: 18px;
-    top: 30px;
-    bottom: 0;
-    width: 2px;
-    background: var(--light-border);
-  }
+  .timeline-item::before { content: ''; position: absolute; left: 18px; top: 30px; bottom: 0; width: 2px; background: var(--light-border); }
   .timeline-item:last-child::before { display: none; }
-  .tl-dot {
-    flex-shrink: 0;
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.9rem;
-    z-index: 1;
-  }
+  .tl-dot { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; z-index: 1; }
   .tl-content h4 { font-size: 0.95rem; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
   .tl-content p { font-size: 0.88rem; color: var(--mid); line-height: 1.6; }
-
-  /* BADGE */
-  .badge {
-    display: inline-block;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 2px 9px;
-    border-radius: 20px;
-    background: var(--accent2);
-    color: white;
-    margin-left: 6px;
-    vertical-align: middle;
-  }
+  .badge { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 2px 9px; border-radius: 20px; background: var(--accent2); color: white; margin-left: 6px; vertical-align: middle; }
   .badge.green { background: var(--green); }
-
-  /* SUMMARY BULLETS */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 12px;
-  }
-  .summary-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    background: var(--off-white);
-    border-radius: 10px;
-    padding: 12px 14px;
-    border: 1px solid var(--light-border);
-    font-size: 0.88rem;
-    color: var(--mid);
-    line-height: 1.55;
-    opacity: 0;
-    animation: fadeUp 0.4s forwards;
-  }
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .summary-item { display: flex; align-items: flex-start; gap: 10px; background: var(--off-white); border-radius: 10px; padding: 12px 14px; border: 1px solid var(--light-border); font-size: 0.88rem; color: var(--mid); line-height: 1.55; opacity: 0; animation: fadeUp 0.4s forwards; }
   .summary-item:nth-child(1) { animation-delay: 0.05s; }
   .summary-item:nth-child(2) { animation-delay: 0.15s; }
   .summary-item:nth-child(3) { animation-delay: 0.25s; }
   .summary-item:nth-child(4) { animation-delay: 0.35s; }
   .summary-item:nth-child(5) { animation-delay: 0.45s; }
   .summary-item:nth-child(6) { animation-delay: 0.55s; }
+  .summary-item:nth-child(7) { animation-delay: 0.65s; }
+  .summary-item:nth-child(8) { animation-delay: 0.75s; }
+  .summary-item:nth-child(9) { animation-delay: 0.85s; }
+  .summary-item:nth-child(10) { animation-delay: 0.95s; }
   .summary-item .si-icon { font-size: 1.3rem; flex-shrink: 0; }
   .summary-item strong { color: var(--dark); display: block; font-size: 0.82rem; margin-bottom: 2px; font-weight: 600; }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeRight {
-    to { opacity: 1; transform: translateX(0); }
-  }
-  .fade-in {
-    opacity: 0;
-    animation: fadeUp 0.5s ease 0.1s forwards;
-  }
-
-  /* NAV */
-  #nav {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    height: 60px;
-    background: white;
-    border-top: 1px solid var(--light-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    z-index: 99;
-  }
-  .nav-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--dark);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 9px 22px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.2s, transform 0.15s;
-    letter-spacing: 0.02em;
-  }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeRight { to { opacity: 1; transform: translateX(0); } }
+  .fade-in { opacity: 0; animation: fadeUp 0.5s ease 0.1s forwards; }
+  #nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: white; border-top: 1px solid var(--light-border); display: flex; align-items: center; justify-content: center; gap: 16px; z-index: 99; }
+  .nav-btn { display: flex; align-items: center; gap: 6px; background: var(--dark); color: white; border: none; border-radius: 8px; padding: 9px 22px; font-size: 0.88rem; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s, transform 0.15s; letter-spacing: 0.02em; }
   .nav-btn:hover { background: var(--accent); transform: translateY(-1px); }
   .nav-btn:disabled { background: var(--light-border); color: var(--mid); cursor: default; transform: none; }
   .nav-btn.prev { background: var(--off-white); color: var(--dark); border: 1.5px solid var(--light-border); }
   .nav-btn.prev:hover:not(:disabled) { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
-
-  /* WOLFF BOX */
-  .wolff-box {
-    border-radius: 14px;
-    background: linear-gradient(135deg, #1a5c8a 0%, #1a3a5c 100%);
-    color: white;
-    padding: 24px 28px;
-    margin-top: 14px;
-    position: relative;
-    overflow: hidden;
-  }
-  .wolff-box::after {
-    content: '⚖';
-    position: absolute;
-    right: 20px; bottom: 10px;
-    font-size: 4rem;
-    opacity: 0.1;
-  }
+  .wolff-box { border-radius: 14px; background: linear-gradient(135deg, #1a5c8a 0%, #1a3a5c 100%); color: white; padding: 24px 28px; margin-top: 14px; position: relative; overflow: hidden; }
+  .wolff-box::after { content: '⚖'; position: absolute; right: 20px; bottom: 10px; font-size: 4rem; opacity: 0.1; }
   .wolff-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 8px; }
   .wolff-box p { font-size: 0.9rem; opacity: 0.88; line-height: 1.65; }
 </style>
@@ -474,7 +126,7 @@
 
 <div id="slides-container">
 
-  <!-- SLIDE 1: TÍTULO -->
+  <!-- SLIDE 1 -->
   <section class="slide active" data-index="0">
     <div class="slide-label">Kinesiología y Ortopedia</div>
     <h1 class="title"><em>Pectus Excavatum</em><br>Tórax en Embudo</h1>
@@ -485,34 +137,13 @@
       <span class="fact-pill">🏋️ Tratamiento Kinésico</span>
       <span class="fact-pill">🩺 Tratamiento Ortésico</span>
     </div>
-
-    <!-- SVG thorax diagram -->
-    <div class="svg-wrap" style="margin-top:18px;">
-      <svg class="diagram" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- ribs left -->
-        <path d="M110 60 Q70 80 60 110" stroke="#1a5c8a" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M110 80 Q65 100 58 130" stroke="#1a5c8a" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M110 100 Q62 118 60 148" stroke="#1a5c8a" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M110 120 Q65 140 68 163" stroke="#1a5c8a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-        <!-- ribs right -->
-        <path d="M190 60 Q230 80 240 110" stroke="#1a5c8a" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M190 80 Q235 100 242 130" stroke="#1a5c8a" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M190 100 Q238 118 240 148" stroke="#1a5c8a" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <path d="M190 120 Q235 140 232 163" stroke="#1a5c8a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-        <!-- sternum with depression -->
-        <path d="M150 40 L150 50 Q135 90 138 130 Q140 150 150 160 Q160 150 162 130 Q165 90 150 50" stroke="#c0392b" stroke-width="3" fill="#fdf0ef" stroke-linejoin="round"/>
-        <!-- depression indicator -->
-        <path d="M138 100 Q150 85 162 100" stroke="#c0392b" stroke-width="2" stroke-dasharray="4 3" fill="none"/>
-        <text x="150" y="97" text-anchor="middle" fill="#c0392b" font-size="9" font-family="DM Sans,sans-serif">depresión</text>
-        <!-- spine -->
-        <rect x="145" y="40" width="10" height="130" rx="5" fill="#e8f2f9" stroke="#1a5c8a" stroke-width="1.5"/>
-        <!-- label -->
-        <text x="150" y="195" text-anchor="middle" fill="#4a5568" font-size="11" font-family="DM Sans,sans-serif">Vista anterior del tórax</text>
-      </svg>
+    <div style="margin-top:20px;background:var(--accent-light);border:1.5px solid var(--accent);border-radius:12px;padding:18px 22px;">
+      <p style="font-size:0.9rem;color:var(--accent);font-weight:600;margin-bottom:8px;">🦴 Descripción de la deformidad</p>
+      <p style="font-size:0.88rem;color:var(--mid);line-height:1.65;">El Pectus Excavatum se caracteriza por el <strong style="color:var(--dark);">hundimiento del esternón</strong> hacia el interior del tórax, creando una depresión visible en la pared torácica anterior. El esternón se curva hacia la columna vertebral en lugar de proyectarse hacia afuera, comprimiendo estructuras cardiovasculares y pulmonares subyacentes.</p>
     </div>
   </section>
 
-  <!-- SLIDE 2: DEFINICIÓN E INCIDENCIA -->
+  <!-- SLIDE 2 -->
   <section class="slide" data-index="1">
     <div class="slide-label">Definición y Clasificación</div>
     <h2 class="slide-title">¿Qué es el Pectus Excavatum?</h2>
@@ -549,7 +180,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 3: TIPOLOGÍA CLÍNICA -->
+  <!-- SLIDE 3 -->
   <section class="slide" data-index="2">
     <div class="slide-label">Clasificación</div>
     <h2 class="slide-title">Tipología Clínica</h2>
@@ -558,36 +189,19 @@
         <span class="card-icon">🔵</span>
         <h3>Tipo I — Localizado</h3>
         <p>Depresión <strong>profunda y estrecha</strong>. Área de afectación reducida con gran profundidad esternal.</p>
-        <div style="margin-top:14px;">
-          <svg viewBox="0 0 100 60" width="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="10" y1="30" x2="42" y2="30" stroke="#1a5c8a" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M42 30 Q50 50 58 30" stroke="#1a5c8a" stroke-width="2.5" fill="none"/>
-            <line x1="58" y1="30" x2="90" y2="30" stroke="#1a5c8a" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-        </div>
+        <div style="margin-top:12px;background:rgba(26,92,138,0.12);border-radius:8px;padding:10px;font-size:0.82rem;color:var(--accent);line-height:1.5;"><strong>Perfil:</strong> Hundimiento puntual centrado en el esternón inferior. Gran profundidad en zona pequeña.</div>
       </div>
       <div class="card red">
         <span class="card-icon">🔴</span>
         <h3>Tipo II — Difuso</h3>
         <p>Depresión <strong>amplia y simétrica</strong> de la región esternal. Mayor superficie comprometida.</p>
-        <div style="margin-top:14px;">
-          <svg viewBox="0 0 100 60" width="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="10" y1="30" x2="25" y2="30" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M25 30 Q50 50 75 30" stroke="#c0392b" stroke-width="2.5" fill="none"/>
-            <line x1="75" y1="30" x2="90" y2="30" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-        </div>
+        <div style="margin-top:12px;background:rgba(192,57,43,0.08);border-radius:8px;padding:10px;font-size:0.82rem;color:var(--accent2);line-height:1.5;"><strong>Perfil:</strong> Hundimiento extendido a toda la región esternal. Menor profundidad pero mayor extensión lateral.</div>
       </div>
       <div class="card amber">
         <span class="card-icon">🟡</span>
         <h3>Tipo III — Asimétrico</h3>
         <p>Depresión <strong>desigual</strong> con rotación esternal asociada. Presenta mayor complejidad estructural.</p>
-        <div style="margin-top:14px;">
-          <svg viewBox="0 0 100 60" width="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="10" y1="30" x2="35" y2="30" stroke="#d97706" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M35 30 Q48 52 65 35 Q75 25 90 28" stroke="#d97706" stroke-width="2.5" fill="none"/>
-          </svg>
-        </div>
+        <div style="margin-top:12px;background:rgba(217,119,6,0.1);border-radius:8px;padding:10px;font-size:0.82rem;color:var(--amber);line-height:1.5;"><strong>Perfil:</strong> Hundimiento irregular con rotación. Mayor dificultad técnica en el tratamiento ortésico.</div>
       </div>
     </div>
     <div class="highlight-box red" style="margin-top:18px;">
@@ -599,7 +213,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 4: REPERCUSIONES FISIOLÓGICAS -->
+  <!-- SLIDE 4 -->
   <section class="slide" data-index="3">
     <div class="slide-label">Fisiopatología</div>
     <h2 class="slide-title">Repercusiones Fisiológicas y Hemodinámicas</h2>
@@ -622,30 +236,25 @@
       </div>
       <div>
         <p style="font-size:0.82rem;color:var(--mid);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Estudio Bevegård — Vol. Sistólico VD</p>
-        <!-- Bar chart visual -->
         <div style="background:var(--off-white);border-radius:12px;padding:18px;border:1.5px solid var(--light-border);">
-          <div style="display:flex;align-items:flex-end;gap:24px;height:120px;justify-content:center;">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-              <div style="background:#e2e8f0;border-radius:6px 6px 0 0;width:60px;height:100px;display:flex;flex-direction:column;justify-content:flex-end;">
-                <div style="background:var(--accent);border-radius:6px 6px 0 0;width:100%;height:51%;transition:height 1s;"></div>
-              </div>
-              <span style="font-size:0.78rem;color:var(--mid);text-align:center;line-height:1.3;font-weight:600;">Normal<br><span style="color:var(--accent);">+51%</span></span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+            <div style="background:var(--accent-light);border:1.5px solid var(--accent);border-radius:10px;padding:14px;text-align:center;">
+              <strong style="color:var(--accent);font-size:1.6rem;display:block;">+51%</strong>
+              <p style="font-size:0.8rem;color:var(--mid);margin-top:4px;">Sujeto Normal<br>Aumento VS en ejercicio</p>
             </div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-              <div style="background:#e2e8f0;border-radius:6px 6px 0 0;width:60px;height:100px;display:flex;flex-direction:column;justify-content:flex-end;">
-                <div style="background:var(--accent2);border-radius:6px 6px 0 0;width:100%;height:18.5%;"></div>
-              </div>
-              <span style="font-size:0.78rem;color:var(--mid);text-align:center;line-height:1.3;font-weight:600;">PE<br><span style="color:var(--accent2);">+18.5%</span></span>
+            <div style="background:var(--accent2-light);border:1.5px solid var(--accent2);border-radius:10px;padding:14px;text-align:center;">
+              <strong style="color:var(--accent2);font-size:1.6rem;display:block;">+18.5%</strong>
+              <p style="font-size:0.8rem;color:var(--mid);margin-top:4px;">Pectus Excavatum<br>Aumento VS en ejercicio</p>
             </div>
           </div>
-          <p style="font-size:0.78rem;color:var(--mid);text-align:center;margin-top:8px;">Aumento en reposo → ejercicio</p>
-          <p style="font-size:0.78rem;color:var(--accent2);text-align:center;font-weight:600;margin-top:2px;">→ Explica la fatiga precoz en PE</p>
+          <p style="font-size:0.82rem;color:var(--mid);text-align:center;">Aumento en reposo → ejercicio</p>
+          <p style="font-size:0.82rem;color:var(--accent2);text-align:center;font-weight:600;margin-top:4px;">→ Explica la fatiga precoz en PE</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 5: EVALUACIÓN FLEXIBILIDAD -->
+  <!-- SLIDE 5 -->
   <section class="slide" data-index="4">
     <div class="slide-label">Evaluación</div>
     <h2 class="slide-title">Test de Flexibilidad</h2>
@@ -653,31 +262,19 @@
     <div class="timeline">
       <div class="timeline-item">
         <div class="tl-dot">1</div>
-        <div class="tl-content">
-          <h4>Posición inicial</h4>
-          <p>El paciente realiza una <strong>inspiración profunda</strong> para expandir el tórax al máximo.</p>
-        </div>
+        <div class="tl-content"><h4>Posición inicial</h4><p>El paciente realiza una <strong>inspiración profunda</strong> para expandir el tórax al máximo.</p></div>
       </div>
       <div class="timeline-item">
         <div class="tl-dot">2</div>
-        <div class="tl-content">
-          <h4>Maniobra del examinador</h4>
-          <p>El examinador comprime manualmente los <strong>alerones costales inferiores (Sigaud)</strong> en sentido medial.</p>
-        </div>
+        <div class="tl-content"><h4>Maniobra del examinador</h4><p>El examinador comprime manualmente los <strong>alerones costales inferiores (Sigaud)</strong> en sentido medial.</p></div>
       </div>
       <div class="timeline-item">
         <div class="tl-dot">3</div>
-        <div class="tl-content">
-          <h4>Soplido simulado</h4>
-          <p>El paciente realiza un <strong>soplido simulado</strong> mientras se mantiene la compresión costal.</p>
-        </div>
+        <div class="tl-content"><h4>Soplido simulado</h4><p>El paciente realiza un <strong>soplido simulado</strong> mientras se mantiene la compresión costal.</p></div>
       </div>
       <div class="timeline-item">
         <div class="tl-dot">4</div>
-        <div class="tl-content">
-          <h4>Interpretación</h4>
-          <p>Si el <strong>esternón se desplaza hacia afuera</strong> → el PE es <span style="color:var(--green);font-weight:700;">flexible</span> → apto para tratamiento conservador.</p>
-        </div>
+        <div class="tl-content"><h4>Interpretación</h4><p>Si el <strong>esternón se desplaza hacia afuera</strong> → el PE es <span style="color:var(--green);font-weight:700;">flexible</span> → apto para tratamiento conservador.</p></div>
       </div>
     </div>
     <div class="wolff-box" style="margin-top:12px;">
@@ -686,7 +283,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 6: TRATAMIENTO KINÉSICO - GENERALIDADES -->
+  <!-- SLIDE 6 -->
   <section class="slide" data-index="5">
     <div class="slide-label">Tratamiento Kinésico</div>
     <h2 class="slide-title">Cinesiterapia — Principios Generales</h2>
@@ -709,56 +306,35 @@
       </div>
       <div>
         <div style="background:var(--off-white);border-radius:14px;padding:18px;border:1.5px solid var(--light-border);">
-          <p style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--mid);margin-bottom:12px;">Músculo Pectoral Mayor</p>
-          <!-- Pectoral SVG -->
-          <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-            <!-- torso outline -->
-            <path d="M60 20 L60 130 Q100 145 140 130 L140 20 Q100 10 60 20Z" fill="#e8f2f9" stroke="#1a5c8a" stroke-width="1.5"/>
-            <!-- sternum -->
-            <rect x="92" y="22" width="16" height="110" rx="6" fill="#c0392b" opacity="0.3" stroke="#c0392b" stroke-width="1.5"/>
-            <!-- pec fibers left -->
-            <path d="M60 40 Q80 55 92 70" stroke="#1a5c8a" stroke-width="2" stroke-linecap="round"/>
-            <path d="M60 55 Q79 65 92 80" stroke="#1a5c8a" stroke-width="2" stroke-linecap="round"/>
-            <path d="M60 70 Q78 75 92 88" stroke="#1a5c8a" stroke-width="2" stroke-linecap="round"/>
-            <!-- pec fibers right -->
-            <path d="M140 40 Q120 55 108 70" stroke="#1a5c8a" stroke-width="2" stroke-linecap="round"/>
-            <path d="M140 55 Q121 65 108 80" stroke="#1a5c8a" stroke-width="2" stroke-linecap="round"/>
-            <path d="M140 70 Q122 75 108 88" stroke="#1a5c8a" stroke-width="2" stroke-linecap="round"/>
-            <!-- arrow sternum push -->
-            <path d="M100 95 L100 125" stroke="#c0392b" stroke-width="2.5" marker-end="url(#arr)" stroke-dasharray="4 3"/>
-            <defs>
-              <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                <path d="M0 0 L8 4 L0 8Z" fill="#c0392b"/>
-              </marker>
-            </defs>
-            <text x="100" y="145" text-anchor="middle" fill="#c0392b" font-size="9" font-family="DM Sans,sans-serif">Tracción esternal</text>
-          </svg>
+          <p style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--mid);margin-bottom:12px;">Músculo Pectoral Mayor — Mecanismo</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="background:var(--accent-light);border:1.5px solid var(--accent);border-radius:8px;padding:12px;">
+              <strong style="color:var(--accent);font-size:0.85rem;display:block;margin-bottom:3px;">Origen (insertión proximal)</strong>
+              <p style="font-size:0.82rem;color:var(--mid);line-height:1.5;">Clavícula, esternón y cartílagos costales superiores.</p>
+            </div>
+            <div style="background:#f0fdf4;border:1.5px solid var(--green);border-radius:8px;padding:12px;">
+              <strong style="color:var(--green);font-size:0.85rem;display:block;margin-bottom:3px;">Inserción distal (fija)</strong>
+              <p style="font-size:0.82rem;color:var(--mid);line-height:1.5;">Cresta del tubérculo mayor del húmero. Al fijarse, traccionará el esternón hacia adelante y afuera.</p>
+            </div>
+            <div style="background:var(--accent2-light);border:1.5px solid var(--accent2);border-radius:8px;padding:12px;">
+              <strong style="color:var(--accent2);font-size:0.85rem;display:block;margin-bottom:3px;">→ Efecto corrector</strong>
+              <p style="font-size:0.82rem;color:var(--mid);line-height:1.5;">Tracción esternal hacia posición horizontal, elevando el esternón hundido.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 7: EJERCICIOS ESPECÍFICOS -->
+  <!-- SLIDE 7 -->
   <section class="slide" data-index="6">
     <div class="slide-label">Tratamiento Kinésico</div>
     <h2 class="slide-title">Ejercicios Específicos</h2>
     <ul class="styled-list">
-      <li>
-        <span class="li-dot"></span>
-        <span><strong>Tonificación de Rectos Abdominales:</strong> Corrige la protrusión abdominal, mejora la sinergia diafragmática y ejerce efecto corrector sobre los alerones de Sigaud al traccionar las costillas inferiores hacia abajo.</span>
-      </li>
-      <li>
-        <span class="li-dot"></span>
-        <span><strong>Conducta del ejercicio:</strong> Los ejercicios de musculación deben realizarse siempre en <span style="color:var(--accent2);font-weight:600;">espiración continua</span>, evitando que la presión negativa de la inspiración profunda aumente la compresión cardíaca.</span>
-      </li>
-      <li>
-        <span class="li-dot"></span>
-        <span><strong>Ventilación Abdominodiafragmática (VAD):</strong> Se enseña para minimizar la restricción pulmonar. Utiliza <em>volúmenes altos y frecuencias bajas</em> para mejorar la eficacia ventilatoria.</span>
-      </li>
-      <li>
-        <span class="li-dot"></span>
-        <span><strong>Postura para ejercicio intenso:</strong> El <span style="color:var(--green);font-weight:600;">decúbito supino</span> genera menor compresión cardíaca y es la postura preferida para ejercicios de mayor demanda.</span>
-      </li>
+      <li><span class="li-dot"></span><span><strong>Tonificación de Rectos Abdominales:</strong> Corrige la protrusión abdominal, mejora la sinergia diafragmática y ejerce efecto corrector sobre los alerones de Sigaud al traccionar las costillas inferiores hacia abajo.</span></li>
+      <li><span class="li-dot"></span><span><strong>Conducta del ejercicio:</strong> Los ejercicios de musculación deben realizarse siempre en <span style="color:var(--accent2);font-weight:600;">espiración continua</span>, evitando que la presión negativa de la inspiración profunda aumente la compresión cardíaca.</span></li>
+      <li><span class="li-dot"></span><span><strong>Ventilación Abdominodiafragmática (VAD):</strong> Se enseña para minimizar la restricción pulmonar. Utiliza <em>volúmenes altos y frecuencias bajas</em> para mejorar la eficacia ventilatoria.</span></li>
+      <li><span class="li-dot"></span><span><strong>Postura para ejercicio intenso:</strong> El <span style="color:var(--green);font-weight:600;">decúbito supino</span> genera menor compresión cardíaca y es la postura preferida para ejercicios de mayor demanda.</span></li>
     </ul>
     <div class="highlight-box amber" style="margin-top:16px;">
       <span class="hb-icon">🫁</span>
@@ -769,7 +345,7 @@
     </div>
   </section>
 
-  <!-- SLIDE 8: TRATAMIENTO ORTÉSICO -->
+  <!-- SLIDE 8 -->
   <section class="slide" data-index="7">
     <div class="slide-label">Tratamiento Ortésico</div>
     <h2 class="slide-title">Corsés y Ortesis</h2>
@@ -791,77 +367,39 @@
         </div>
       </div>
       <div style="background:var(--off-white);border-radius:14px;padding:18px;border:1.5px solid var(--light-border);">
-        <p style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--mid);margin-bottom:12px;">Mecanismo del Corsé de Vidal</p>
-        <svg viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
-          <!-- torso outline -->
-          <path d="M55 20 L55 155 Q100 168 145 155 L145 20 Q100 8 55 20Z" fill="#f8f7f4" stroke="#4a5568" stroke-width="1.5"/>
-          <!-- corset upper free zone -->
-          <rect x="58" y="22" width="84" height="40" rx="4" fill="none" stroke="#2e7d52" stroke-width="2" stroke-dasharray="5 3"/>
-          <text x="100" y="38" text-anchor="middle" fill="#2e7d52" font-size="8" font-family="DM Sans,sans-serif" font-weight="600">LIBRE</text>
-          <text x="100" y="50" text-anchor="middle" fill="#2e7d52" font-size="7" font-family="DM Sans,sans-serif">Diafragma traccionando</text>
-          <!-- corset compression zone -->
-          <rect x="58" y="68" width="84" height="40" rx="4" fill="rgba(26,92,138,0.1)" stroke="#1a5c8a" stroke-width="2"/>
-          <text x="100" y="85" text-anchor="middle" fill="#1a5c8a" font-size="8" font-family="DM Sans,sans-serif" font-weight="600">COMPRESIÓN</text>
-          <text x="100" y="97" text-anchor="middle" fill="#1a5c8a" font-size="7" font-family="DM Sans,sans-serif">Alerones Sigaud</text>
-          <!-- compression arrows -->
-          <path d="M52 88 L64 88" stroke="#1a5c8a" stroke-width="2" marker-end="url(#arr2)"/>
-          <path d="M148 88 L136 88" stroke="#1a5c8a" stroke-width="2" marker-end="url(#arr2)"/>
-          <defs>
-            <marker id="arr2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
-              <path d="M0 0 L7 3.5 L0 7Z" fill="#1a5c8a"/>
-            </marker>
-          </defs>
-          <!-- lumbar zone -->
-          <rect x="62" y="114" width="76" height="30" rx="4" fill="rgba(217,119,6,0.12)" stroke="#d97706" stroke-width="2"/>
-          <text x="100" y="127" text-anchor="middle" fill="#d97706" font-size="8" font-family="DM Sans,sans-serif" font-weight="600">CORRECCIÓN</text>
-          <text x="100" y="138" text-anchor="middle" fill="#d97706" font-size="7" font-family="DM Sans,sans-serif">Lordosis lumbar</text>
-          <!-- diaphragm arrow -->
-          <path d="M100 62 L100 50" stroke="#2e7d52" stroke-width="2.5" stroke-dasharray="4 3" marker-end="url(#arr3)"/>
-          <defs>
-            <marker id="arr3" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
-              <path d="M0 0 L7 3.5 L0 7Z" fill="#2e7d52"/>
-            </marker>
-          </defs>
-          <text x="100" y="172" text-anchor="middle" fill="#4a5568" font-size="9" font-family="DM Sans,sans-serif">Corsé de Vidal — Zonas de acción</text>
-        </svg>
+        <p style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--mid);margin-bottom:12px;">Mecanismo del Corsé de Vidal — Zonas de Acción</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:var(--green-light);border:1.5px solid var(--green);border-radius:8px;padding:12px;">
+            <strong style="color:var(--green);font-size:0.85rem;display:block;margin-bottom:3px;">🟢 ZONA LIBRE — Tórax superior</strong>
+            <p style="font-size:0.82rem;color:var(--mid);line-height:1.5;">Se deja libre para que el diafragma pueda traccionar el esternón hacia afuera durante la respiración.</p>
+          </div>
+          <div style="background:var(--accent-light);border:1.5px solid var(--accent);border-radius:8px;padding:12px;">
+            <strong style="color:var(--accent);font-size:0.85rem;display:block;margin-bottom:3px;">🔵 COMPRESIÓN — Alerones de Sigaud</strong>
+            <p style="font-size:0.82rem;color:var(--mid);line-height:1.5;">Fuerzas laterales que comprimen medialmente los cartílagos costales inferiores prominentes.</p>
+          </div>
+          <div style="background:var(--amber-light);border:1.5px solid var(--amber);border-radius:8px;padding:12px;">
+            <strong style="color:var(--amber);font-size:0.85rem;display:block;margin-bottom:3px;">🟡 CORRECCIÓN — Lordosis lumbar</strong>
+            <p style="font-size:0.82rem;color:var(--mid);line-height:1.5;">La zona lumbar del corsé corrige la hiperlordosis compensatoria frecuente en el PE.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 9: CONSIDERACIONES POSTQUIRÚRGICAS -->
+  <!-- SLIDE 9 -->
   <section class="slide" data-index="8">
     <div class="slide-label">Consideraciones Postquirúrgicas</div>
     <h2 class="slide-title">Cirugía y Complicaciones</h2>
     <p class="intro" style="margin-bottom:14px;">La cirugía de PE (ej. <em>Turn-over esternal</em>) está indicada en casos sin respuesta al tratamiento conservador. Requiere consideraciones específicas en el postoperatorio.</p>
     <table class="comp-table">
       <thead>
-        <tr>
-          <th>Aspecto</th>
-          <th>Descripción</th>
-          <th>Implicación Clínica</th>
-        </tr>
+        <tr><th>Aspecto</th><th>Descripción</th><th>Implicación Clínica</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td><strong>Masaje directo</strong></td>
-          <td>Formalmente contraindicado sobre la pared torácica tras cirugía</td>
-          <td style="color:var(--accent2);">Riesgo de infección y presencia de suturas metálicas</td>
-        </tr>
-        <tr>
-          <td><strong>Efecto Morshuis</strong></td>
-          <td>Síndrome ventilatorio restrictivo transitorio inmediato post-cirugía</td>
-          <td>Descenso de Capacidad Vital (VC) y Capacidad Pulmonar Total (TLC)</td>
-        </tr>
-        <tr>
-          <td><strong>Origen del Efecto Morshuis</strong></td>
-          <td>Traumatismo quirúrgico sobre la pared torácica</td>
-          <td style="color:var(--green);">Carácter transitorio — se resuelve con la recuperación</td>
-        </tr>
-        <tr>
-          <td><strong>Rehabilitación</strong></td>
-          <td>VAD y ejercicios respiratorios adaptados</td>
-          <td>Sin contacto ni presión directa sobre la zona operada</td>
-        </tr>
+        <tr><td><strong>Masaje directo</strong></td><td>Formalmente contraindicado sobre la pared torácica tras cirugía</td><td style="color:var(--accent2);">Riesgo de infección y presencia de suturas metálicas</td></tr>
+        <tr><td><strong>Efecto Morshuis</strong></td><td>Síndrome ventilatorio restrictivo transitorio inmediato post-cirugía</td><td>Descenso de Capacidad Vital (VC) y Capacidad Pulmonar Total (TLC)</td></tr>
+        <tr><td><strong>Origen del Efecto Morshuis</strong></td><td>Traumatismo quirúrgico sobre la pared torácica</td><td style="color:var(--green);">Carácter transitorio — se resuelve con la recuperación</td></tr>
+        <tr><td><strong>Rehabilitación</strong></td><td>VAD y ejercicios respiratorios adaptados</td><td>Sin contacto ni presión directa sobre la zona operada</td></tr>
       </tbody>
     </table>
     <div class="highlight-box red" style="margin-top:16px;">
@@ -873,57 +411,26 @@
     </div>
   </section>
 
-  <!-- SLIDE 10: RESUMEN -->
+  <!-- SLIDE 10 -->
   <section class="slide" data-index="9">
     <div class="slide-label">Resumen Integral</div>
     <h2 class="slide-title">Conceptos Clave de la Práctica 6</h2>
     <div class="summary-grid">
-      <div class="summary-item">
-        <span class="si-icon">📊</span>
-        <div><strong>Incidencia</strong> ~33% de la población infantil presenta variaciones de la pared torácica.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">🔵🔴🟡</span>
-        <div><strong>3 Tipos</strong> Localizado (I), Difuso (II) y Asimétrico (III) con rotación esternal.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">🫀</span>
-        <div><strong>Fisiopatología</strong> VD comprimido: aumento del VS solo 18.5% vs 51% normal → fatiga precoz.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">🤚</span>
-        <div><strong>Test de Flexibilidad</strong> Compresión alerones Sigaud + soplido → esternón sale = PE flexible.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">📅</span>
-        <div><strong>Edad óptima</strong> 10-16 años para tratamiento ortésico y kinésico aprovechando plasticidad ósea.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">💪</span>
-        <div><strong>Pectoral Mayor</strong> Único músculo capaz de traccionar el esternón hacia posición horizontal.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">😮‍💨</span>
-        <div><strong>Ejercicio en espiración</strong> Siempre en espiración continua para evitar mayor compresión cardíaca.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">🦺</span>
-        <div><strong>Corsé de Vidal</strong> 23 h/día, ~1 año. Comprime alerones, deja libre el tórax superior.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">⚖️</span>
-        <div><strong>Ley de Wolff</strong> Base científica: hueso y TC se remodelan bajo fuerzas mecánicas.</div>
-      </div>
-      <div class="summary-item">
-        <span class="si-icon">🚫</span>
-        <div><strong>Post-cirugía</strong> Masaje directo contraindicado. Efecto Morshuis: ↓ VC y TLC transitorio.</div>
-      </div>
+      <div class="summary-item"><span class="si-icon">📊</span><div><strong>Incidencia</strong> ~33% de la población infantil presenta variaciones de la pared torácica.</div></div>
+      <div class="summary-item"><span class="si-icon">🔵🔴🟡</span><div><strong>3 Tipos</strong> Localizado (I), Difuso (II) y Asimétrico (III) con rotación esternal.</div></div>
+      <div class="summary-item"><span class="si-icon">🫀</span><div><strong>Fisiopatología</strong> VD comprimido: aumento del VS solo 18.5% vs 51% normal → fatiga precoz.</div></div>
+      <div class="summary-item"><span class="si-icon">🤚</span><div><strong>Test de Flexibilidad</strong> Compresión alerones Sigaud + soplido → esternón sale = PE flexible.</div></div>
+      <div class="summary-item"><span class="si-icon">📅</span><div><strong>Edad óptima</strong> 10-16 años para tratamiento ortésico y kinésico aprovechando plasticidad ósea.</div></div>
+      <div class="summary-item"><span class="si-icon">💪</span><div><strong>Pectoral Mayor</strong> Único músculo capaz de traccionar el esternón hacia posición horizontal.</div></div>
+      <div class="summary-item"><span class="si-icon">😮‍💨</span><div><strong>Ejercicio en espiración</strong> Siempre en espiración continua para evitar mayor compresión cardíaca.</div></div>
+      <div class="summary-item"><span class="si-icon">🦺</span><div><strong>Corsé de Vidal</strong> 23 h/día, ~1 año. Comprime alerones, deja libre el tórax superior.</div></div>
+      <div class="summary-item"><span class="si-icon">⚖️</span><div><strong>Ley de Wolff</strong> Base científica: hueso y TC se remodelan bajo fuerzas mecánicas.</div></div>
+      <div class="summary-item"><span class="si-icon">🚫</span><div><strong>Post-cirugía</strong> Masaje directo contraindicado. Efecto Morshuis: ↓ VC y TLC transitorio.</div></div>
     </div>
   </section>
 
 </div>
 
-<!-- NAVIGATION -->
 <nav id="nav">
   <button class="nav-btn prev" id="btn-prev" disabled>← Anterior</button>
   <button class="nav-btn" id="btn-next">Siguiente →</button>
@@ -937,45 +444,32 @@
   const btnNext = document.getElementById('btn-next');
   let current = 0;
   const total = slides.length;
-
   function goTo(index) {
     if (index < 0 || index >= total) return;
     const prev = current;
     slides[prev].classList.remove('active');
     slides[prev].classList.add('exit-left');
     setTimeout(() => slides[prev].classList.remove('exit-left'), 600);
-
     current = index;
     slides[current].classList.add('active');
-
-    // Re-trigger animations for list items
     const animEls = slides[current].querySelectorAll('.styled-list li, .timeline-item, .summary-item');
-    animEls.forEach(el => {
-      el.style.animation = 'none';
-      el.offsetHeight; // reflow
-      el.style.animation = '';
-    });
-
+    animEls.forEach(el => { el.style.animation = 'none'; el.offsetHeight; el.style.animation = ''; });
     updateUI();
   }
-
   function updateUI() {
     const pct = ((current + 1) / total) * 100;
     progressBar.style.width = pct + '%';
-    counter.textContent = `${current + 1} / ${total}`;
+    counter.textContent = (current + 1) + ' / ' + total;
     btnPrev.disabled = current === 0;
     btnNext.disabled = current === total - 1;
     btnNext.textContent = current === total - 1 ? '✓ Fin' : 'Siguiente →';
   }
-
   btnPrev.addEventListener('click', () => goTo(current - 1));
   btnNext.addEventListener('click', () => goTo(current + 1));
-
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
   });
-
   updateUI();
 </script>
 </body>
