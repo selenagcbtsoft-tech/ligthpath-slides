@@ -7,50 +7,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f0f4f8;
-    --surface: #ffffff;
-    --surface2: #e8edf4;
-    --accent: #0369a1;
-    --accent2: #b45309;
-    --accent3: #7c3aed;
-    --accent-green: #15803d;
-    --accent-red: #b91c1c;
-    --accent-teal: #0f766e;
-    --text: #0f172a;
-    --text-muted: #475569;
-    --border: #dde3ec;
-    --shadow: 0 2px 18px rgba(0,0,0,0.07);
-    --slide-w: 980px;
-    --radius: 14px;
+    --bg: #f0f4f8; --surface: #ffffff; --surface2: #e8edf4;
+    --accent: #0369a1; --accent2: #b45309; --accent3: #7c3aed;
+    --accent-green: #15803d; --accent-red: #b91c1c; --accent-teal: #0f766e;
+    --text: #0f172a; --text-muted: #475569; --border: #dde3ec;
+    --shadow: 0 2px 18px rgba(0,0,0,0.07); --slide-w: 980px; --radius: 14px;
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'DM Sans', sans-serif;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow: hidden; }
-
   #progress-bar { position:fixed; top:0; left:0; height:4px; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width 0.4s cubic-bezier(.4,0,.2,1); z-index:100; }
   #slide-counter { position:fixed; top:16px; right:22px; font-size:13px; font-weight:700; color:var(--text-muted); letter-spacing:1px; z-index:100; }
   #lesson-tag { position:fixed; top:10px; left:22px; font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); z-index:100; background:rgba(3,105,161,0.09); padding:5px 13px; border-radius:20px; }
-
   #slides-wrapper { width:100%; height:100%; display:flex; align-items:center; justify-content:center; position:relative; padding:60px 24px 80px; overflow:hidden; }
-
   .slide { position:absolute; width:100%; max-width:var(--slide-w); display:flex; flex-direction:column; gap:20px; opacity:0; pointer-events:none; transform:translateX(70px); transition:opacity 0.4s ease, transform 0.4s cubic-bezier(.4,0,.2,1); max-height:calc(100vh - 140px); overflow-y:auto; padding-right:4px; }
   .slide::-webkit-scrollbar { width:4px; }
   .slide::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
   .slide.active { opacity:1; pointer-events:all; transform:translateX(0); }
   .slide.exit-left { opacity:0; transform:translateX(-70px); }
-
   .slide-label { font-size:12px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; }
   .slide-label::before { content:''; display:inline-block; width:28px; height:3px; background:var(--accent); border-radius:2px; }
-
   h1.slide-title { font-family:var(--font-display); font-size:clamp(2.2rem,5vw,3.6rem); line-height:1.1; font-weight:700; }
   h1.slide-title em { font-style:italic; color:var(--accent); font-weight:500; }
   h2.section-title { font-family:var(--font-display); font-size:clamp(1.6rem,3.5vw,2.3rem); font-weight:700; line-height:1.2; }
-
   .subtitle { font-size:1.1rem; color:var(--text-muted); line-height:1.75; max-width:720px; }
   .divider { width:70px; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; margin:-4px 0; }
-
-  /* CARDS */
   .cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; }
   .card { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:20px 22px; display:flex; flex-direction:column; gap:10px; opacity:0; transform:translateY(22px); box-shadow:var(--shadow); transition:opacity 0.4s ease,transform 0.4s ease,border-color 0.2s; }
   .card:hover { border-color:var(--accent); }
@@ -58,29 +40,23 @@
   .card-icon { font-size:1.8rem; width:46px; height:46px; background:var(--surface2); border-radius:10px; display:flex; align-items:center; justify-content:center; }
   .card-title { font-size:0.85rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); }
   .card-body { font-size:0.97rem; color:var(--text-muted); line-height:1.65; }
-
-  /* ITEMS */
   .item-list { display:flex; flex-direction:column; gap:12px; }
   .item { display:flex; gap:14px; align-items:flex-start; background:var(--surface); border:1.5px solid var(--border); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow); opacity:0; transform:translateX(-22px); transition:opacity 0.35s ease,transform 0.35s ease; }
   .item.animate { opacity:1; transform:translateX(0); }
   .item-dot { width:10px; height:10px; border-radius:50%; background:var(--accent); margin-top:6px; flex-shrink:0; }
   .item-content strong { display:block; font-size:1rem; font-weight:700; color:var(--text); margin-bottom:4px; }
   .item-content span { font-size:0.96rem; color:var(--text-muted); line-height:1.65; }
-
   .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   @media(max-width:640px) { .two-col { grid-template-columns:1fr; } }
   .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
   @media(max-width:700px) { .three-col { grid-template-columns:1fr; } }
-
   .highlight-box { background:linear-gradient(135deg,rgba(3,105,161,0.05),rgba(180,83,9,0.05)); border:1.5px solid rgba(3,105,161,0.2); border-radius:var(--radius); padding:18px 22px; display:flex; gap:14px; align-items:flex-start; }
   .highlight-icon { font-size:1.6rem; flex-shrink:0; margin-top:1px; }
   .highlight-text { font-size:0.97rem; line-height:1.7; color:var(--text-muted); }
   .highlight-text strong { color:var(--accent); }
-
   .warning-box { background:rgba(185,28,28,0.04); border:1.5px solid rgba(185,28,28,0.22); border-radius:var(--radius); padding:16px 20px; display:flex; gap:14px; align-items:flex-start; }
   .warning-text { font-size:0.95rem; line-height:1.7; color:var(--text-muted); }
   .warning-text strong { color:var(--accent-red); }
-
   .tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:700; }
   .tag-blue { background:rgba(3,105,161,0.1); color:var(--accent); }
   .tag-amber { background:rgba(180,83,9,0.1); color:var(--accent2); }
@@ -88,8 +64,6 @@
   .tag-green { background:rgba(21,128,61,0.1); color:var(--accent-green); }
   .tag-purple { background:rgba(124,58,237,0.1); color:var(--accent3); }
   .tag-teal { background:rgba(15,118,110,0.1); color:var(--accent-teal); }
-
-  /* DEFORMITY COMPARISON CARDS */
   .deform-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
   @media(max-width:700px) { .deform-grid { grid-template-columns:1fr; } }
   .deform-card { border-radius:var(--radius); padding:0; overflow:hidden; box-shadow:var(--shadow); opacity:0; transform:scale(0.92); transition:opacity 0.4s ease,transform 0.4s ease; border:1.5px solid var(--border); background:var(--surface); }
@@ -99,15 +73,11 @@
   .dh-valgo { background:rgba(3,105,161,0.08); color:var(--accent); }
   .dh-varo { background:rgba(180,83,9,0.08); color:var(--accent2); }
   .dh-recurvatum { background:rgba(124,58,237,0.08); color:var(--accent3); }
-
-  /* DIAGRAM BOXES */
   .diagram-row { display:flex; gap:16px; align-items:stretch; }
-  .diagram-box { flex:1; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:18px; display:flex; flex-direction:column; gap:10px; box-shadow:var(--shadow); opacity:0; transform:translateY(16px); transition:opacity 0.4s ease,transform 0.4s ease; }
+  .diagram-box { flex:1; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:18px 22px; display:flex; flex-direction:column; gap:10px; box-shadow:var(--shadow); opacity:0; transform:translateY(16px); transition:opacity 0.4s ease,transform 0.4s ease; }
   .diagram-box.animate { opacity:1; transform:translateY(0); }
   .diagram-box h4 { font-size:0.88rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); }
-  .diagram-caption { font-size:0.85rem; color:var(--text-muted); line-height:1.55; text-align:center; }
-
-  /* MUSCLE TABLE */
+  .diagram-caption { font-size:0.85rem; color:var(--text-muted); line-height:1.55; }
   .muscle-section { background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); opacity:0; transform:translateY(16px); transition:opacity 0.4s ease,transform 0.4s ease; }
   .muscle-section.animate { opacity:1; transform:translateY(0); }
   .muscle-header { padding:14px 20px; font-size:0.85rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; display:flex; align-items:center; gap:10px; }
@@ -121,8 +91,6 @@
   .mi-amber { background:rgba(180,83,9,0.08); }
   .muscle-name { font-size:0.95rem; font-weight:700; color:var(--text); }
   .muscle-role { font-size:0.85rem; color:var(--text-muted); }
-
-  /* SUMMARY */
   .summary-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
   @media(max-width:600px) { .summary-grid { grid-template-columns:1fr; } }
   .summary-item { text-align:center; background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:20px 14px; box-shadow:var(--shadow); opacity:0; transform:scale(0.92); transition:opacity 0.4s ease,transform 0.4s ease; }
@@ -130,14 +98,10 @@
   .summary-item .big-icon { font-size:2rem; margin-bottom:8px; }
   .summary-item h4 { font-size:0.82rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--accent); margin-bottom:7px; }
   .summary-item p { font-size:0.9rem; color:var(--text-muted); line-height:1.55; }
-
-  /* COVER */
   .cover-module { font-size:0.78rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--accent2); display:flex; align-items:center; gap:10px; margin-bottom:-4px; }
   .cover-module::before { content:''; display:inline-block; width:22px; height:3px; background:var(--accent2); border-radius:2px; }
   .cover-meta { display:flex; gap:12px; flex-wrap:wrap; }
   .cover-pill { display:flex; align-items:center; gap:7px; background:var(--surface); border:1.5px solid var(--border); border-radius:50px; padding:8px 16px; font-size:0.9rem; color:var(--text-muted); box-shadow:var(--shadow); font-weight:600; }
-
-  /* NAV */
   #nav { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:10px; z-index:100; background:white; border:1.5px solid var(--border); border-radius:50px; padding:8px 12px; box-shadow:0 4px 24px rgba(0,0,0,0.1); }
   .nav-btn { background:var(--surface2); border:1.5px solid var(--border); color:var(--text); border-radius:50px; padding:9px 24px; font-family:var(--font-body); font-size:0.9rem; font-weight:700; cursor:pointer; transition:all 0.2s; }
   .nav-btn:hover { background:var(--accent); color:white; border-color:var(--accent); }
@@ -149,13 +113,12 @@
 </style>
 </head>
 <body>
-
 <div id="progress-bar"></div>
 <div id="lesson-tag">PRÁCTICA 3</div>
 <div id="slide-counter">1 / 13</div>
 <div id="slides-wrapper">
 
-  <!-- ─── SLIDE 1: PORTADA ─── -->
+  <!-- SLIDE 1 -->
   <section class="slide active" id="s1">
     <div class="cover-module">Fisioterapia y Kinesiología</div>
     <h1 class="slide-title">Genu Valgo &amp;<br><em>Genu Varo</em></h1>
@@ -170,291 +133,121 @@
     </div>
   </section>
 
-  <!-- ─── SLIDE 2: CONTENIDO ─── -->
+  <!-- SLIDE 2 -->
   <section class="slide" id="s2">
     <div class="slide-label">Contenido de la Lección</div>
     <h2 class="section-title">Estructura de la Práctica</h2>
     <div class="cards-grid">
-      <div class="card">
-        <div class="card-icon">📐</div>
-        <div class="card-title">01 · Alineación</div>
-        <div class="card-body">Ángulo femorotibial fisiológico, eje de carga mecánico y ángulo Q del cuádriceps.</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">🦴</div>
-        <div class="card-title">02 · Clasificación</div>
-        <div class="card-body">Genu valgum, genu varum y genu recurvatum. Criterios clínicos y repercusiones articulares.</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">⛓️</div>
-        <div class="card-title">03 · Biomecánica</div>
-        <div class="card-body">Relación con pie y cadera. Valgo dinámico y papel del glúteo medio en la cadena cinética.</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">🔬</div>
-        <div class="card-title">04 · Evaluación</div>
-        <div class="card-body">Sentadilla monopodal, pruebas de estrés ligamentoso en valgo y varo.</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">💪</div>
-        <div class="card-title">05 · Tratamiento</div>
-        <div class="card-body">Objetivos musculares específicos para valgo y varo. Control motor en cadena cinética cerrada.</div>
-      </div>
+      <div class="card"><div class="card-icon">📐</div><div class="card-title">01 · Alineación</div><div class="card-body">Ángulo femorotibial fisiológico, eje de carga mecánico y ángulo Q del cuádriceps.</div></div>
+      <div class="card"><div class="card-icon">🦴</div><div class="card-title">02 · Clasificación</div><div class="card-body">Genu valgum, genu varum y genu recurvatum. Criterios clínicos y repercusiones articulares.</div></div>
+      <div class="card"><div class="card-icon">⛓️</div><div class="card-title">03 · Biomecánica</div><div class="card-body">Relación con pie y cadera. Valgo dinámico y papel del glúteo medio en la cadena cinética.</div></div>
+      <div class="card"><div class="card-icon">🔬</div><div class="card-title">04 · Evaluación</div><div class="card-body">Sentadilla monopodal, pruebas de estrés ligamentoso en valgo y varo.</div></div>
+      <div class="card"><div class="card-icon">💪</div><div class="card-title">05 · Tratamiento</div><div class="card-body">Objetivos musculares específicos para valgo y varo. Control motor en cadena cinética cerrada.</div></div>
     </div>
   </section>
 
-  <!-- ─── SLIDE 3: EJES Y ÁNGULOS ─── -->
+  <!-- SLIDE 3 -->
   <section class="slide" id="s3">
     <div class="slide-label">Alineación Fisiológica y Ejes</div>
     <h2 class="section-title">Ángulos Clave de la Rodilla</h2>
     <div class="diagram-row">
-      <!-- SVG ejes -->
       <div class="diagram-box" style="flex:1.2;">
         <h4>Eje Mecánico y Ángulo Femorotibial</h4>
-        <svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-          <!-- NORMAL -->
-          <rect x="5" y="5" width="145" height="220" rx="10" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
-          <text x="77" y="22" font-size="11" fill="#0369a1" text-anchor="middle" font-weight="700">✅ Normal</text>
-          <!-- Hip -->
-          <circle cx="77" cy="45" r="14" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="77" y="49" font-size="8" fill="#1e40af" text-anchor="middle" font-weight="700">Cadera</text>
-          <!-- Femur -->
-          <line x1="77" y1="59" x2="77" y2="125" stroke="#64748b" stroke-width="6" stroke-linecap="round"/>
-          <!-- Knee -->
-          <circle cx="77" cy="130" r="12" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="77" y="134" font-size="8" fill="#1e40af" text-anchor="middle" font-weight="700">Rodilla</text>
-          <!-- Tibia slight valgus physiological -->
-          <line x1="77" y1="142" x2="82" y2="205" stroke="#64748b" stroke-width="5" stroke-linecap="round"/>
-          <!-- Ankle -->
-          <ellipse cx="82" cy="210" rx="18" ry="9" fill="#bfdbfe" stroke="#3b82f6" stroke-width="1.5"/>
-          <text x="82" y="214" font-size="7.5" fill="#1e40af" text-anchor="middle" font-weight="700">Tobillo</text>
-          <!-- Mechanical axis -->
-          <line x1="77" y1="45" x2="82" y2="210" stroke="#10b981" stroke-width="2" stroke-dasharray="5,3"/>
-          <text x="28" y="128" font-size="8" fill="#059669" font-weight="700">Eje</text>
-          <text x="28" y="138" font-size="8" fill="#059669">mecánico</text>
-          <!-- Angle arc -->
-          <path d="M77,130 A18,18 0 0,1 92,148" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
-          <text x="96" y="143" font-size="9" fill="#d97706" font-weight="700">170-175°</text>
-
-          <!-- PATHOLOGICAL side -->
-          <rect x="170" y="5" width="145" height="220" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
-          <text x="242" y="22" font-size="11" fill="#b45309" text-anchor="middle" font-weight="700">Eje de Carga</text>
-          <!-- Hip -->
-          <circle cx="242" cy="45" r="14" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
-          <text x="242" y="49" font-size="7.5" fill="#92400e" text-anchor="middle" font-weight="700">Cadera</text>
-          <!-- Mechanical load axis through center -->
-          <line x1="242" y1="59" x2="242" y2="210" stroke="#b45309" stroke-width="2.5" stroke-dasharray="6,3"/>
-          <!-- Knee circle with compartments -->
-          <circle cx="242" cy="130" r="22" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-          <line x1="230" y1="130" x2="264" y2="130" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2"/>
-          <text x="234" y="128" font-size="7" fill="#78350f" font-weight="700">Med</text>
-          <text x="250" y="128" font-size="7" fill="#78350f" font-weight="700">Lat</text>
-          <text x="242" y="140" font-size="7.5" fill="#b45309" text-anchor="middle">50% / 50%</text>
-          <!-- Ankle -->
-          <ellipse cx="242" cy="210" rx="18" ry="9" fill="#fde68a" stroke="#f59e0b" stroke-width="1.5"/>
-          <text x="242" y="214" font-size="7.5" fill="#92400e" text-anchor="middle" font-weight="700">Tobillo</text>
-          <!-- Labels -->
-          <text x="172" y="170" font-size="8" fill="#b45309" font-weight="700">Carga equitativa</text>
-          <text x="172" y="180" font-size="8" fill="#b45309">medial / lateral</text>
-        </svg>
-        <div class="diagram-caption">El eje mecánico normal pasa por el <strong>centro de la rodilla</strong>, distribuyendo cargas simétricamente entre compartimentos.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 0;">
+          <div style="background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:10px;padding:14px;">
+            <strong style="color:var(--accent);font-size:0.9rem;display:block;margin-bottom:6px;">✅ Eje Normal</strong>
+            <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.65;">El eje mecánico pasa por el <strong>centro de la rodilla</strong>, distribuyendo la carga al <strong>50% medial / 50% lateral</strong>. Ángulo femorotibial normal: <strong>170–175°</strong> (leve valgo fisiológico).</p>
+          </div>
+          <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:14px;">
+            <strong style="color:var(--accent2);font-size:0.9rem;display:block;margin-bottom:6px;">⚖️ Eje de Carga</strong>
+            <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.65;">La línea va de la <strong>cabeza femoral al centro del tobillo</strong>. Pasa por el centro de la rodilla en alineación normal, garantizando carga simétrica entre compartimentos.</p>
+          </div>
+        </div>
+        <div class="diagram-caption">El eje mecánico normal pasa por el <strong>centro de la rodilla</strong>, distribuyendo cargas simétricamente entre compartimentos medial y lateral.</div>
       </div>
-      <!-- Ángulo Q SVG -->
       <div class="diagram-box">
         <h4>Ángulo Q del Cuádriceps</h4>
-        <svg viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-          <!-- EIAS -->
-          <circle cx="115" cy="20" r="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="115" y="24" font-size="7.5" fill="#1e40af" text-anchor="middle" font-weight="700">EIAS</text>
-          <!-- Patela -->
-          <ellipse cx="115" cy="110" rx="18" ry="20" fill="#bfdbfe" stroke="#3b82f6" stroke-width="2.5"/>
-          <text x="115" y="114" font-size="9" fill="#1e40af" text-anchor="middle" font-weight="700">Rótula</text>
-          <!-- Tuberosidad tibial -->
-          <rect x="102" y="170" width="26" height="16" rx="5" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
-          <text x="115" y="182" font-size="7" fill="#92400e" text-anchor="middle" font-weight="700">TTA</text>
-          <!-- Cuádriceps vector -->
-          <line x1="115" y1="30" x2="115" y2="90" stroke="#2563eb" stroke-width="3" stroke-linecap="round" marker-end="url(#arr-b)"/>
-          <text x="80" y="58" font-size="8.5" fill="#2563eb" font-weight="700">Vector</text>
-          <text x="80" y="69" font-size="8.5" fill="#2563eb">Cuádriceps</text>
-          <!-- Patela to TTA vector -->
-          <line x1="115" y1="130" x2="130" y2="170" stroke="#ea580c" stroke-width="3" stroke-linecap="round" marker-end="url(#arr-o2)"/>
-          <!-- Vertical reference -->
-          <line x1="115" y1="110" x2="115" y2="200" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,2"/>
-          <!-- Q angle arc -->
-          <path d="M115,155 A18,18 0 0,1 126,168" fill="none" stroke="#7c3aed" stroke-width="2.5"/>
-          <text x="135" y="155" font-size="11" fill="#7c3aed" font-weight="700">Q</text>
-          <!-- Normal range -->
-          <rect x="5" y="185" width="220" height="40" rx="8" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
-          <text x="115" y="202" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="700">Normal: 13° – 15°</text>
-          <text x="115" y="216" font-size="8.5" fill="#5b21b6" text-anchor="middle">Mayor en mujeres (anchura pélvica)</text>
-          <defs>
-            <marker id="arr-b" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2563eb"/></marker>
-            <marker id="arr-o2" markerWidth="8" markerHeight="8" refX="4" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ea580c"/></marker>
-          </defs>
-        </svg>
-        <div class="diagram-caption">El ángulo Q mide el vector de tracción del cuádriceps sobre la rótula. Valores elevados predisponen al síndrome femoropatelar.</div>
+        <div style="background:#f5f3ff;border:1.5px solid #c4b5fd;border-radius:10px;padding:14px;margin-bottom:8px;">
+          <strong style="color:var(--accent3);font-size:0.9rem;display:block;margin-bottom:6px;">Normal: 13° – 15°</strong>
+          <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.65;">Ángulo formado entre el vector de tracción del cuádriceps (EIAS → rótula) y el tendón rotuliano (rótula → TTA). <strong>Mayor en mujeres</strong> por la anchura pélvica.</p>
+        </div>
+        <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:14px;">
+          <strong style="color:var(--accent-red);font-size:0.9rem;display:block;margin-bottom:6px;">⚠ Ángulo Q elevado</strong>
+          <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.65;">Predispone al <strong>síndrome femoropatelar</strong> y a la desviación lateral de la rótula por mayor tracción oblicua del cuádriceps sobre la articulación patelofemoral.</p>
+        </div>
+        <div class="diagram-caption">El ángulo Q mide el vector de tracción del cuádriceps sobre la rótula.</div>
       </div>
     </div>
   </section>
 
-  <!-- ─── SLIDE 4: CLASIFICACIÓN DEFORMIDADES ─── -->
+  <!-- SLIDE 4 -->
   <section class="slide" id="s4">
     <div class="slide-label">Clasificación de las Deformidades</div>
     <h2 class="section-title">Genu Valgum, Varum y Recurvatum</h2>
     <div class="deform-grid">
-      <!-- Valgo -->
       <div class="deform-card">
         <div class="deform-header dh-valgo">🔵 Genu Valgum — Rodillas en "X"</div>
         <div class="deform-body">
-          <svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif" style="width:100%;display:block;">
-            <line x1="10" y1="122" x2="170" y2="122" stroke="#e2e8f0" stroke-width="1.5"/>
-            <!-- Left leg -->
-            <line x1="55" y1="10" x2="68" y2="60" stroke="#94a3b8" stroke-width="7" stroke-linecap="round"/>
-            <line x1="68" y1="60" x2="50" y2="118" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
-            <!-- Right leg -->
-            <line x1="125" y1="10" x2="112" y2="60" stroke="#94a3b8" stroke-width="7" stroke-linecap="round"/>
-            <line x1="112" y1="60" x2="130" y2="118" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
-            <!-- Knees touching / close -->
-            <circle cx="68" cy="62" r="11" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
-            <circle cx="112" cy="62" r="11" fill="#bfdbfe" stroke="#2563eb" stroke-width="2"/>
-            <!-- Ankles apart -->
-            <ellipse cx="50" cy="119" rx="16" ry="7" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
-            <ellipse cx="130" cy="119" rx="16" ry="7" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
-            <!-- Distance arrow -->
-            <line x1="52" y1="108" x2="128" y2="108" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <text x="90" y="103" font-size="8" fill="#dc2626" text-anchor="middle" font-weight="700">Dist. intermaleolar</text>
-            <text x="90" y="114" font-size="8" fill="#dc2626" text-anchor="middle">&gt;5 cm = Acentuado</text>
-          </svg>
-          <div style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
-            <div style="margin-bottom:5px;"><span class="tag tag-blue">Rodillas</span> Se aproximan a línea media</div>
-            <div style="margin-bottom:5px;"><span class="tag tag-red">Riesgo</span> Compresión compartimento lateral</div>
-            <div><span class="tag tag-blue">LCM</span> Ligamento colateral medial tensionado</div>
+          <div style="background:#eff6ff;border-radius:8px;padding:12px;font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
+            <strong style="color:var(--accent);display:block;margin-bottom:5px;">Descripción morfológica</strong>
+            Las rodillas se aproximan a la línea media mientras los maléolos permanecen separados. Forma visual de "X" entre los miembros inferiores.<br><br>
+            <strong>Criterio de acentuado:</strong> Distancia intermaleolar &gt; 5 cm con maléolos en contacto.
           </div>
+          <div><span class="tag tag-blue">Rodillas</span> Se aproximan a línea media</div>
+          <div><span class="tag tag-red">Riesgo</span> Compresión compartimento lateral</div>
+          <div><span class="tag tag-blue">LCM</span> Ligamento colateral medial tensionado</div>
         </div>
       </div>
-      <!-- Varo -->
       <div class="deform-card">
         <div class="deform-header dh-varo">🟠 Genu Varum — Rodillas en "O"</div>
         <div class="deform-body">
-          <svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif" style="width:100%;display:block;">
-            <line x1="10" y1="122" x2="170" y2="122" stroke="#e2e8f0" stroke-width="1.5"/>
-            <!-- Left leg varo -->
-            <line x1="60" y1="10" x2="45" y2="60" stroke="#94a3b8" stroke-width="7" stroke-linecap="round"/>
-            <line x1="45" y1="60" x2="60" y2="118" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
-            <!-- Right leg varo -->
-            <line x1="120" y1="10" x2="135" y2="60" stroke="#94a3b8" stroke-width="7" stroke-linecap="round"/>
-            <line x1="135" y1="60" x2="120" y2="118" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
-            <!-- Knees apart -->
-            <circle cx="45" cy="62" r="11" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-            <circle cx="135" cy="62" r="11" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-            <!-- Ankles touching -->
-            <ellipse cx="60" cy="119" rx="16" ry="7" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
-            <ellipse cx="120" cy="119" rx="16" ry="7" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
-            <!-- Space between knees -->
-            <line x1="58" y1="62" x2="122" y2="62" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2"/>
-            <text x="90" y="58" font-size="8" fill="#d97706" text-anchor="middle" font-weight="700">Separación</text>
-            <text x="90" y="75" font-size="8" fill="#d97706" text-anchor="middle">intercondilar</text>
-            <!-- Internal knee overload -->
-            <text x="45" y="82" font-size="8" fill="#b45309" text-anchor="middle" font-weight="700">↑</text>
-            <text x="135" y="82" font-size="8" fill="#b45309" text-anchor="middle" font-weight="700">↑</text>
-          </svg>
-          <div style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
-            <div style="margin-bottom:5px;"><span class="tag tag-amber">Maléolos</span> Se tocan, rodillas separadas</div>
-            <div style="margin-bottom:5px;"><span class="tag tag-red">Riesgo</span> Sobrecarga compartimento medial</div>
-            <div><span class="tag tag-amber">Artrosis</span> Principal precursor de artrosis interna precoz</div>
+          <div style="background:#fff7ed;border-radius:8px;padding:12px;font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
+            <strong style="color:var(--accent2);display:block;margin-bottom:5px;">Descripción morfológica</strong>
+            Los maléolos se tocan o están juntos pero las rodillas permanecen separadas. Forma visual de "O" o paréntesis entre los miembros inferiores.<br><br>
+            <strong>Criterio:</strong> Separación intercondilar visible con maléolos en contacto.
           </div>
+          <div><span class="tag tag-amber">Maléolos</span> Se tocan, rodillas separadas</div>
+          <div><span class="tag tag-red">Riesgo</span> Sobrecarga compartimento medial</div>
+          <div><span class="tag tag-amber">Artrosis</span> Principal precursor de artrosis interna precoz</div>
         </div>
       </div>
-      <!-- Recurvatum -->
       <div class="deform-card">
         <div class="deform-header dh-recurvatum">🟣 Genu Recurvatum</div>
         <div class="deform-body">
-          <svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif" style="width:100%;display:block;">
-            <line x1="10" y1="122" x2="170" y2="122" stroke="#e2e8f0" stroke-width="1.5"/>
-            <!-- Comparison: Normal vs Recurvatum -->
-            <rect x="5" y="5" width="80" height="112" rx="8" fill="#f8f9fa" stroke="#e2e8f0" stroke-width="1"/>
-            <text x="45" y="18" font-size="8.5" fill="#6b7280" text-anchor="middle" font-weight="700">Normal</text>
-            <!-- Normal leg -->
-            <line x1="45" y1="22" x2="45" y2="115" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
-            <circle cx="45" cy="72" r="10" fill="#dbeafe" stroke="#93c5fd" stroke-width="2"/>
-            <rect x="93" y="5" width="82" height="112" rx="8" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="1"/>
-            <text x="134" y="18" font-size="8.5" fill="#7c3aed" text-anchor="middle" font-weight="700">Recurvatum</text>
-            <!-- Recurvatum leg -->
-            <line x1="134" y1="22" x2="134" y2="62" stroke="#94a3b8" stroke-width="5" stroke-linecap="round"/>
-            <!-- Curved back knee -->
-            <path d="M134,62 Q148,80 134,95 Q125,105 134,115" fill="none" stroke="#7c3aed" stroke-width="5" stroke-linecap="round"/>
-            <circle cx="142" cy="78" r="11" fill="#ede9fe" stroke="#7c3aed" stroke-width="2.5"/>
-            <!-- Hyperextension arrow -->
-            <path d="M155,72 Q165,78 158,88" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arr-pu)"/>
-            <text x="158" y="68" font-size="7.5" fill="#7c3aed" font-weight="700">Hiper-</text>
-            <text x="158" y="78" font-size="7.5" fill="#7c3aed">ext.</text>
-            <defs><marker id="arr-pu" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#7c3aed"/></marker></defs>
-          </svg>
-          <div style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
-            <div style="margin-bottom:5px;"><span class="tag tag-purple">Plano</span> Deformidad en plano sagital</div>
-            <div style="margin-bottom:5px;"><span class="tag tag-purple">Mecanismo</span> Hiperextensión más allá de posición neutra</div>
-            <div><span class="tag tag-red">Riesgo</span> Sobrecarga posterior: LCP y poplíteo</div>
+          <div style="background:#fdf4ff;border-radius:8px;padding:12px;font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
+            <strong style="color:var(--accent3);display:block;margin-bottom:5px;">Descripción morfológica</strong>
+            Deformidad en el <strong>plano sagital</strong>: la rodilla se hiperextiende más allá de la posición neutra de 0°. Vista lateral muestra la rodilla "doblada hacia atrás".<br><br>
+            <strong>Estructuras en riesgo:</strong> LCP y músculo poplíteo.
           </div>
+          <div><span class="tag tag-purple">Plano</span> Deformidad en plano sagital</div>
+          <div><span class="tag tag-purple">Mecanismo</span> Hiperextensión más allá de posición neutra</div>
+          <div><span class="tag tag-red">Riesgo</span> Sobrecarga posterior: LCP y poplíteo</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── SLIDE 5: CARGA ARTICULAR SVG ─── -->
+  <!-- SLIDE 5 -->
   <section class="slide" id="s5">
     <div class="slide-label">Biomecánica de la Carga</div>
     <h2 class="section-title">Distribución de Cargas según el Eje</h2>
     <div class="diagram-row">
       <div class="diagram-box">
         <h4>📊 Ejes Mecánicos y Compartimentos</h4>
-        <svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-          <line x1="10" y1="190" x2="670" y2="190" stroke="#e2e8f0" stroke-width="1.5"/>
-          <!-- NORMAL -->
-          <rect x="8" y="5" width="195" height="182" rx="10" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.5"/>
-          <text x="105" y="22" font-size="11" fill="#0369a1" text-anchor="middle" font-weight="700">✅ Normal</text>
-          <line x1="105" y1="30" x2="105" y2="185" stroke="#0369a1" stroke-width="2" stroke-dasharray="5,3"/>
-          <ellipse cx="105" cy="110" rx="50" ry="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <line x1="75" y1="110" x2="135" y2="110" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,2"/>
-          <text x="87" y="107" font-size="8.5" fill="#1e40af" font-weight="700">50%</text>
-          <text x="112" y="107" font-size="8.5" fill="#1e40af" font-weight="700">50%</text>
-          <text x="67" y="122" font-size="7.5" fill="#1e40af">Med</text>
-          <text x="128" y="122" font-size="7.5" fill="#1e40af">Lat</text>
-          <text x="105" y="160" font-size="8.5" fill="#0369a1" text-anchor="middle">Carga equitativa</text>
-          <text x="105" y="172" font-size="8.5" fill="#0369a1" text-anchor="middle">Cartílago protegido</text>
-
-          <!-- GENU VALGO -->
-          <rect x="242" y="5" width="195" height="182" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
-          <text x="339" y="22" font-size="11" fill="#2563eb" text-anchor="middle" font-weight="700">🔵 Genu Valgo</text>
-          <line x1="339" y1="30" x2="339" y2="185" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,2"/>
-          <line x1="309" y1="30" x2="339" y2="185" stroke="#2563eb" stroke-width="2.5"/>
-          <text x="288" y="55" font-size="8" fill="#2563eb" font-weight="700">Eje medializado</text>
-          <ellipse cx="319" cy="110" rx="50" ry="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
-          <text x="302" y="107" font-size="8.5" fill="#1e40af" font-weight="700">30%</text>
-          <text x="328" y="107" font-size="8.5" fill="#ef4444" font-weight="700">70%</text>
-          <text x="290" y="120" font-size="7.5" fill="#6b7280">Med</text>
-          <text x="355" y="120" font-size="7.5" fill="#6b7280">Lat</text>
-          <!-- Lateral overload arrow -->
-          <path d="M355,85 L355,105" stroke="#ef4444" stroke-width="3" marker-end="url(#arr-rv)"/>
-          <text x="360" y="96" font-size="8" fill="#dc2626" font-weight="700">↑ Carga</text>
-          <text x="260" y="160" font-size="8.5" fill="#dc2626" text-anchor="middle">Compartimento lateral</text>
-          <text x="260" y="172" font-size="8.5" fill="#dc2626" text-anchor="middle">sobrecargado</text>
-
-          <!-- GENU VARO -->
-          <rect x="476" y="5" width="195" height="182" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.5"/>
-          <text x="573" y="22" font-size="11" fill="#b45309" text-anchor="middle" font-weight="700">🟠 Genu Varo</text>
-          <line x1="573" y1="30" x2="573" y2="185" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,2"/>
-          <line x1="603" y1="30" x2="573" y2="185" stroke="#b45309" stroke-width="2.5"/>
-          <text x="606" y="55" font-size="8" fill="#b45309" font-weight="700">Eje lateralizado</text>
-          <ellipse cx="555" cy="110" rx="50" ry="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-          <text x="527" y="107" font-size="8.5" fill="#ef4444" font-weight="700">70%</text>
-          <text x="562" y="107" font-size="8.5" fill="#b45309" font-weight="700">30%</text>
-          <!-- Medial overload arrow -->
-          <path d="M527" y1="85" fill="none"/>
-          <line x1="530" y1="85" x2="530" y2="105" stroke="#ef4444" stroke-width="3" marker-end="url(#arr-rv)"/>
-          <text x="490" y="160" font-size="8.5" fill="#dc2626" text-anchor="middle">Compartimento medial</text>
-          <text x="490" y="172" font-size="8.5" fill="#dc2626" text-anchor="middle">→ Artrosis precoz</text>
-          <defs><marker id="arr-rv" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
-        </svg>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:4px 0;">
+          <div style="background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:10px;padding:14px;text-align:center;">
+            <strong style="color:var(--accent);font-size:0.9rem;display:block;margin-bottom:6px;">✅ Normal</strong>
+            <p style="font-size:0.83rem;color:var(--text-muted);line-height:1.6;">Eje mecánico centrado.<br><strong>50% medial / 50% lateral</strong><br>Cartílago protegido en ambos compartimentos.</p>
+          </div>
+          <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:14px;text-align:center;">
+            <strong style="color:#2563eb;font-size:0.9rem;display:block;margin-bottom:6px;">🔵 Genu Valgo</strong>
+            <p style="font-size:0.83rem;color:var(--text-muted);line-height:1.6;">Eje desviado medialmente.<br><strong style="color:var(--accent-red);">30% medial / 70% lateral</strong><br>Compartimento lateral sobrecargado.</p>
+          </div>
+          <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:14px;text-align:center;">
+            <strong style="color:var(--accent2);font-size:0.9rem;display:block;margin-bottom:6px;">🟠 Genu Varo</strong>
+            <p style="font-size:0.83rem;color:var(--text-muted);line-height:1.6;">Eje desviado lateralmente.<br><strong style="color:var(--accent-red);">70% medial / 30% lateral</strong><br>Compartimento medial sobrecargado → artrosis.</p>
+          </div>
+        </div>
         <div class="diagram-caption">El desplazamiento del eje mecánico altera la distribución de cargas, comprometiendo el compartimento hacia el que se desvía el eje.</div>
       </div>
     </div>
@@ -470,7 +263,7 @@
     </div>
   </section>
 
-  <!-- ─── SLIDE 6: BIOMECÁNICA - PIE Y CADERA ─── -->
+  <!-- SLIDE 6 -->
   <section class="slide" id="s6">
     <div class="slide-label">Biomecánica y Cadenas Cinéticas · 1 de 2</div>
     <h2 class="section-title">Relación con Pie y Cadera</h2>
@@ -491,103 +284,39 @@
           </div>
         </div>
       </div>
-      <!-- Chain diagram SVG -->
       <div class="diagram-box animate" style="opacity:1;transform:none;">
         <h4>Cadena Cinética: Pie → Rodilla → Cadera</h4>
-        <svg viewBox="0 0 270 220" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-          <!-- Normal chain -->
-          <rect x="5" y="5" width="118" height="210" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
-          <text x="64" y="22" font-size="10" fill="#166534" text-anchor="middle" font-weight="700">✅ Normal</text>
-          <rect x="18" y="32" width="92" height="32" rx="8" fill="#d1fae5" stroke="#4ade80" stroke-width="1.5"/>
-          <text x="64" y="48" font-size="9" fill="#065f46" text-anchor="middle" font-weight="700">Pie neutro</text>
-          <text x="64" y="58" font-size="8" fill="#065f46" text-anchor="middle">Arco conservado</text>
-          <line x1="64" y1="64" x2="64" y2="78" stroke="#86efac" stroke-width="2" marker-end="url(#arr-gn)"/>
-          <rect x="18" y="82" width="92" height="32" rx="8" fill="#d1fae5" stroke="#4ade80" stroke-width="1.5"/>
-          <text x="64" y="98" font-size="9" fill="#065f46" text-anchor="middle" font-weight="700">Rodilla</text>
-          <text x="64" y="108" font-size="8" fill="#065f46" text-anchor="middle">Alineada (0° valgo)</text>
-          <line x1="64" y1="114" x2="64" y2="128" stroke="#86efac" stroke-width="2" marker-end="url(#arr-gn)"/>
-          <rect x="18" y="132" width="92" height="32" rx="8" fill="#d1fae5" stroke="#4ade80" stroke-width="1.5"/>
-          <text x="64" y="148" font-size="9" fill="#065f46" text-anchor="middle" font-weight="700">Cadera</text>
-          <text x="64" y="158" font-size="8" fill="#065f46" text-anchor="middle">Pelvis horizontal</text>
-          <text x="64" y="195" font-size="8.5" fill="#16a34a" text-anchor="middle" font-weight="700">Carga distribuida</text>
-          <text x="64" y="207" font-size="8" fill="#16a34a" text-anchor="middle">correctamente</text>
-
-          <!-- Pathological chain -->
-          <rect x="145" y="5" width="118" height="210" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
-          <text x="204" y="22" font-size="10" fill="#991b1b" text-anchor="middle" font-weight="700">⚠ Pie Plano</text>
-          <rect x="158" y="32" width="92" height="32" rx="8" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
-          <text x="204" y="48" font-size="9" fill="#991b1b" text-anchor="middle" font-weight="700">Pie pronado</text>
-          <text x="204" y="58" font-size="8" fill="#991b1b" text-anchor="middle">Tibia rot. interna</text>
-          <line x1="204" y1="64" x2="204" y2="78" stroke="#f87171" stroke-width="2" marker-end="url(#arr-gr)"/>
-          <rect x="158" y="82" width="92" height="32" rx="8" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
-          <text x="204" y="98" font-size="9" fill="#991b1b" text-anchor="middle" font-weight="700">Rodilla</text>
-          <text x="204" y="108" font-size="8" fill="#991b1b" text-anchor="middle">Valgo dinámico ⚠</text>
-          <line x1="204" y1="114" x2="204" y2="128" stroke="#f87171" stroke-width="2" marker-end="url(#arr-gr)"/>
-          <rect x="158" y="132" width="92" height="32" rx="8" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
-          <text x="204" y="148" font-size="9" fill="#991b1b" text-anchor="middle" font-weight="700">Cadera</text>
-          <text x="204" y="158" font-size="8" fill="#991b1b" text-anchor="middle">Trendelenburg</text>
-          <text x="204" y="195" font-size="8.5" fill="#dc2626" text-anchor="middle" font-weight="700">Sobrecarga en</text>
-          <text x="204" y="207" font-size="8" fill="#dc2626" text-anchor="middle">toda la cadena</text>
-          <defs>
-            <marker id="arr-gn" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#4ade80"/></marker>
-            <marker id="arr-gr" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#f87171"/></marker>
-          </defs>
-        </svg>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 0;">
+          <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px;">
+            <strong style="color:#166534;font-size:0.88rem;display:block;margin-bottom:5px;">✅ Normal</strong>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Pie neutro → Rodilla alineada (0° valgo) → Pelvis horizontal → Carga distribuida correctamente.</p>
+          </div>
+          <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:12px;">
+            <strong style="color:#991b1b;font-size:0.88rem;display:block;margin-bottom:5px;">⚠ Pie Plano</strong>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Pie pronado → Tibia rot. interna → Valgo dinámico rodilla → Trendelenburg → Sobrecarga en toda la cadena.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── SLIDE 7: VALGO DINÁMICO ─── -->
+  <!-- SLIDE 7 -->
   <section class="slide" id="s7">
     <div class="slide-label">Biomecánica y Cadenas Cinéticas · 2 de 2</div>
     <h2 class="section-title">Valgo Dinámico: El Rol del Glúteo Medio</h2>
     <div class="diagram-row">
       <div class="diagram-box">
         <h4>⚙️ Mecanismo del Valgo Dinámico</h4>
-        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-          <!-- Left: Normal -->
-          <rect x="5" y="5" width="145" height="190" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
-          <text x="77" y="22" font-size="11" fill="#15803d" text-anchor="middle" font-weight="700">✅ Glúteo Medio Fuerte</text>
-          <!-- Pelvis -->
-          <ellipse cx="77" cy="55" rx="40" ry="20" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
-          <text x="77" y="59" font-size="8.5" fill="#065f46" text-anchor="middle" font-weight="700">Pelvis estable</text>
-          <!-- Femur straight -->
-          <line x1="77" y1="75" x2="77" y2="130" stroke="#166534" stroke-width="6" stroke-linecap="round"/>
-          <!-- Knee -->
-          <circle cx="77" cy="134" r="12" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
-          <!-- Tibia straight -->
-          <line x1="77" y1="146" x2="77" y2="185" stroke="#166534" stroke-width="5" stroke-linecap="round"/>
-          <!-- Glute force arrow -->
-          <path d="M28,55 L52,55" fill="none" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arr-ga)"/>
-          <text x="18" y="44" font-size="8" fill="#16a34a" font-weight="700">Glúteo</text>
-          <text x="18" y="54" font-size="8" fill="#16a34a">Medio</text>
-          <text x="77" y="175" font-size="8.5" fill="#15803d" text-anchor="middle">Rodilla sobre 2° dedo</text>
-
-          <!-- Right: Dynamic valgus -->
-          <rect x="168" y="5" width="147" height="190" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
-          <text x="241" y="22" font-size="11" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ Glúteo Débil</text>
-          <!-- Pelvis dropped -->
-          <ellipse cx="241" cy="55" rx="40" ry="20" fill="#fee2e2" stroke="#f87171" stroke-width="2" transform="rotate(8,241,55)"/>
-          <text x="241" y="55" font-size="8.5" fill="#991b1b" text-anchor="middle" font-weight="700">Pelvis cae</text>
-          <!-- Femur in internal rotation -->
-          <line x1="241" y1="75" x2="222" y2="130" stroke="#dc2626" stroke-width="6" stroke-linecap="round"/>
-          <!-- Knee medial collapse -->
-          <circle cx="222" cy="134" r="12" fill="#fee2e2" stroke="#ef4444" stroke-width="2.5"/>
-          <!-- Tibia -->
-          <line x1="222" y1="146" x2="235" y2="185" stroke="#dc2626" stroke-width="5" stroke-linecap="round"/>
-          <!-- Valgus arrow -->
-          <path d="M250,110 Q240,120 225,130" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arr-ra)"/>
-          <text x="252" y="108" font-size="8.5" fill="#dc2626" font-weight="700">Valgo</text>
-          <text x="252" y="118" font-size="8.5" fill="#dc2626">dinámico</text>
-          <!-- Rot interna label -->
-          <path d="M241,90 Q256,100 252,115" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,2"/>
-          <text x="258" y="132" font-size="7.5" fill="#d97706" font-weight="700">Rot.</text>
-          <text x="258" y="142" font-size="7.5" fill="#d97706">Interna</text>
-          <defs>
-            <marker id="arr-ga" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#16a34a"/></marker>
-            <marker id="arr-ra" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker>
-          </defs>
-        </svg>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 0;">
+          <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:14px;">
+            <strong style="color:#15803d;font-size:0.88rem;display:block;margin-bottom:5px;">✅ Glúteo Medio Fuerte</strong>
+            <p style="font-size:0.83rem;color:var(--text-muted);line-height:1.6;">El glúteo medio estabiliza la pelvis y controla la rotación interna del fémur. La rodilla permanece alineada sobre el 2° dedo del pie durante toda la carga.</p>
+          </div>
+          <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:14px;">
+            <strong style="color:#b91c1c;font-size:0.88rem;display:block;margin-bottom:5px;">⚠ Glúteo Débil</strong>
+            <p style="font-size:0.83rem;color:var(--text-muted);line-height:1.6;">Sin control proximal, el fémur rota internamente, la pelvis cae (Trendelenburg) y la rodilla colapsa en valgo dinámico durante la carga.</p>
+          </div>
+        </div>
         <div class="diagram-caption">La debilidad del <strong>glúteo medio</strong> no controla la rotación interna del fémur, permitiendo el colapso en valgo de la rodilla.</div>
       </div>
       <div class="item-list">
@@ -616,89 +345,43 @@
     </div>
   </section>
 
-  <!-- ─── SLIDE 8: EVALUACIÓN ─── -->
+  <!-- SLIDE 8 -->
   <section class="slide" id="s8">
     <div class="slide-label">Evaluación Funcional</div>
     <h2 class="section-title">Tests Clínicos de Referencia</h2>
     <div class="two-col">
-      <!-- Single leg squat -->
       <div class="diagram-box animate" style="opacity:1;transform:none;">
         <h4>🧍 Sentadilla Monopodal (Single Leg Squat)</h4>
-        <svg viewBox="0 0 270 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-          <!-- Normal -->
-          <rect x="5" y="5" width="118" height="190" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
-          <text x="64" y="22" font-size="10" fill="#15803d" text-anchor="middle" font-weight="700">✅ Correcto</text>
-          <!-- Leg straight down -->
-          <line x1="64" y1="35" x2="64" y2="100" stroke="#166534" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="64" cy="102" r="10" fill="#d1fae5" stroke="#4ade80" stroke-width="2"/>
-          <line x1="64" y1="112" x2="64" y2="165" stroke="#166334" stroke-width="4.5" stroke-linecap="round"/>
-          <!-- Foot + 2nd toe reference -->
-          <ellipse cx="64" cy="170" rx="22" ry="9" fill="#d1fae5" stroke="#4ade80" stroke-width="1.5"/>
-          <line x1="64" y1="100" x2="64" y2="180" stroke="#0369a1" stroke-width="1.5" stroke-dasharray="4,2"/>
-          <text x="64" y="185" font-size="8" fill="#0369a1" text-anchor="middle" font-weight="700">Rodilla → 2° dedo</text>
-
-          <!-- Wrong -->
-          <rect x="147" y="5" width="118" height="190" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
-          <text x="206" y="22" font-size="10" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ Valgo Dinámico</text>
-          <line x1="206" y1="35" x2="185" y2="100" stroke="#dc2626" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="185" cy="102" r="10" fill="#fee2e2" stroke="#f87171" stroke-width="2.5"/>
-          <line x1="185" y1="112" x2="200" y2="165" stroke="#dc2626" stroke-width="4.5" stroke-linecap="round"/>
-          <ellipse cx="200" cy="170" rx="22" ry="9" fill="#fee2e2" stroke="#f87171" stroke-width="1.5"/>
-          <!-- Medial arrow -->
-          <path d="M210,100 L188,100" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arr-med)"/>
-          <text x="218" y="95" font-size="8" fill="#dc2626" font-weight="700">Caída</text>
-          <text x="218" y="105" font-size="8" fill="#dc2626">medial</text>
-          <text x="206" y="185" font-size="8" fill="#dc2626" text-anchor="middle" font-weight="700">Glúteo medio débil</text>
-          <defs><marker id="arr-med" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker></defs>
-        </svg>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 0;">
+          <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px;">
+            <strong style="color:#15803d;font-size:0.88rem;display:block;margin-bottom:4px;">✅ Correcto</strong>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Rodilla permanece sobre el 2° dedo del pie durante toda la flexión. Pelvis estable y tronco erecto.</p>
+          </div>
+          <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:12px;">
+            <strong style="color:#b91c1c;font-size:0.88rem;display:block;margin-bottom:4px;">⚠ Valgo Dinámico</strong>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Rodilla cae medialmente respecto al 2° dedo. Indica debilidad del glúteo medio.</p>
+          </div>
+        </div>
         <div class="diagram-caption">Prueba de referencia para el control motor. La rodilla debe mantenerse sobre el 2° dedo del pie durante toda la flexión.</div>
       </div>
-      <!-- Ligament stress tests -->
       <div class="diagram-box animate" style="opacity:1;transform:none;">
         <h4>🧪 Pruebas de Estrés Ligamentoso</h4>
-        <svg viewBox="0 0 270 200" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-          <!-- Knee anatomy base -->
-          <ellipse cx="135" cy="105" rx="75" ry="55" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
-          <!-- Femur -->
-          <rect x="110" y="10" width="50" height="55" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
-          <text x="135" y="42" font-size="9" fill="#475569" text-anchor="middle" font-weight="700">Fémur</text>
-          <!-- Tibia -->
-          <rect x="110" y="147" width="50" height="48" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
-          <text x="135" y="175" font-size="9" fill="#475569" text-anchor="middle" font-weight="700">Tibia</text>
-          <!-- LCM medial -->
-          <line x1="68" y1="80" x2="68" y2="135" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/>
-          <text x="22" y="100" font-size="8.5" fill="#1d4ed8" font-weight="700">LCM</text>
-          <text x="22" y="112" font-size="8" fill="#1d4ed8">(Medial)</text>
-          <!-- LLE lateral -->
-          <line x1="202" y1="80" x2="202" y2="135" stroke="#b45309" stroke-width="4" stroke-linecap="round"/>
-          <text x="210" y="100" font-size="8.5" fill="#b45309" font-weight="700">LLE</text>
-          <text x="210" y="112" font-size="8" fill="#b45309">(Lateral)</text>
-          <!-- Valgus stress arrow -->
-          <path d="M200" y1="108" fill="none"/>
-          <path d="M222,107 L202,107" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#arr-vs)"/>
-          <text x="226" y="125" font-size="8" fill="#1d4ed8" font-weight="700">Estrés</text>
-          <text x="226" y="135" font-size="8" fill="#1d4ed8">en Valgo</text>
-          <text x="226" y="145" font-size="7.5" fill="#1d4ed8">→ testa LCM</text>
-          <!-- Varus stress arrow -->
-          <path d="M48,107 L68,107" fill="none" stroke="#b45309" stroke-width="3" marker-end="url(#arr-vrs)"/>
-          <text x="5" y="125" font-size="8" fill="#b45309" font-weight="700">Estrés</text>
-          <text x="5" y="135" font-size="8" fill="#b45309">en Varo</text>
-          <text x="5" y="145" font-size="7.5" fill="#b45309">→ testa LLE</text>
-          <!-- PCL/ACL center -->
-          <ellipse cx="135" cy="110" rx="18" ry="25" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5" opacity="0.6"/>
-          <text x="135" y="107" font-size="7.5" fill="#1e40af" text-anchor="middle" font-weight="700">LCA</text>
-          <text x="135" y="117" font-size="7.5" fill="#1e40af" text-anchor="middle">LCP</text>
-          <defs>
-            <marker id="arr-vs" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#2563eb"/></marker>
-            <marker id="arr-vrs" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#b45309"/></marker>
-          </defs>
-        </svg>
-        <div class="diagram-caption">El estrés en valgo evalúa el LCM, el estrés en varo evalúa el LLE. Se realizan con la rodilla en 0° y 30° de flexión.</div>
+        <div style="display:flex;flex-direction:column;gap:8px;padding:4px 0;">
+          <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:12px;">
+            <strong style="color:var(--accent);font-size:0.88rem;display:block;margin-bottom:3px;">Estrés en Valgo → testa LCM</strong>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Se aplica fuerza lateral desde el exterior de la rodilla. Positivo si hay dolor o apertura del compartimento medial. Se realiza a 0° y 30° de flexión.</p>
+          </div>
+          <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:12px;">
+            <strong style="color:var(--accent2);font-size:0.88rem;display:block;margin-bottom:3px;">Estrés en Varo → testa LLE</strong>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Se aplica fuerza desde el interior de la rodilla hacia afuera. Positivo si hay dolor o apertura del compartimento lateral. También a 0° y 30°.</p>
+          </div>
+        </div>
+        <div class="diagram-caption">El estrés en valgo evalúa el LCM; el estrés en varo evalúa el LLE. Se realizan con rodilla en 0° y 30° de flexión.</div>
       </div>
     </div>
   </section>
 
-  <!-- ─── SLIDE 9: TRATAMIENTO GENU VALGO ─── -->
+  <!-- SLIDE 9 -->
   <section class="slide" id="s9">
     <div class="slide-label">Tratamiento Kinésico · Genu Valgo</div>
     <h2 class="section-title">Objetivos Musculares en Genu Valgum</h2>
@@ -706,70 +389,26 @@
     <div class="muscle-section">
       <div class="muscle-header mh-valgo">💪 Músculos Objetivo — Genu Valgo</div>
       <div class="muscle-list">
-        <div class="muscle-item">
-          <div class="muscle-icon mi-blue">🎯</div>
-          <div>
-            <div class="muscle-name">Vasto Medial Oblicuo (VMO)</div>
-            <div class="muscle-role">Fundamental para el <strong>centraje rotuliano</strong>. Contrarresta la tracción lateral del vasto lateral que desvía la rótula.</div>
-          </div>
-        </div>
-        <div class="muscle-item">
-          <div class="muscle-icon mi-blue">🦿</div>
-          <div>
-            <div class="muscle-name">Músculos de la Pata de Ganso</div>
-            <div class="muscle-role"><strong>Sartorio, Grácil y Semitendinoso</strong>. Estabilizan la cara medial de la rodilla y refuerzan el LCM ante fuerzas en valgo.</div>
-          </div>
-        </div>
-        <div class="muscle-item">
-          <div class="muscle-icon mi-blue">🔩</div>
-          <div>
-            <div class="muscle-name">Poplíteo</div>
-            <div class="muscle-role">Ayuda a la <strong>estabilidad rotatoria posterior</strong> de la rodilla. Actúa como "desencajador" para iniciar la flexión desde extensión completa.</div>
-          </div>
-        </div>
-        <div class="muscle-item">
-          <div class="muscle-icon mi-blue">🍑</div>
-          <div>
-            <div class="muscle-name">Glúteo Medio y Mayor</div>
-            <div class="muscle-role">Control de la <strong>rotación interna del fémur</strong>. Sin su activación, ningún trabajo en la rodilla será suficiente para corregir el valgo dinámico.</div>
-          </div>
-        </div>
+        <div class="muscle-item"><div class="muscle-icon mi-blue">🎯</div><div><div class="muscle-name">Vasto Medial Oblicuo (VMO)</div><div class="muscle-role">Fundamental para el <strong>centraje rotuliano</strong>. Contrarresta la tracción lateral del vasto lateral que desvía la rótula.</div></div></div>
+        <div class="muscle-item"><div class="muscle-icon mi-blue">🦿</div><div><div class="muscle-name">Músculos de la Pata de Ganso</div><div class="muscle-role"><strong>Sartorio, Grácil y Semitendinoso</strong>. Estabilizan la cara medial de la rodilla y refuerzan el LCM ante fuerzas en valgo.</div></div></div>
+        <div class="muscle-item"><div class="muscle-icon mi-blue">🔩</div><div><div class="muscle-name">Poplíteo</div><div class="muscle-role">Ayuda a la <strong>estabilidad rotatoria posterior</strong> de la rodilla. Actúa como "desencajador" para iniciar la flexión desde extensión completa.</div></div></div>
+        <div class="muscle-item"><div class="muscle-icon mi-blue">🍑</div><div><div class="muscle-name">Glúteo Medio y Mayor</div><div class="muscle-role">Control de la <strong>rotación interna del fémur</strong>. Sin su activación, ningún trabajo en la rodilla será suficiente para corregir el valgo dinámico.</div></div></div>
       </div>
     </div>
-    <!-- SVG VMO diagram -->
     <div class="two-col">
       <div class="diagram-box animate" style="opacity:1;transform:none;">
         <h4>VMO y Centraje Rotuliano</h4>
-        <svg viewBox="0 0 260 130" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-          <!-- Femur condyles -->
-          <ellipse cx="130" cy="30" rx="60" ry="22" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
-          <text x="130" y="34" font-size="9" fill="#475569" text-anchor="middle" font-weight="700">Fémur</text>
-          <!-- Patella centred -->
-          <rect x="8" y="5" width="110" height="120" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
-          <text x="63" y="20" font-size="9.5" fill="#15803d" text-anchor="middle" font-weight="700">✅ VMO activo</text>
-          <ellipse cx="63" cy="80" rx="22" ry="18" fill="#d1fae5" stroke="#4ade80" stroke-width="2.5"/>
-          <text x="63" y="84" font-size="8.5" fill="#065f46" text-anchor="middle" font-weight="700">Rótula</text>
-          <text x="63" y="95" font-size="7.5" fill="#065f46" text-anchor="middle">centrada</text>
-          <!-- VMO force arrow -->
-          <path d="M28,55 L50,72" fill="none" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arr-vmo)"/>
-          <text x="8" y="44" font-size="7.5" fill="#16a34a" font-weight="700">VMO</text>
-          <text x="8" y="54" font-size="7.5" fill="#16a34a">activo</text>
-          <!-- Wrong side -->
-          <rect x="142" y="5" width="110" height="120" rx="10" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
-          <text x="197" y="20" font-size="9.5" fill="#b91c1c" text-anchor="middle" font-weight="700">⚠ VMO débil</text>
-          <ellipse cx="208" cy="80" rx="22" ry="18" fill="#fee2e2" stroke="#f87171" stroke-width="2.5"/>
-          <text x="208" y="84" font-size="8.5" fill="#991b1b" text-anchor="middle" font-weight="700">Rótula</text>
-          <text x="208" y="95" font-size="7.5" fill="#991b1b" text-anchor="middle">desviada Lat.</text>
-          <!-- Lateral pull -->
-          <path d="M228,70 L210,76" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#arr-vlat)"/>
-          <text x="230" y="65" font-size="7.5" fill="#dc2626" font-weight="700">VL</text>
-          <text x="230" y="75" font-size="7.5" fill="#dc2626">domina</text>
-          <defs>
-            <marker id="arr-vmo" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#16a34a"/></marker>
-            <marker id="arr-vlat" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#ef4444"/></marker>
-          </defs>
-        </svg>
-        <div class="diagram-caption">El VMO débil permite que el vasto lateral desplace la rótula lateralmente, generando dolor femoropatelar y desgaste del cartílago.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 0;">
+          <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px;">
+            <strong style="color:#15803d;font-size:0.88rem;display:block;margin-bottom:4px;">✅ VMO activo</strong>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">El VMO tira medialmente de la rótula, equilibrando la tracción lateral del vasto lateral. Rótula centrada en la tróclea femoral.</p>
+          </div>
+          <div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:12px;">
+            <strong style="color:#b91c1c;font-size:0.88rem;display:block;margin-bottom:4px;">⚠ VMO débil</strong>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">El vasto lateral domina y desplaza la rótula lateralmente → síndrome femoropatelar y desgaste del cartílago retrorrotuliano.</p>
+          </div>
+        </div>
+        <div class="diagram-caption">El VMO débil permite que el vasto lateral desplace la rótula lateralmente, generando dolor femoropatelar.</div>
       </div>
       <div class="highlight-box" style="align-self:center;">
         <div class="highlight-icon">⚡</div>
@@ -778,7 +417,7 @@
     </div>
   </section>
 
-  <!-- ─── SLIDE 10: TRATAMIENTO GENU VARO ─── -->
+  <!-- SLIDE 10 -->
   <section class="slide" id="s10">
     <div class="slide-label">Tratamiento Kinésico · Genu Varo</div>
     <h2 class="section-title">Objetivos Musculares en Genu Varum</h2>
@@ -786,27 +425,9 @@
     <div class="muscle-section">
       <div class="muscle-header mh-varo">💪 Músculos Objetivo — Genu Varo</div>
       <div class="muscle-list">
-        <div class="muscle-item">
-          <div class="muscle-icon mi-amber">🏃</div>
-          <div>
-            <div class="muscle-name">Tensor de la Fascia Lata (TFL)</div>
-            <div class="muscle-role">Estabilizador lateral de la cadera y rodilla. Junto con la <strong>cintilla iliotibial (ITB)</strong>, ayuda a controlar el varo en carga y distribuye fuerzas en el compartimento lateral.</div>
-          </div>
-        </div>
-        <div class="muscle-item">
-          <div class="muscle-icon mi-amber">🦿</div>
-          <div>
-            <div class="muscle-name">Bíceps Femoral</div>
-            <div class="muscle-role"><strong>Flexor y rotador externo</strong> de la rodilla. Colabora en la estabilización del compartimento lateral y contrarresta la tendencia al varo en carga.</div>
-          </div>
-        </div>
-        <div class="muscle-item">
-          <div class="muscle-icon mi-amber">🍑</div>
-          <div>
-            <div class="muscle-name">Glúteo Mayor</div>
-            <div class="muscle-role"><strong>Potente estabilizador</strong> de la cadera en carga. Su activación controla la extensión de cadera y la rotación externa femoral, reduciendo la tensión varo en la rodilla.</div>
-          </div>
-        </div>
+        <div class="muscle-item"><div class="muscle-icon mi-amber">🏃</div><div><div class="muscle-name">Tensor de la Fascia Lata (TFL)</div><div class="muscle-role">Estabilizador lateral de la cadera y rodilla. Junto con la <strong>cintilla iliotibial (ITB)</strong>, ayuda a controlar el varo en carga y distribuye fuerzas en el compartimento lateral.</div></div></div>
+        <div class="muscle-item"><div class="muscle-icon mi-amber">🦿</div><div><div class="muscle-name">Bíceps Femoral</div><div class="muscle-role"><strong>Flexor y rotador externo</strong> de la rodilla. Colabora en la estabilización del compartimento lateral y contrarresta la tendencia al varo en carga.</div></div></div>
+        <div class="muscle-item"><div class="muscle-icon mi-amber">🍑</div><div><div class="muscle-name">Glúteo Mayor</div><div class="muscle-role"><strong>Potente estabilizador</strong> de la cadera en carga. Su activación controla la extensión de cadera y la rotación externa femoral, reduciendo la tensión varo en la rodilla.</div></div></div>
       </div>
     </div>
     <div class="two-col" style="margin-top:4px;">
@@ -821,7 +442,7 @@
     </div>
   </section>
 
-  <!-- ─── SLIDE 11: CONTROL MOTOR ─── -->
+  <!-- SLIDE 11 -->
   <section class="slide" id="s11">
     <div class="slide-label">Control Motor y Progresión</div>
     <h2 class="section-title">Reeducación Neuromuscular en Cadena Cerrada</h2>
@@ -841,102 +462,53 @@
         </div>
       </div>
     </div>
-    <!-- Progression steps -->
     <div class="diagram-box animate" style="opacity:1;transform:none;">
       <h4>Progresión de Tratamiento: Cadena Cinética Cerrada</h4>
-      <svg viewBox="0 0 720 100" xmlns="http://www.w3.org/2000/svg" font-family="DM Sans,sans-serif">
-        <!-- Step boxes connected by arrows -->
-        <rect x="8" y="10" width="124" height="80" rx="10" fill="#eff6ff" stroke="#bfdbfe" stroke-width="2"/>
-        <text x="70" y="32" font-size="10" fill="#1d4ed8" text-anchor="middle" font-weight="700">① Analítico</text>
-        <text x="70" y="48" font-size="8.5" fill="#3b82f6" text-anchor="middle">Glúteo medio</text>
-        <text x="70" y="60" font-size="8.5" fill="#3b82f6" text-anchor="middle">VMO aislado</text>
-        <text x="70" y="72" font-size="8.5" fill="#3b82f6" text-anchor="middle">Decúbito / sedestación</text>
-        <path d="M132,50 L152,50" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr-prog)"/>
-        <rect x="156" y="10" width="136" height="80" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="2"/>
-        <text x="224" y="32" font-size="10" fill="#15803d" text-anchor="middle" font-weight="700">② Funcional Bipodal</text>
-        <text x="224" y="48" font-size="8.5" fill="#16a34a" text-anchor="middle">Sentadilla bilateral</text>
-        <text x="224" y="60" font-size="8.5" fill="#16a34a" text-anchor="middle">con control de valgo</text>
-        <text x="224" y="72" font-size="8.5" fill="#16a34a" text-anchor="middle">Espejo / biofeedback</text>
-        <path d="M292,50 L312,50" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr-prog)"/>
-        <rect x="316" y="10" width="136" height="80" rx="10" fill="#fff7ed" stroke="#fed7aa" stroke-width="2"/>
-        <text x="384" y="32" font-size="10" fill="#b45309" text-anchor="middle" font-weight="700">③ Funcional Monopodal</text>
-        <text x="384" y="48" font-size="8.5" fill="#b45309" text-anchor="middle">Single Leg Squat</text>
-        <text x="384" y="60" font-size="8.5" fill="#b45309" text-anchor="middle">Step lateral / step up</text>
-        <text x="384" y="72" font-size="8.5" fill="#b45309" text-anchor="middle">Lunge con control</text>
-        <path d="M452,50 L472,50" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr-prog)"/>
-        <rect x="476" y="10" width="136" height="80" rx="10" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="2"/>
-        <text x="544" y="32" font-size="10" fill="#7c3aed" text-anchor="middle" font-weight="700">④ Deporte Integrado</text>
-        <text x="544" y="48" font-size="8.5" fill="#7c3aed" text-anchor="middle">Saltos monopodales</text>
-        <text x="544" y="60" font-size="8.5" fill="#7c3aed" text-anchor="middle">Cambios de dirección</text>
-        <text x="544" y="72" font-size="8.5" fill="#7c3aed" text-anchor="middle">Gestos deportivos</text>
-        <path d="M612,50 L632,50" fill="none" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#arr-prog)"/>
-        <rect x="634" y="24" width="80" height="52" rx="10" fill="#fef3c7" stroke="#fcd34d" stroke-width="2"/>
-        <text x="674" y="46" font-size="8.5" fill="#92400e" text-anchor="middle" font-weight="700">✅ Alta</text>
-        <text x="674" y="58" font-size="8" fill="#92400e" text-anchor="middle">Movimiento</text>
-        <text x="674" y="68" font-size="8" fill="#92400e" text-anchor="middle">automático</text>
-        <defs><marker id="arr-prog" markerWidth="7" markerHeight="7" refX="3.5" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"/></marker></defs>
-      </svg>
-      <div class="diagram-caption">La progresión va de lo analítico a lo integrado. El criterio de avance es la capacidad de mantener la alineación correcta de la rodilla sin compensaciones.</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:4px 0;">
+        <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:14px;text-align:center;">
+          <strong style="color:#1d4ed8;font-size:0.88rem;display:block;margin-bottom:5px;">① Analítico</strong>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.55;">Glúteo medio y VMO aislados. Decúbito o sedestación.</p>
+        </div>
+        <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:14px;text-align:center;">
+          <strong style="color:#15803d;font-size:0.88rem;display:block;margin-bottom:5px;">② Funcional Bipodal</strong>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.55;">Sentadilla bilateral con control de valgo. Espejo / biofeedback.</p>
+        </div>
+        <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:14px;text-align:center;">
+          <strong style="color:var(--accent2);font-size:0.88rem;display:block;margin-bottom:5px;">③ Funcional Monopodal</strong>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.55;">Single Leg Squat, step lateral, lunge con control.</p>
+        </div>
+        <div style="background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:10px;padding:14px;text-align:center;">
+          <strong style="color:var(--accent3);font-size:0.88rem;display:block;margin-bottom:5px;">④ Deporte Integrado</strong>
+          <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.55;">Saltos monopodales, cambios de dirección, gestos deportivos.</p>
+        </div>
+      </div>
+      <div class="diagram-caption">La progresión va de lo analítico a lo integrado. El criterio de avance es mantener la alineación correcta sin compensaciones.</div>
     </div>
   </section>
 
-  <!-- ─── SLIDE 12: COMPARATIVA COMPLETA ─── -->
+  <!-- SLIDE 12 -->
   <section class="slide" id="s12">
     <div class="slide-label">Síntesis Comparativa</div>
     <h2 class="section-title">Valgo vs. Varo: Resumen Clínico</h2>
     <div class="two-col">
       <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);">
-        <div style="background:rgba(3,105,161,0.07);padding:14px 18px;border-bottom:1.5px solid var(--border);">
-          <span style="font-size:0.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);">🔵 Genu Valgum</span>
-        </div>
+        <div style="background:rgba(3,105,161,0.07);padding:14px 18px;border-bottom:1.5px solid var(--border);"><span style="font-size:0.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);">🔵 Genu Valgum</span></div>
         <div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-blue" style="flex-shrink:0;">Morfología</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">Rodillas en "X", maléolos separados (&gt;5cm = acentuado)</span>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-blue" style="flex-shrink:0;">Carga</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">Sobrecarga compartimento <strong>lateral</strong></span>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-blue" style="flex-shrink:0;">Ligamento</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">LCM (colateral medial) tensionado</span>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-blue" style="flex-shrink:0;">Músculos</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">VMO, pata de ganso, glúteo medio, poplíteo</span>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-red" style="flex-shrink:0;">Riesgo</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">S. femoropatelar, lesión LCM, artrosis lateral</span>
-          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Morfología</span><span style="font-size:0.92rem;color:var(--text-muted);">Rodillas en "X", maléolos separados (&gt;5cm = acentuado)</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Carga</span><span style="font-size:0.92rem;color:var(--text-muted);">Sobrecarga compartimento <strong>lateral</strong></span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Ligamento</span><span style="font-size:0.92rem;color:var(--text-muted);">LCM (colateral medial) tensionado</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-blue" style="flex-shrink:0;">Músculos</span><span style="font-size:0.92rem;color:var(--text-muted);">VMO, pata de ganso, glúteo medio, poplíteo</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Riesgo</span><span style="font-size:0.92rem;color:var(--text-muted);">S. femoropatelar, lesión LCM, artrosis lateral</span></div>
         </div>
       </div>
       <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);">
-        <div style="background:rgba(180,83,9,0.07);padding:14px 18px;border-bottom:1.5px solid var(--border);">
-          <span style="font-size:0.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent2);">🟠 Genu Varum</span>
-        </div>
+        <div style="background:rgba(180,83,9,0.07);padding:14px 18px;border-bottom:1.5px solid var(--border);"><span style="font-size:0.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent2);">🟠 Genu Varum</span></div>
         <div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-amber" style="flex-shrink:0;">Morfología</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">Rodillas en "O" / paréntesis, maléolos juntos</span>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-amber" style="flex-shrink:0;">Carga</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">Sobrecarga compartimento <strong>medial</strong></span>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-amber" style="flex-shrink:0;">Ligamento</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">LLE (colateral externo) tensionado</span>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-amber" style="flex-shrink:0;">Músculos</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);">TFL, bíceps femoral, glúteo mayor</span>
-          </div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <span class="tag tag-red" style="flex-shrink:0;">Riesgo</span>
-            <span style="font-size:0.92rem;color:var(--text-muted);"><strong>Artrosis interna precoz</strong> — principal consecuencia</span>
-          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Morfología</span><span style="font-size:0.92rem;color:var(--text-muted);">Rodillas en "O" / paréntesis, maléolos juntos</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Carga</span><span style="font-size:0.92rem;color:var(--text-muted);">Sobrecarga compartimento <strong>medial</strong></span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Ligamento</span><span style="font-size:0.92rem;color:var(--text-muted);">LLE (colateral externo) tensionado</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-amber" style="flex-shrink:0;">Músculos</span><span style="font-size:0.92rem;color:var(--text-muted);">TFL, bíceps femoral, glúteo mayor</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span class="tag tag-red" style="flex-shrink:0;">Riesgo</span><span style="font-size:0.92rem;color:var(--text-muted);"><strong>Artrosis interna precoz</strong> — principal consecuencia</span></div>
         </div>
       </div>
     </div>
@@ -946,47 +518,22 @@
     </div>
   </section>
 
-  <!-- ─── SLIDE 13: RESUMEN ─── -->
+  <!-- SLIDE 13 -->
   <section class="slide" id="s13">
     <div class="slide-label">Resumen Final</div>
     <h2 class="section-title">Conceptos Esenciales de la Lección</h2>
     <div class="summary-grid">
-      <div class="summary-item">
-        <div class="big-icon">📐</div>
-        <h4>Eje Femorotibial</h4>
-        <p>Normal: 170–175° (no 180°). El eje de carga pasa por el centro de la rodilla distribuyendo cargas al 50%.</p>
-      </div>
-      <div class="summary-item">
-        <div class="big-icon">🔵</div>
-        <h4>Genu Valgo</h4>
-        <p>Rodillas en "X". Sobrecarga compartimento lateral. Criterio: distancia intermaleolar &gt;5 cm.</p>
-      </div>
-      <div class="summary-item">
-        <div class="big-icon">🟠</div>
-        <h4>Genu Varo</h4>
-        <p>Rodillas en "O". Sobrecarga medial → artrosis interna precoz. Principal precursor de gonartrosis.</p>
-      </div>
-      <div class="summary-item">
-        <div class="big-icon">⛓️</div>
-        <h4>Cadena Cinética</h4>
-        <p>Pie pronado → tibia rot. interna → valgo rodilla. Coxa vara → varo. Coxa valga → varo compensador.</p>
-      </div>
-      <div class="summary-item">
-        <div class="big-icon">🍑</div>
-        <h4>Valgo Dinámico</h4>
-        <p>Causado por debilidad del glúteo medio. Test: Single Leg Squat. Rodilla debe mantenerse sobre 2° dedo.</p>
-      </div>
-      <div class="summary-item">
-        <div class="big-icon">💪</div>
-        <h4>Tratamiento</h4>
-        <p>Valgo: VMO + pata ganso + glúteo. Varo: TFL + bíceps femoral + glúteo mayor. Siempre en cadena cerrada.</p>
-      </div>
+      <div class="summary-item"><div class="big-icon">📐</div><h4>Eje Femorotibial</h4><p>Normal: 170–175° (no 180°). El eje de carga pasa por el centro de la rodilla distribuyendo cargas al 50%.</p></div>
+      <div class="summary-item"><div class="big-icon">🔵</div><h4>Genu Valgo</h4><p>Rodillas en "X". Sobrecarga compartimento lateral. Criterio: distancia intermaleolar &gt;5 cm.</p></div>
+      <div class="summary-item"><div class="big-icon">🟠</div><h4>Genu Varo</h4><p>Rodillas en "O". Sobrecarga medial → artrosis interna precoz. Principal precursor de gonartrosis.</p></div>
+      <div class="summary-item"><div class="big-icon">⛓️</div><h4>Cadena Cinética</h4><p>Pie pronado → tibia rot. interna → valgo rodilla. Coxa vara → varo. Coxa valga → varo compensador.</p></div>
+      <div class="summary-item"><div class="big-icon">🍑</div><h4>Valgo Dinámico</h4><p>Causado por debilidad del glúteo medio. Test: Single Leg Squat. Rodilla debe mantenerse sobre 2° dedo.</p></div>
+      <div class="summary-item"><div class="big-icon">💪</div><h4>Tratamiento</h4><p>Valgo: VMO + pata ganso + glúteo. Varo: TFL + bíceps femoral + glúteo mayor. Siempre en cadena cerrada.</p></div>
     </div>
   </section>
 
 </div>
 
-<!-- NAV -->
 <nav id="nav">
   <button class="nav-btn" id="btn-prev" disabled>← Anterior</button>
   <div id="slide-dots"></div>
@@ -1002,7 +549,6 @@
   const btnPrev = document.getElementById('btn-prev');
   const btnNext = document.getElementById('btn-next');
   const dotsContainer = document.getElementById('slide-dots');
-
   slides.forEach((_, i) => {
     const d = document.createElement('button');
     d.className = 'dot' + (i === 0 ? ' active' : '');
@@ -1010,7 +556,6 @@
     d.addEventListener('click', () => goTo(i));
     dotsContainer.appendChild(d);
   });
-
   function updateUI() {
     progressBar.style.width = ((current + 1) / total * 100) + '%';
     counter.textContent = `${current + 1} / ${total}`;
@@ -1018,7 +563,6 @@
     btnNext.disabled = current === total - 1;
     dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
   }
-
   function animateSlideIn(slide) {
     ['card','item','summary-item','diagram-box','deform-card','muscle-section'].forEach(cls => {
       slide.querySelectorAll('.' + cls).forEach((el, i) => {
@@ -1027,7 +571,6 @@
       });
     });
   }
-
   function goTo(idx) {
     if (idx === current) return;
     const prev = current;
@@ -1040,14 +583,12 @@
     animateSlideIn(slides[current]);
     updateUI();
   }
-
   btnNext.addEventListener('click', () => { if (current < total-1) goTo(current+1); });
   btnPrev.addEventListener('click', () => { if (current > 0) goTo(current-1); });
   document.addEventListener('keydown', e => {
     if (e.key==='ArrowRight'||e.key==='ArrowDown') { if(current<total-1) goTo(current+1); }
     if (e.key==='ArrowLeft'||e.key==='ArrowUp') { if(current>0) goTo(current-1); }
   });
-
   updateUI();
   animateSlideIn(slides[0]);
 </script>
